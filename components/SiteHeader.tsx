@@ -1,8 +1,6 @@
-"use client";
-
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import NavLink from "./NavLink";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -11,8 +9,6 @@ const NAV_LINKS = [
 ];
 
 export default function SiteHeader() {
-  const pathname = usePathname();
-
   return (
     <header className="flex items-center justify-between px-6 py-6 sm:px-10">
       <Link href="/" className="flex items-center" aria-label="Reina Kim, home">
@@ -27,17 +23,9 @@ export default function SiteHeader() {
       </Link>
       <nav className="flex items-center gap-6 text-sm">
         {NAV_LINKS.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className={
-              pathname === link.href
-                ? "text-ink underline decoration-2 underline-offset-4"
-                : "text-ink hover:underline"
-            }
-          >
+          <NavLink key={link.href} href={link.href}>
             {link.label}
-          </Link>
+          </NavLink>
         ))}
         <a
           href="/ReinaKim_Resume_2026_Sep.pdf"
