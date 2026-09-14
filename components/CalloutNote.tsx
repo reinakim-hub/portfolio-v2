@@ -8,7 +8,7 @@ export default function CalloutNote({
   paragraphs: React.ReactNode[];
 }) {
   return (
-    <div className="space-y-4 text-accent">
+    <div className="max-w-prose space-y-4 text-accent">
       {paragraphs.map((paragraph, i) => (
         <p key={i}>
           {i === 0 && (

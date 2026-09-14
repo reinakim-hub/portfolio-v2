@@ -18,6 +18,9 @@
   --color-muted: var(--color-neutral-600);
   --color-accent: var(--color-blue-600);
 
+  /* Hairline rule (grid lines, dividers, image frames) */
+  --color-rule: var(--color-neutral-200);
+
   /* Semantic radii */
   --radius-card: 1.5rem;
   --radius-tile: 1rem;
@@ -37,4 +40,115 @@ body {
   h3 {
     font-family: var(--font-heading);
   }
+}
+
+/* Entrance animations
+   ------------------------------------------------------------------
+   `.animate-fade-in` (header, sidebar): a pure-CSS opacity fade that runs
+   on mount with no JS dependency, so it can never get stuck mid-animation.
+
+   `.reveal-up` (right-column content): opacity + an 8px upward shift,
+   driven by `components/Reveal.tsx` toggling `.is-visible` once an
+   IntersectionObserver reports the element on screen. If JS is disabled,
+   the `<noscript>` rule in the root layout forces every `.reveal-up` back
+   to visible (a plain ancestor/JS-detection class isn't used here because
+   mutating any element React hydrates causes a hydration mismatch).
+   Reveal also fails open — visible immediately — if IntersectionObserver
+   is unsupported or its own setup throws, so a broken observer can't
+   leave content permanently hidden either. */
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 500ms ease-out both;
+}
+
+.reveal-up {
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 400ms ease-out,
+    transform 400ms ease-out;
+}
+
+.reveal-up.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in {
+    animation: none;
+  }
+
+  .reveal-up {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Custom cursor
+   ------------------------------------------------------------------
+   `components/CustomCursor.tsx` bails out entirely (no DOM, no listeners)
+   for coarse/touch pointers and `prefers-reduced-motion`, so `.cc-cursor`
+   only ever renders on a fine-pointer, motion-OK device. It's a purely
+   decorative follower alongside the native cursor — the native cursor is
+   never hidden. `.cc-cursor` is the positioned wrapper (its `transition`
+   on `transform` is what gives the dot its ~70ms trailing lag; position
+   is written to it via rAF, not React state). `.cc-cursor-dot` is the
+   visible circle: a solid 10px fill at rest, growing to a hollow 40px
+   ring (transparent fill, 1px stroke) over an actual link or enabled
+   control. `border-width` only ever animates between `0` and `1px` —
+   never scaled by the circle's size — so the stroke itself always reads
+   as a constant 1px once active. */
+
+.cc-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 2147483647;
+  opacity: 0;
+  transition:
+    transform 70ms linear,
+    opacity 150ms ease;
+  will-change: transform;
+}
+
+.cc-cursor-dot {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 10px;
+  height: 10px;
+  box-sizing: border-box;
+  border-radius: 9999px;
+  border: 0 solid var(--color-accent);
+  background: var(--color-accent);
+  transition:
+    width 180ms ease,
+    height 180ms ease,
+    top 180ms ease,
+    left 180ms ease,
+    background-color 180ms ease,
+    border-width 180ms ease;
+}
+
+.cc-cursor-dot--active {
+  top: -20px;
+  left: -20px;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border-width: 1px;
 }

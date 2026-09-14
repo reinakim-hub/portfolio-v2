@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
+import ContactLinks from "@/components/ContactLinks";
+import EyebrowLabel from "@/components/EyebrowLabel";
+import Reveal from "@/components/Reveal";
+import TwoColumnLayout from "@/components/TwoColumnLayout";
 
 export const metadata: Metadata = {
   title: "About — Reina Kim",
@@ -7,54 +12,126 @@ export const metadata: Metadata = {
 
 export default function About() {
   return (
-    <div className="mx-auto flex max-w-4xl flex-col gap-12 px-6 py-16 sm:flex-row sm:items-start sm:gap-16 sm:px-0">
-      <div className="mx-auto w-full max-w-xs shrink-0 overflow-hidden rounded-t-full sm:mx-0">
-        <Image
-          src="/images/about-photo.webp"
-          alt="Reina Kim standing in front of a floor-to-ceiling window overlooking a city skyline"
-          width={800}
-          height={1200}
-          className="h-auto w-full object-cover"
-          priority
-        />
-      </div>
+    <TwoColumnLayout
+      stickyGate="tall"
+      left={
+        <>
+          <div>
+            <h1 className="text-3xl font-extrabold tracking-tight text-ink">
+              About
+            </h1>
+          </div>
 
-      <div className="max-w-xl">
-        <p className="text-2xl" aria-hidden="true">
-          ✨
-        </p>
-        <h1 className="mt-4 text-2xl font-extrabold leading-snug text-ink sm:text-3xl">
-          I am a dedicated UX Designer with a passion for creating intuitive
-          and visually engaging user interfaces.
-        </h1>
-        <div className="mt-6 space-y-4 text-body">
-          <p>
-            In addition to design, I have a background in banking services,
-            where I worked as a customer service representative at a local
-            credit union, assisting customers with financial transactions and
-            services.
-          </p>
-          <p>
-            I also have a strong interest in game design and development. As
-            an avid gamer, I enjoy analyzing interface design techniques
-            across various games.
-          </p>
-          <p>
-            I recently completed my UX Design Internship at SAP and am now
-            open to job opportunities!
-          </p>
-          <p>
-            Feel free to reach out to me at{" "}
-            <a
-              href="mailto:reinakim1221@gmail.com"
-              className="text-ink underline hover:no-underline"
-            >
-              reinakim1221@gmail.com
-            </a>
-            . I&rsquo;d love to share more about my passion for UX design!
-          </p>
-        </div>
-      </div>
-    </div>
+          {/* max-w caps the portrait's own size so the sidebar's total
+              height stays predictable — the sidebar column is a fraction
+              of viewport WIDTH, unrelated to viewport height, so an
+              uncapped w-full image could grow taller than any fixed
+              min-height sticky threshold on a wide-but-short window. */}
+          <div className="max-w-[15rem] overflow-hidden rounded-t-full border border-rule">
+            <Image
+              src="/images/about-photo.webp"
+              alt="Reina Kim standing in front of a floor-to-ceiling window overlooking a city skyline"
+              width={800}
+              height={1200}
+              className="h-auto w-full object-cover"
+              priority
+            />
+          </div>
+
+          <ContactLinks />
+        </>
+      }
+      right={
+        <>
+          <Reveal className="max-w-3xl">
+            <p className="font-heading text-2xl leading-snug font-bold text-ink sm:text-3xl">
+              Hi, I&rsquo;m Reina, a UX designer based in Vancouver.
+            </p>
+            <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
+              Outside of work, I enjoy gaming, singing, and recording songs.
+              Lately, I&rsquo;ve also been building small games with AI,
+              turning ideas into something I can actually play.
+            </p>
+          </Reveal>
+
+          <section className="mt-16">
+            <div className="border-t border-rule pt-5">
+              <EyebrowLabel>Outside of work</EyebrowLabel>
+            </div>
+
+            <Reveal>
+              <div className="mt-10 grid grid-cols-1 gap-8 @min-[560px]:grid-cols-2">
+                <div>
+                  <h3 className="text-base font-bold text-ink">
+                    Gaming
+                  </h3>
+                  <p className="mt-2 text-body">
+                    I&rsquo;m an avid gamer, and I like paying attention to
+                    how different games design their interfaces.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-base font-bold text-ink">
+                    Music
+                  </h3>
+                  <p className="mt-2 text-body">
+                    I enjoy singing and recording songs in my spare time.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-base font-bold text-ink">
+                    My dog
+                  </h3>
+                  <p className="mt-2 text-body">
+                    I have a dog, a Norfolk terrier.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-base font-bold text-ink">
+                    AI experiments
+                  </h3>
+                  <p className="mt-2 text-body">
+                    I&rsquo;ve been building small games with AI — you can
+                    see some of them in my{" "}
+                    <Link
+                      href="/lab"
+                      className="text-accent underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                    >
+                      AI Lab
+                    </Link>
+                    .
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+          </section>
+
+          <section className="mt-20">
+            <div className="border-t border-rule pt-5">
+              <EyebrowLabel>Background</EyebrowLabel>
+            </div>
+
+            <Reveal>
+              <p className="mt-10 max-w-2xl text-lg leading-relaxed text-body">
+                I completed a UX Design internship at SAP in May 2026, and a
+                UX Design co-op at Nokia in December 2024. Before that, I
+                worked in customer service at a local credit union.
+              </p>
+              <a
+                href="/ReinaKim_Resume_2026_Sep.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-5 inline-block text-base font-semibold text-accent underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              >
+                View Resume ↗
+              </a>
+            </Reveal>
+          </section>
+        </>
+      }
+    />
   );
 }
