@@ -116,6 +116,7 @@ export default function Home() {
                   ]}
                   image="/images/simplii-hero.webp"
                   imageBg="bg-neutral-950"
+                  imageOffsetClassName="translate-y-[6.5%]"
                 />
               </Reveal>
 

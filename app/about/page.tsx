@@ -13,7 +13,6 @@ export const metadata: Metadata = {
 export default function About() {
   return (
     <TwoColumnLayout
-      stickyGate="tall"
       left={
         <>
           <div>
@@ -26,8 +25,13 @@ export default function About() {
               height stays predictable — the sidebar column is a fraction
               of viewport WIDTH, unrelated to viewport height, so an
               uncapped w-full image could grow taller than any fixed
-              min-height sticky threshold on a wide-but-short window. */}
-          <div className="max-w-[15rem] overflow-hidden rounded-t-full border border-rule">
+              min-height sticky threshold on a wide-but-short window.
+              Plain, non-interactive image: no link, button, role, or
+              hover/focus treatment — clicking or hovering it does nothing,
+              so it shouldn't look like it does. (Previously shared
+              `.hover-zoom` with the homepage thumbnails; deliberately
+              removed since this photo has no click destination.) */}
+          <div className="max-w-[15rem] border border-rule overflow-hidden">
             <Image
               src="/images/about-photo.webp"
               alt="Reina Kim standing in front of a floor-to-ceiling window overlooking a city skyline"

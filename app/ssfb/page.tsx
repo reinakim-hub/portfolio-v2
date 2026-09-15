@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import CaseStudySidebar from "@/components/CaseStudySidebar";
+import CaseStudySummary from "@/components/CaseStudySummary";
+import CaseStudyNextNav from "@/components/CaseStudyNextNav";
 import ImageGallery from "@/components/ImageGallery";
+import LightboxImage from "@/components/LightboxImage";
 import SectionLabel from "@/components/SectionLabel";
 import PullQuote from "@/components/PullQuote";
+import ProseColumn from "@/components/ProseColumn";
 import Reveal from "@/components/Reveal";
-import TwoColumnLayout from "@/components/TwoColumnLayout";
+import CaseStudyLayout from "@/components/CaseStudyLayout";
 
 export const metadata: Metadata = {
   title: "SSFB — Reina Kim",
@@ -22,8 +25,7 @@ const SECTIONS = [
 
 export default function Ssfb() {
   return (
-    <TwoColumnLayout
-      stickyGate="tall"
+    <CaseStudyLayout
       left={
         <CaseStudySidebar
           name="Strange Sounds from Beyond"
@@ -38,43 +40,61 @@ export default function Ssfb() {
         />
       }
       right={
+        <CaseStudySummary
+          challenge={
+            <>
+              The challenge was to create a compelling microsite experience
+              that incorporated both visual and auditory concepts, appealing
+              to visitors unfamiliar with the festival&rsquo;s style or
+              artists.
+            </>
+          }
+          solution={
+            <>
+              As lead interaction designer, I guided users through sound
+              rather than artist names on the homepage, then balanced that
+              with functional navigation and direct ticket access so
+              returning visitors and non-audio users could still get around
+              easily.
+            </>
+          }
+        />
+      }
+      middle={
         <>
           <Reveal>
-            <p className="font-heading text-2xl leading-snug font-bold text-ink sm:text-3xl">
-              Creating a unique digital experience for music lovers
-            </p>
-            <div className="mt-6 max-w-prose space-y-4 text-body">
-              <p>
-                This five-week school project was centered around developing
-                a visually engaging and interactive microsite for
-                &ldquo;Strange Sounds from Beyond,&rdquo; an avant-garde
-                music festival held in Amsterdam. The festival attracts a
-                niche audience with a love for underground and experimental
-                music. The challenge was to{" "}
-                <strong className="font-semibold text-ink">
-                  create a compelling microsite experience that incorporate
-                  both visual and auditorial concepts
-                </strong>{" "}
-                that are appealing for visitors who may not be familiar with
-                the festival&rsquo;s style or artists.
+            <ProseColumn>
+              <p className="font-heading text-2xl leading-snug font-bold text-ink sm:text-3xl">
+                Creating a unique digital experience for music lovers
               </p>
-              <p>
-                As the primary{" "}
-                <strong className="font-semibold text-ink">
-                  interaction designer
-                </strong>
-                , I led the{" "}
-                <strong className="font-semibold text-ink">
-                  conceptualization and implementation of the interactive UI
-                  features
-                </strong>
-                . I focused on creating a user journey that allowed music
-                enthusiasts to explore the festival&rsquo;s unique identity
-                while balancing an engaging aesthetic with functional
-                usability.
-              </p>
-            </div>
-            <div className="mt-8">
+              <div className="mt-6 space-y-4 text-body">
+                <p>
+                  This five-week school project was centered around developing
+                  a visually engaging and interactive microsite for
+                  &ldquo;Strange Sounds from Beyond,&rdquo; an avant-garde
+                  music festival held in Amsterdam. The festival attracts a
+                  niche audience with a love for underground and experimental
+                  music. The challenge was to{" "}
+                    create a compelling microsite experience that incorporate
+                    both visual and auditorial concepts
+                  {" "}
+                  that are appealing for visitors who may not be familiar with
+                  the festival&rsquo;s style or artists.
+                </p>
+                <p>
+                  As the primary{" "}
+                    interaction designer,
+                  I led the{" "}
+                    conceptualization and implementation of the interactive UI
+                    features.
+                  I focused on creating a user journey that allowed music
+                  enthusiasts to explore the festival&rsquo;s unique identity
+                  while balancing an engaging aesthetic with functional
+                  usability.
+                </p>
+              </div>
+            </ProseColumn>
+            <ProseColumn className="mt-8">
               <ImageGallery
                 images={[
                   {
@@ -103,61 +123,65 @@ export default function Ssfb() {
                   },
                 ]}
               />
-            </div>
+            </ProseColumn>
           </Reveal>
 
-          <div className="mt-16 border-t border-rule pt-10">
+          <div className="mt-16">
             <Reveal>
               <section id="brand-foundations" className="scroll-mt-24">
-                <h2 className="text-3xl font-extrabold tracking-tight text-ink">
-                  Understanding brand foundations
-                </h2>
-                <p className="mt-4 max-w-prose text-body">
-                  The biggest challenge of this project was developing a
-                  festival brand that was adaptable and translatable across
-                  various physical mediums. To guide our approach, our team
-                  referred to several key professional resources:
-                </p>
-                <ul className="mt-4 max-w-prose list-disc space-y-2 pl-5 text-body">
-                  <li>
-                    Experience Design: A Framework for Integrating Brand,
-                    Experience, and Value{" "}
-                    <span className="italic">
-                      by Patrick Newbery and Kevin Farnham
-                    </span>
-                  </li>
-                  <li>
-                    Laws of UX: Using Psychology to Design Better Products
-                    and Services{" "}
-                    <span className="italic">by Jon Yablonski</span>
-                  </li>
-                  <li>
-                    Graphic Design The New Basics{" "}
-                    <span className="italic">
-                      by Ellen Lupton and Jennifer Cole Phillips
-                    </span>
-                  </li>
-                </ul>
+                <ProseColumn className="border-t border-rule pt-10">
+                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                    Understanding brand foundations
+                  </h2>
+                  <p className="mt-4 text-body">
+                    The biggest challenge of this project was developing a
+                    festival brand that was adaptable and translatable across
+                    various physical mediums. To guide our approach, our team
+                    referred to several key professional resources:
+                  </p>
+                  <ul className="mt-4 list-disc space-y-2 pl-5 text-body">
+                    <li>
+                      Experience Design: A Framework for Integrating Brand,
+                      Experience, and Value{" "}
+                      <span className="italic">
+                        by Patrick Newbery and Kevin Farnham
+                      </span>
+                    </li>
+                    <li>
+                      Laws of UX: Using Psychology to Design Better Products
+                      and Services{" "}
+                      <span className="italic">by Jon Yablonski</span>
+                    </li>
+                    <li>
+                      Graphic Design The New Basics{" "}
+                      <span className="italic">
+                        by Ellen Lupton and Jennifer Cole Phillips
+                      </span>
+                    </li>
+                  </ul>
+                </ProseColumn>
               </section>
             </Reveal>
           </div>
 
-          <div className="mt-16 border-t border-rule pt-10">
+          <div className="mt-16">
             <Reveal>
               <section id="visual-language" className="scroll-mt-24">
-                <h2 className="text-3xl font-extrabold tracking-tight text-ink">
-                  Setting the visual language
-                </h2>
-                <p className="mt-4 max-w-prose text-body">
-                  Our team went through several iterations to solidify the
-                  visual language with the teaching team acting as the
-                  client. We started with the festival poster as our primary
-                  medium, focusing on ensuring the design&rsquo;s
-                  responsiveness, the festival&rsquo;s identity, and the
-                  emotional impact we aimed to convey.
-                </p>
+                <ProseColumn className="border-t border-rule pt-10">
+                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                    Setting the visual language
+                  </h2>
+                  <p className="mt-4 text-body">
+                    Our team went through several iterations to solidify the
+                    visual language with the teaching team acting as the
+                    client. We started with the festival poster as our primary
+                    medium, focusing on ensuring the design&rsquo;s
+                    responsiveness, the festival&rsquo;s identity, and the
+                    emotional impact we aimed to convey.
+                  </p>
+                </ProseColumn>
 
-                <div className="mt-8">
+                <ProseColumn className="mt-8">
                   <ImageGallery
                     images={[
                       {
@@ -186,15 +210,14 @@ export default function Ssfb() {
                       },
                     ]}
                   />
-                </div>
+                </ProseColumn>
 
-                <div className="mt-8 max-w-prose space-y-4 text-body">
+                <ProseColumn className="mt-8 space-y-4 text-body">
                   <p>
                     This is the final visual identity our team landed with.
                     We designed so that the{" "}
-                    <strong className="font-semibold text-ink">
                       Geometric shapes that frame elements
-                    </strong>{" "}
+                    {" "}
                     and the elements breaking out of grid structure to be
                     the transferable qualities across different design
                     mediums.
@@ -218,9 +241,9 @@ export default function Ssfb() {
                     parts of the composition. White and black is used for a
                     cleaner aesthetic with the vibrant green.
                   </p>
-                </div>
+                </ProseColumn>
 
-                <div className="mt-8">
+                <ProseColumn className="mt-8">
                   <ImageGallery
                     images={[
                       {
@@ -249,7 +272,7 @@ export default function Ssfb() {
                       },
                     ]}
                   />
-                </div>
+                </ProseColumn>
               </section>
             </Reveal>
           </div>
@@ -264,153 +287,164 @@ export default function Ssfb() {
             </Reveal>
           </div>
 
-          <div className="mt-16 border-t border-rule pt-10">
+          <div className="mt-16">
             <Reveal>
               <section id="microsite-experience" className="scroll-mt-24">
-                <h2 className="text-3xl font-extrabold tracking-tight text-ink">
-                  Crafting the microsite experience
-                </h2>
-                <div className="mt-4 max-w-prose space-y-4 text-body">
-                  <p>
-                    After establishing the visual language and framing the
-                    design problem for our microsite, we shifted our focus
-                    to exploring interactive UI elements. This was
-                    particularly challenging because our client heavily
-                    relied on conveying auditory experiences, which are
-                    difficult to translate into a visual digital medium.
-                  </p>
-                  <p>
-                    We carefully planned this out alongside the content
-                    strategy to determine the types of screens needed to
-                    effectively guide the user journey.
-                  </p>
-                </div>
+                <ProseColumn className="border-t border-rule pt-10">
+                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                    Crafting the microsite experience
+                  </h2>
+                  <div className="mt-4 space-y-4 text-body">
+                    <p>
+                      After establishing the visual language and framing the
+                      design problem for our microsite, we shifted our focus
+                      to exploring interactive UI elements. This was
+                      particularly challenging because our client heavily
+                      relied on conveying auditory experiences, which are
+                      difficult to translate into a visual digital medium.
+                    </p>
+                    <p>
+                      We carefully planned this out alongside the content
+                      strategy to determine the types of screens needed to
+                      effectively guide the user journey.
+                    </p>
+                  </div>
+                </ProseColumn>
 
-                <div className="mt-8">
+                <ProseColumn className="mt-8">
                   <SectionLabel>Content strategy</SectionLabel>
-                </div>
-                <div className="mt-4">
-                  <Image
-                    src="/images/ssfb-content-strategy.webp"
-                    alt="Content strategy flow diagram from landing page to exploratory page, artist music page, and ticket page"
-                    width={1760}
-                    height={629}
-                    className="h-auto w-full object-contain"
-                  />
-                </div>
+                  <div className="mt-4">
+                    <LightboxImage
+                      src="/images/ssfb-content-strategy.webp"
+                      alt="Content strategy flow diagram from landing page to exploratory page, artist music page, and ticket page"
+                      width={1760}
+                      height={629}
+                      className="h-auto w-full object-contain"
+                      pngBackground
+                    />
+                  </div>
+                </ProseColumn>
 
-                <div className="mt-8">
+                <ProseColumn className="mt-8">
                   <SectionLabel>Interactive UI exploration</SectionLabel>
-                </div>
-                <div className="mt-4">
-                  <ImageGallery
-                    images={[
-                      {
-                        src: "/images/ssfb-ui-explore-bar.gif",
-                        alt: "Green noise-textured bar exploration screen",
-                        width: 854,
-                        height: 480,
-                      },
-                      {
-                        src: "/images/ssfb-ui-explore-logo.gif",
-                        alt: "Outlined SSFB event music logo animation",
-                        width: 854,
-                        height: 480,
-                      },
-                      {
-                        src: "/images/ssfb-ui-explore-eq.gif",
-                        alt: "Explore strange sounds equalizer bar visualization",
-                        width: 854,
-                        height: 480,
-                      },
-                    ]}
-                  />
-                </div>
+                  <div className="mt-4">
+                    <ImageGallery
+                      images={[
+                        {
+                          src: "/images/ssfb-ui-explore-bar.gif",
+                          alt: "Green noise-textured bar exploration screen",
+                          width: 854,
+                          height: 480,
+                        },
+                        {
+                          src: "/images/ssfb-ui-explore-logo.gif",
+                          alt: "Outlined SSFB event music logo animation",
+                          width: 854,
+                          height: 480,
+                        },
+                        {
+                          src: "/images/ssfb-ui-explore-eq.gif",
+                          alt: "Explore strange sounds equalizer bar visualization",
+                          width: 854,
+                          height: 480,
+                        },
+                      ]}
+                    />
+                  </div>
+                </ProseColumn>
               </section>
             </Reveal>
           </div>
 
-          <div className="mt-16 border-t border-rule pt-10">
+          <div className="mt-16">
             <Reveal>
               <section id="pushing-forward" className="scroll-mt-24">
-                <h2 className="text-3xl font-extrabold tracking-tight text-ink">
-                  Pushing the design forward
-                </h2>
-                <div className="mt-4 max-w-prose space-y-4 text-body">
-                  <p>
-                    My suggestion to intentionally hide the artist
-                    information and guide users solely through sound
-                    received a lot of positive feedback. We aimed to make
-                    the music the focal point of the experience. By
-                    deliberately concealing the artists&rsquo; information
-                    in the selection menu, we allowed users to navigate
-                    purely based on the sounds created by each artist.
-                  </p>
-                  <p>
-                    This positive feedback led to me taking on the role of
-                    lead interaction designer for the main homepage. The
-                    following design decisions were made and implemented:
-                  </p>
-                </div>
-                <div className="mt-8 flex flex-col gap-4">
-                  <Image
+                <ProseColumn className="border-t border-rule pt-10">
+                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                    Pushing the design forward
+                  </h2>
+                  <div className="mt-4 space-y-4 text-body">
+                    <p>
+                      My suggestion to intentionally hide the artist
+                      information and guide users solely through sound
+                      received a lot of positive feedback. We aimed to make
+                      the music the focal point of the experience. By
+                      deliberately concealing the artists&rsquo; information
+                      in the selection menu, we allowed users to navigate
+                      purely based on the sounds created by each artist.
+                    </p>
+                    <p>
+                      This positive feedback led to me taking on the role of
+                      lead interaction designer for the main homepage. The
+                      following design decisions were made and implemented:
+                    </p>
+                  </div>
+                </ProseColumn>
+                <ProseColumn className="mt-8 flex flex-col gap-4">
+                  <LightboxImage
                     src="/images/ssfb-annotation-landing.webp"
                     alt="Annotated landing page explaining the background noise transition to festival music"
                     width={1824}
                     height={586}
-                    className="h-auto w-full rounded-tile object-contain"
+                    className="h-auto w-full object-contain"
+                    pngBackground
                   />
-                  <Image
+                  <LightboxImage
                     src="/images/ssfb-annotation-enter-nav.webp"
                     alt="Annotated screens explaining the hover-to-reveal artist name interaction and the sound sample navigation bar"
                     width={1829}
                     height={754}
-                    className="h-auto w-full rounded-tile object-contain"
+                    className="h-auto w-full object-contain"
+                    pngBackground
                   />
-                  <Image
+                  <LightboxImage
                     src="/images/ssfb-annotation-tracks.webp"
                     alt="Annotated screen explaining the track selection squares and back button"
                     width={1824}
                     height={586}
-                    className="h-auto w-full rounded-tile object-contain"
+                    className="h-auto w-full object-contain"
+                    pngBackground
                   />
-                </div>
+                </ProseColumn>
               </section>
             </Reveal>
           </div>
 
-          <div className="mt-16 border-t border-rule pt-10">
+          <div className="mt-16">
             <Reveal>
               <section id="balancing-emotion" className="scroll-mt-24">
-                <h2 className="text-3xl font-extrabold tracking-tight text-ink">
-                  Balancing emotion with functionality
-                </h2>
-                <div className="mt-4 max-w-prose space-y-4 text-body">
-                  <p>
-                    Our team recognized that the auditory-based navigation
-                    could present challenges for users. Returning users
-                    might seek a quicker way to navigate to specific artists
-                    or purchase tickets, and the site could be confusing for
-                    users without sound access.
-                  </p>
-                  <p>
-                    In other words, we realized that the emotional
-                    experience needed to be balanced with functional
-                    features to improve usability. As a result, we
-                    implemented options for users to directly access artist
-                    information and purchase tickets easily.
-                  </p>
-                </div>
-                <div className="mt-8">
-                  <Image
+                <ProseColumn className="border-t border-rule pt-10">
+                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                    Balancing emotion with functionality
+                  </h2>
+                  <div className="mt-4 space-y-4 text-body">
+                    <p>
+                      Our team recognized that the auditory-based navigation
+                      could present challenges for users. Returning users
+                      might seek a quicker way to navigate to specific artists
+                      or purchase tickets, and the site could be confusing for
+                      users without sound access.
+                    </p>
+                    <p>
+                      In other words, we realized that the emotional
+                      experience needed to be balanced with functional
+                      features to improve usability. As a result, we
+                      implemented options for users to directly access artist
+                      information and purchase tickets easily.
+                    </p>
+                  </div>
+                </ProseColumn>
+                <ProseColumn className="mt-8">
+                  <LightboxImage
                     src="/images/ssfb-annotation-nav-returning.webp"
                     alt="Annotated screen explaining the functional navigation bar for returning visitors"
                     width={1829}
                     height={581}
-                    className="h-auto w-full rounded-tile object-contain"
+                    className="h-auto w-full object-contain"
+                    pngBackground
                   />
-                </div>
-                <div className="mt-8">
+                </ProseColumn>
+                <ProseColumn className="mt-8">
                   <ImageGallery
                     images={[
                       {
@@ -427,33 +461,39 @@ export default function Ssfb() {
                       },
                     ]}
                   />
-                </div>
+                </ProseColumn>
               </section>
             </Reveal>
           </div>
 
-          <div className="mt-16 border-t border-rule pt-10">
+          <div className="mt-16">
             <Reveal>
               <section id="reflection" className="scroll-mt-24">
-                <h2 className="text-2xl font-extrabold text-ink">
-                  <span aria-hidden="true">✨ </span>Reflection
-                </h2>
-                <p className="mt-4 max-w-prose text-body">
-                  This project provided me with a deeper understanding of
-                  the challenges in creating a digital experience that
-                  balances emotional engagement with functional usability.
-                  Designing for &ldquo;Strange Sounds from Beyond&rdquo;
-                  required me to push creative boundaries, incorporating
-                  auditory elements into a visually driven interface. As the
-                  lead interaction designer, I refined my ability to craft
-                  an immersive user journey while addressing practical needs
-                  for accessibility and ease of use. Beyond design, this
-                  experience enhanced my critical thinking, task management,
-                  and ability to clearly communicate and present ideas.
-                </p>
+                <ProseColumn className="border-t border-rule pt-10">
+                  <h2 className="text-2xl font-extrabold text-ink">
+                    Reflection
+                  </h2>
+                  <p className="mt-4 text-body">
+                    This project provided me with a deeper understanding of
+                    the challenges in creating a digital experience that
+                    balances emotional engagement with functional usability.
+                    Designing for &ldquo;Strange Sounds from Beyond&rdquo;
+                    required me to push creative boundaries, incorporating
+                    auditory elements into a visually driven interface. As the
+                    lead interaction designer, I refined my ability to craft
+                    an immersive user journey while addressing practical needs
+                    for accessibility and ease of use. Beyond design, this
+                    experience enhanced my critical thinking, task management,
+                    and ability to clearly communicate and present ideas.
+                  </p>
+                </ProseColumn>
               </section>
             </Reveal>
           </div>
+
+          <Reveal>
+            <CaseStudyNextNav />
+          </Reveal>
         </>
       }
     />

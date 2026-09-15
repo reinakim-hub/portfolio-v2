@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import CaseStudySidebar from "@/components/CaseStudySidebar";
 import CaseStudyFigure from "@/components/CaseStudyFigure";
+import CaseStudySummary from "@/components/CaseStudySummary";
 import CalloutNote from "@/components/CalloutNote";
 import CaseStudySection from "@/components/CaseStudySection";
+import CaseStudyNextNav from "@/components/CaseStudyNextNav";
 import ImageGallery from "@/components/ImageGallery";
+import LightboxImage from "@/components/LightboxImage";
+import ProseColumn from "@/components/ProseColumn";
 import Reveal from "@/components/Reveal";
-import TwoColumnLayout from "@/components/TwoColumnLayout";
-import Image from "next/image";
+import CaseStudyLayout from "@/components/CaseStudyLayout";
 
 export const metadata: Metadata = {
   title: "SAP UX Design — Reina Kim",
@@ -22,8 +25,7 @@ const SECTIONS = [
 
 export default function Sap() {
   return (
-    <TwoColumnLayout
-      stickyGate="default"
+    <CaseStudyLayout
       left={
         <CaseStudySidebar
           name="SAP"
@@ -36,29 +38,52 @@ export default function Sap() {
         />
       }
       right={
+        <CaseStudySummary
+          challenge={
+            <>
+              Several SAP products relied on legacy or custom-built UX
+              patterns that no longer aligned with current design-system
+              guidance, but still supported product-specific requirements
+              that couldn&rsquo;t simply be removed.
+            </>
+          }
+          solution={
+            <>
+              I audited existing patterns across SAP Analytics Cloud,
+              Datasphere, and Business Data Cloud, aligned on shared
+              solutions with product leads, and delivered the Figma
+              components, developer specs, and accessibility guidance teams
+              needed to implement them consistently.
+            </>
+          }
+        />
+      }
+      middle={
         <>
           <Reveal>
-            <p className="font-heading text-2xl leading-snug font-bold text-ink sm:text-3xl">
-              Aligning scalable UX patterns across complex data products
-            </p>
-            <div className="mt-6 max-w-prose space-y-4 text-body">
-              <p>
-                During my 13-month UX Design internship, I worked on
-                SAP’s Data & Analytics Design System team, supporting SAP
-                Analytics Cloud, SAP Datasphere, and SAP Business Data Cloud.
+            <ProseColumn>
+              <p className="font-heading text-2xl leading-snug font-bold text-ink sm:text-3xl">
+                Aligning scalable UX patterns across complex data products
               </p>
-              <p>
-                My work focused on aligning UX patterns across products,
-                creating scalable Figma components and guidelines, and
-                preparing developer specs and accessibility requirements.
-              </p>
-              <p>
-                I collaborated with product designers, developers, PMs, and
-                the central design system team to balance cross-product
-                consistency with the needs of complex, data-heavy workflows.
-              </p>
-            </div>
-            <div className="mt-8">
+              <div className="mt-6 space-y-4 text-body">
+                <p>
+                  During my 13-month UX Design internship, I worked on
+                  SAP’s Data & Analytics Design System team, supporting SAP
+                  Analytics Cloud, SAP Datasphere, and SAP Business Data Cloud.
+                </p>
+                <p>
+                  My work focused on aligning UX patterns across products,
+                  creating scalable Figma components and guidelines, and
+                  preparing developer specs and accessibility requirements.
+                </p>
+                <p>
+                  I collaborated with product designers, developers, PMs, and
+                  the central design system team to balance cross-product
+                  consistency with the needs of complex, data-heavy workflows.
+                </p>
+              </div>
+            </ProseColumn>
+            <ProseColumn className="mt-8">
               <CaseStudyFigure
                 src="/images/sap-dashboard.webp"
                 alt="SAP Analytics Cloud example dashboard using the Fiori Light theme"
@@ -66,7 +91,7 @@ export default function Sap() {
                 height={1122}
                 imageBg="bg-[#f4f6f7]"
               />
-            </div>
+            </ProseColumn>
           </Reveal>
 
           <div className="mt-16">
@@ -80,133 +105,131 @@ export default function Sap() {
             </Reveal>
           </div>
 
-          <div className="mt-16 border-t border-rule pt-10">
+          <div className="mt-16">
             <Reveal>
               <section id="aligning-ux-patterns" className="scroll-mt-24">
-                <h2 className="text-3xl font-extrabold tracking-tight text-ink">
-                  Aligning UX patterns
-                </h2>
-                <div className="mt-4 max-w-prose space-y-4 text-body">
+                <ProseColumn className="border-t border-rule pt-10">
+                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                    Aligning UX patterns
+                  </h2>
+                  <div className="mt-4 space-y-4 text-body">
+                    <p>
+                      A large part of my work focused on improving consistency
+                      across SAP Analytics Cloud, SAP Datasphere, and SAP
+                      Business Data Cloud. Although the products often
+                      supported similar workflows, years of independent
+                      development had resulted in different implementations of
+                      the same UX patterns.
+                    </p>
+                    <p>
+                      For projects including{" "}
+                        diagram nodes, side panels, and notifications,
+                      I began by collecting existing implementations and
+                      meeting with product design leads to understand their
+                      requirements, edge cases, and technical constraints. I
+                      then compared these needs across products and explored
+                      how a shared pattern could support as many real use
+                      cases as possible.
+                    </p>
+                    <p>
+                      Once a direction presented by me was agreed on with
+                      product leads, I created or updated the supporting{" "}
+                        Figma components, developer specifications, usability
+                        guidelines, and accessibility guidance.
+                    </p>
+                  </div>
+
+                  <div className="mt-8">
+                    <h3 className="text-xl font-bold text-ink">Challenge</h3>
+                    <div className="mt-3 space-y-4 text-body">
+                      <p>
+                        Some products relied heavily on legacy or custom-built
+                        patterns that no longer aligned with current design
+                        system guidance. These patterns often supported
+                        product-specific requirements that could not simply be
+                        removed.
+                      </p>
+                      <p>
+                        I worked with product leads and senior designers to
+                        understand why each variation existed, which
+                        requirements were still necessary, and where products
+                        could move toward a shared solution.
+                      </p>
+                      <p>
+                        When an existing pattern conflicted with current
+                        standards, I backed up my reasonings with guidance
+                        from the central design system and proposed
+                        alternatives rather than simply removing functionality.
+                      </p>
+                      <p>
+                        For requirements that were not fully supported by the
+                        existing design system, I explored how components
+                        could be extended for data complex products.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-8">
+                    <h3 className="text-xl font-bold text-ink">Impact</h3>
+                    <div className="mt-3 space-y-4 text-body">
+                      <p>
+                        The resulting components, guidelines, developer specs,
+                        and accessibility documentation gave product teams a
+                        shared reference for future implementation.
+                      </p>
+                      <p>
+                        Instead of approaching similar UX problems
+                        independently, teams could work from a common pattern
+                        while still supporting the requirements unique to
+                        their products.
+                      </p>
+                    </div>
+                  </div>
+                </ProseColumn>
+
+                <ProseColumn className="my-8">
+                  <LightboxImage
+                    src="/images/sap-fiori-principles.webp"
+                    alt="SAP Fiori dashboard mockups showing light and dark theme components"
+                    width={1200}
+                    height={701}
+                    className="h-auto w-full object-contain"
+                  />
+                </ProseColumn>
+
+                <ProseColumn className="space-y-4 text-body">
                   <p>
-                    A large part of my work focused on improving consistency
-                    across SAP Analytics Cloud, SAP Datasphere, and SAP
-                    Business Data Cloud. Although the products often
-                    supported similar workflows, years of independent
-                    development had resulted in different implementations of
-                    the same UX patterns.
+                    The Side Panel project was one of the areas where I
+                    had the most ownership. I worked as the sole designer
+                    from the initial audit through component design and
+                    documentation.
                   </p>
                   <p>
-                    For projects including{" "}
-                    <strong className="font-semibold text-ink">
-                      diagram nodes, side panels, and notifications
-                    </strong>
-                    , I began by collecting existing implementations and
-                    meeting with product design leads to understand their
-                    requirements, edge cases, and technical constraints. I
-                    then compared these needs across products and explored
-                    how a shared pattern could support as many real use
-                    cases as possible.
+                    I collected examples across the three products, met
+                    with product leads both individually and as a group,
+                    and mapped differences in content, actions,
+                    navigation, and interaction requirements.
                   </p>
                   <p>
-                    Once a direction presented by me was agreed on with
-                    product leads, I created or updated the supporting{" "}
-                    <strong className="font-semibold text-ink">
-                      Figma components, developer specifications, usability
-                      guidelines, and accessibility guidance
-                    </strong>
-                    .
+                    The challenge was creating a shared structure that
+                    remained flexible enough for different data-heavy
+                    workflows without becoming overly complex.
                   </p>
-                </div>
-
-                <div className="mt-8">
-                  <h3 className="text-xl font-bold text-ink">Challenge</h3>
-                  <div className="mt-3 max-w-prose space-y-4 text-body">
-                    <p>
-                      Some products relied heavily on legacy or custom-built
-                      patterns that no longer aligned with current design
-                      system guidance. These patterns often supported
-                      product-specific requirements that could not simply be
-                      removed.
-                    </p>
-                    <p>
-                      I worked with product leads and senior designers to
-                      understand why each variation existed, which
-                      requirements were still necessary, and where products
-                      could move toward a shared solution.
-                    </p>
-                    <p>
-                      When an existing pattern conflicted with current
-                      standards, I backed up my reasonings with guidance
-                      from the central design system and proposed
-                      alternatives rather than simply removing functionality.
-                    </p>
-                    <p>
-                      For requirements that were not fully supported by the
-                      existing design system, I explored how components
-                      could be extended for data complex products.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-8">
-                  <h3 className="text-xl font-bold text-ink">Impact</h3>
-                  <div className="mt-3 max-w-prose space-y-4 text-body">
-                    <p>
-                      The resulting components, guidelines, developer specs,
-                      and accessibility documentation gave product teams a
-                      shared reference for future implementation.
-                    </p>
-                    <p>
-                      Instead of approaching similar UX problems
-                      independently, teams could work from a common pattern
-                      while still supporting the requirements unique to
-                      their products.
-                    </p>
-                  </div>
-
-                  <div className="my-8 overflow-hidden rounded-tile">
-                    <Image
-                      src="/images/sap-fiori-principles.webp"
-                      alt="SAP Fiori dashboard mockups showing light and dark theme components"
-                      width={1200}
-                      height={701}
-                      className="h-auto w-full object-contain"
-                    />
-                  </div>
-
-                  <div className="max-w-prose space-y-4 text-body">
-                    <p>
-                      The Side Panel project was one of the areas where I
-                      had the most ownership. I worked as the sole designer
-                      from the initial audit through component design and
-                      documentation.
-                    </p>
-                    <p>
-                      I collected examples across the three products, met
-                      with product leads both individually and as a group,
-                      and mapped differences in content, actions,
-                      navigation, and interaction requirements.
-                    </p>
-                    <p>
-                      The challenge was creating a shared structure that
-                      remained flexible enough for different data-heavy
-                      workflows without becoming overly complex.
-                    </p>
-                    <p>
-                      I translated these requirements into a reusable Figma
-                      component and created the supporting developer
-                      specification, usability guidelines, and accessibility
-                      instructions.
-                    </p>
-                  </div>
-                </div>
+                  <p>
+                    I translated these requirements into a reusable Figma
+                    component and created the supporting developer
+                    specification, usability guidelines, and accessibility
+                    instructions.
+                  </p>
+                </ProseColumn>
               </section>
             </Reveal>
           </div>
 
-          <div className="mt-16 border-t border-rule pt-10">
+          <div className="mt-16">
             <Reveal>
               <CaseStudySection
+                divider
                 id="ai-mcp-workshop"
                 title="Leading an AI & MCP workshop for designers"
                 paragraphs={[
@@ -214,31 +237,25 @@ export default function Sap() {
                     As AI tools became more integrated into design
                     workflows, I worked with my team to plan and deliver a
                     hands-on{" "}
-                    <strong className="font-semibold text-ink">
                       Claude + Model Context Protocol (MCP) workshop
-                    </strong>{" "}
+                    {" "}
                     for UX and UA designers in Vancouver.
                   </>,
                   <>
                     The workshop covered{" "}
-                    <strong className="font-semibold text-ink">
                       MCP setup, Figma workflows, and practical prompting
-                      techniques
-                    </strong>
-                    , with hands-on exercises using existing design system
+                      techniques,
+                    with hands-on exercises using existing design system
                     components. I helped shape the content, prepare
                     examples, and create supporting guides and resources for
                     attendees.
                   </>,
                   <>
                     During the workshop, I introduced{" "}
-                    <strong className="font-semibold text-ink">
-                      core MCP terminology
-                    </strong>
-                    , participated in the Q&amp;A panel, and provided{" "}
-                    <strong className="font-semibold text-ink">
+                      core MCP terminology,
+                    participated in the Q&amp;A panel, and provided{" "}
                       1:1 support
-                    </strong>{" "}
+                    {" "}
                     during the hands-on exercises to help participants
                     troubleshoot and follow along.
                   </>,
@@ -248,70 +265,56 @@ export default function Sap() {
                     Participants had different levels of technical
                     experience, so we needed to make MCP approachable
                     without oversimplifying it. I focused on creating{" "}
-                    <strong className="font-semibold text-ink">
                       clear, step-by-step exercises
-                    </strong>{" "}
+                    {" "}
                     tied to realistic design system use cases.
                   </>,
                 ]}
                 impact={[
                   <>
                     The workshop gave Vancouver UX and UA designers a{" "}
-                    <strong className="font-semibold text-ink">
                       practical starting point for experimenting with MCP
-                      and AI-assisted design workflows
-                    </strong>
-                    , supported by resources they could continue using after
+                      and AI-assisted design workflows,
+                    supported by resources they could continue using after
                     the session.
                   </>,
                   <>
                     Our team also became{" "}
-                    <strong className="font-semibold text-ink">
                       one of the first design teams within SAP to create
-                      internal MCP and AI workflow guidance
-                    </strong>
-                    . As interest grew, design teams from other countries
+                      internal MCP and AI workflow guidance.
+                    As interest grew, design teams from other countries
                     reached out for our{" "}
-                    <strong className="font-semibold text-ink">
                       setup guides, tutorial videos, workshop materials, and
-                      presentation recordings
-                    </strong>
-                    , extending the impact beyond the original workshop.
+                      presentation recordings,
+                    extending the impact beyond the original workshop.
                   </>,
                 ]}
               />
             </Reveal>
           </div>
 
-          <div className="mt-16 border-t border-rule pt-10">
+          <div className="mt-16">
             <Reveal>
               <CaseStudySection
+                divider
                 id="new-product-workflows"
                 title="Supporting new product workflows"
                 paragraphs={[
                   <>
                     I supported feature design for the{" "}
-                    <strong className="font-semibold text-ink">
                       My Metrics
-                    </strong>{" "}
+                    {" "}
                     project after its MVP release, helping the team expand
                     the experience into a dedicated dashboard where users
                     could{" "}
-                    <strong className="font-semibold text-ink">
-                      view, organize, and create metrics
-                    </strong>
-                    .
+                      view, organize, and create metrics.
                   </>,
                   <>
                     My work included reviewing{" "}
-                    <strong className="font-semibold text-ink">
-                      global UX feedback
-                    </strong>
-                    , exploring user flows, contributing to{" "}
-                    <strong className="font-semibold text-ink">
-                      feature prototyping and floorplan exploration
-                    </strong>
-                    , and researching how existing design system components
+                      global UX feedback,
+                    exploring user flows, contributing to{" "}
+                      feature prototyping and floorplan exploration,
+                    and researching how existing design system components
                     could support the new experience. I also worked with the
                     central design system team when existing components
                     needed to be adapted or extended.
@@ -323,11 +326,9 @@ export default function Sap() {
                     I reviewed existing card patterns and identified what
                     information was essential for users to see at a glance.
                     I then explored ways to{" "}
-                    <strong className="font-semibold text-ink">
                       extend existing components instead of creating new
-                      one-off patterns
-                    </strong>
-                    , testing different content hierarchies and layouts
+                      one-off patterns,
+                    testing different content hierarchies and layouts
                     within the available space. When I reached the limits of
                     the current system, I connected with the central design
                     system team to confirm constraints and discuss scalable
@@ -337,43 +338,37 @@ export default function Sap() {
                 impact={[
                   <>
                     I helped the team{" "}
-                    <strong className="font-semibold text-ink">
                       reuse and enhance existing components
-                    </strong>{" "}
+                    {" "}
                     instead of creating unnecessary patterns, improving
                     consistency while still supporting the needs of the new
                     Metrics experience. This helped balance{" "}
-                    <strong className="font-semibold text-ink">
                       feature flexibility with long-term design system
-                      scalability
-                    </strong>
-                    .
+                      scalability.
                   </>,
                 ]}
               />
             </Reveal>
           </div>
 
-          <div className="mt-16 border-t border-rule pt-10">
+          <div className="mt-16">
             <Reveal>
               <CaseStudySection
+                divider
                 id="validating-through-research"
                 title="Validating through research"
                 paragraphs={[
                   "Throughout my internship, I also participated in research activities to better understand how both customers and internal designers were using SAP products.",
                   <>
                     I joined{" "}
-                    <strong className="font-semibold text-ink">
-                      eight customer research sessions
-                    </strong>
-                    , working alongside UX researchers to synthesize notes
+                      eight customer research sessions,
+                    working alongside UX researchers to synthesize notes
                     and identify recurring needs and actionable findings.
                   </>,
                   <>
                     Later, I helped create a{" "}
-                    <strong className="font-semibold text-ink">
                       design system user survey
-                    </strong>{" "}
+                    {" "}
                     to understand how internal teams interacted with the
                     system. I contributed to deciding what we wanted to
                     learn, building the survey, and analyzing the results.
@@ -384,20 +379,19 @@ export default function Sap() {
             </Reveal>
           </div>
 
-          <div className="mt-16 border-t border-rule pt-10">
+          <div className="mt-16">
             <Reveal>
               <div>
                 <CaseStudySection
+                  divider
                   id="ux-community"
                   title="Contributing to the UX community at SAP"
                   paragraphs={[
                     "I also had opportunities to contribute to the wider UX community at SAP.",
                     <>
                       For{" "}
-                      <strong className="font-semibold text-ink">
-                        Impulse
-                      </strong>
-                      , a full-day internal UX event, I worked alongside the
+                        Impulse,
+                      a full-day internal UX event, I worked alongside the
                       Head of UX, full-time designers, and other interns to
                       help organize the event. I supported merchandise and
                       physical preparation and led the activity portion of
@@ -409,7 +403,7 @@ export default function Sap() {
                   ]}
                 />
 
-                <div className="mt-8">
+                <ProseColumn className="mt-8">
                   <ImageGallery
                     images={[
                       {
@@ -444,10 +438,14 @@ export default function Sap() {
                       },
                     ]}
                   />
-                </div>
+                </ProseColumn>
               </div>
             </Reveal>
           </div>
+
+          <Reveal>
+            <CaseStudyNextNav next={{ label: "Nokia", href: "/nokia" }} />
+          </Reveal>
         </>
       }
     />

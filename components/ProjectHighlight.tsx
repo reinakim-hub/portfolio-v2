@@ -20,15 +20,23 @@ import EyebrowLabel from "./EyebrowLabel";
  * a screen reader navigating by links list would otherwise hear the same
  * name four times).
  *
- * Hover/focus feedback lives entirely on the `<Image>` itself (frame stays
- * stationary, `overflow-hidden`) and is scoped to the image link alone via
- * `group`/`group-hover`/`group-focus-visible` — hovering or focusing the
- * summary, CTA, or anywhere else on the card has no effect on it. At rest
- * the image sits at `scale(1.04) brightness(1)`; hovering or focusing the
- * thumbnail link settles it to `scale(1) brightness(.94)` over 500ms
- * ease-out, reversing the same way on exit. `motion-reduce:transition-none`
- * drops the animated tween for `prefers-reduced-motion` while leaving the
- * two states themselves intact.
+ * Hover/focus feedback lives entirely on the `<Image>` itself, via the
+ * shared `.hover-zoom` style (see `globals.css` — also used by the About
+ * portrait) applied to the thumbnail link: the frame stays stationary
+ * (`overflow: hidden`, from `.hover-zoom` itself) and only the image
+ * transforms, scoped to this link alone, so hovering or focusing the
+ * summary, CTA, or anywhere else on the card has no effect on it.
+ *
+ * `imageOffsetClassName` (optional) applies a static transform to a thin
+ * wrapper div between the frame and the `<Image>` — for a source asset
+ * whose own visible content sits off-center within its canvas (uneven
+ * baked-in padding), when `object-position` has no room to work because
+ * the image already touches the frame on that axis. Kept on its own
+ * wrapper, never on the `<Image>` itself, so it can never combine with or
+ * fight `.hover-zoom`'s hover-driven `scale`/`brightness` transform on the
+ * image. The frame's own background (`imageBg`) shows through the gap this
+ * opens up on the opposite edge, exactly as it already shows through the
+ * source's transparent margins, so no separate fill color is needed.
  */
 export default function ProjectHighlight({
   href,
@@ -38,6 +46,7 @@ export default function ProjectHighlight({
   meta,
   image,
   imageBg,
+  imageOffsetClassName,
   priority = false,
   cta = "View case study",
 }: {
@@ -48,6 +57,7 @@ export default function ProjectHighlight({
   meta?: string[];
   image: string;
   imageBg?: string;
+  imageOffsetClassName?: string;
   priority?: boolean;
   cta?: string;
 }) {
@@ -69,18 +79,20 @@ export default function ProjectHighlight({
       <Link
         href={href}
         aria-label={`${company} — ${title}`}
-        className={`group mt-5 block aspect-[16/10] overflow-hidden border border-rule focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent ${imageBg ?? "bg-neutral-50"}`}
+        className={`hover-zoom mt-5 block aspect-[16/10] border border-rule focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent ${imageBg ?? "bg-neutral-50"}`}
       >
-        <Image
-          src={image}
-          alt=""
-          width={1200}
-          height={750}
-          priority={priority}
-          unoptimized={image.endsWith(".gif")}
-          sizes="(min-width: 1024px) 33vw, 100vw"
-          className="h-full w-full scale-[1.04] object-contain brightness-100 transition duration-500 ease-out group-hover:scale-100 group-hover:brightness-[.94] group-focus-visible:scale-100 group-focus-visible:brightness-[.94] motion-reduce:transition-none"
-        />
+        <div className={`h-full w-full ${imageOffsetClassName ?? ""}`}>
+          <Image
+            src={image}
+            alt=""
+            width={1200}
+            height={750}
+            priority={priority}
+            unoptimized={image.endsWith(".gif")}
+            sizes="(min-width: 1024px) 33vw, 100vw"
+            className="h-full w-full object-contain"
+          />
+        </div>
       </Link>
 
       <p className="mt-4 text-lg leading-relaxed text-body">{summary}</p>

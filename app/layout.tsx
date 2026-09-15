@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Manrope, Inter } from "next/font/google";
 import SiteHeader from "@/components/SiteHeader";
-import SiteFooter from "@/components/SiteFooter";
 import CustomCursor from "@/components/CustomCursor";
+import { LightboxProvider } from "@/components/Lightbox";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -26,7 +26,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${manrope.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full">
         {/* If JS is disabled, force scroll-reveal content back to visible —
             see `.reveal-up` in globals.css and components/Reveal.tsx. */}
         <noscript>
@@ -35,8 +35,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <CustomCursor />
         <SiteHeader />
         {/* pt-20 reserves space for the fixed-height header above. */}
-        <main className="flex-1 pt-20">{children}</main>
-        <SiteFooter />
+        <main className="pt-20">
+          <LightboxProvider>{children}</LightboxProvider>
+        </main>
       </body>
     </html>
   );

@@ -2,9 +2,12 @@ import type { Metadata } from "next";
 import CaseStudySidebar from "@/components/CaseStudySidebar";
 import CaseStudyFigure from "@/components/CaseStudyFigure";
 import CaseStudySection from "@/components/CaseStudySection";
+import CaseStudyNextNav from "@/components/CaseStudyNextNav";
+import CaseStudySummary from "@/components/CaseStudySummary";
 import CalloutNote from "@/components/CalloutNote";
+import ProseColumn from "@/components/ProseColumn";
 import Reveal from "@/components/Reveal";
-import TwoColumnLayout from "@/components/TwoColumnLayout";
+import CaseStudyLayout from "@/components/CaseStudyLayout";
 
 export const metadata: Metadata = {
   title: "Nokia Design System — Reina Kim",
@@ -19,8 +22,7 @@ const SECTIONS = [
 
 export default function Nokia() {
   return (
-    <TwoColumnLayout
-      stickyGate="default"
+    <CaseStudyLayout
       left={
         <CaseStudySidebar
           name="Nokia Design System"
@@ -36,51 +38,67 @@ export default function Nokia() {
         />
       }
       right={
+        <CaseStudySummary
+          challenge={
+            <>
+              Nokia&rsquo;s design system needed to meet WCAG AA/AAA
+              accessibility standards across light and dark themes, keep a
+              growing icon library organized, and support new AI-driven
+              product patterns for NokiaGPT&rsquo;s 10,000+ existing users
+              without disrupting them.
+            </>
+          }
+          solution={
+            <>
+              I ran accessibility reviews and JAWS screen-reader testing,
+              took ownership of the icon library end to end, and
+              collaborated with a senior designer on new AI components and
+              documentation that fit the existing system.
+            </>
+          }
+        />
+      }
+      middle={
         <>
           <Reveal>
-            <p className="whitespace-pre-line font-heading text-2xl leading-snug font-bold text-ink sm:text-3xl">
-              Building accessible, scalable, and innovative design system for
-              designers
-            </p>
-            <div className="mt-6 max-w-prose space-y-4 text-body">
-              <p>
-                Nokia is a global leader in telecommunications and networking
-                technology, driving innovation in 5G, cloud infrastructure,
-                IoT, and digital health.
+            <ProseColumn>
+              <p className="whitespace-pre-line font-heading text-2xl leading-snug font-bold text-ink sm:text-3xl">
+                Building accessible, scalable, and innovative design system for
+                designers
               </p>
-              <p>
-                As a Junior UX Designer, I have collaborated with a dynamic
-                team of developers and designers to create and maintain the
-                internal design system for multiple Nokia digital products.
-              </p>
-              <p>
-                My primary role involved{" "}
-                <strong className="font-semibold text-ink">
-                  ensuring accessibility compliance
-                </strong>{" "}
-                with WCAG standards, managing the{" "}
-                <strong className="font-semibold text-ink">
-                  icon library
-                </strong>
-                , documenting new patterns and{" "}
-                <strong className="font-semibold text-ink">
-                  guidelines for AI
-                </strong>{" "}
-                products, and conducting{" "}
-                <strong className="font-semibold text-ink">
-                  design audits
-                </strong>
-                .
-              </p>
-            </div>
-            <div className="mt-8">
+              <div className="mt-6 space-y-4 text-body">
+                <p>
+                  Nokia is a global leader in telecommunications and networking
+                  technology, driving innovation in 5G, cloud infrastructure,
+                  IoT, and digital health.
+                </p>
+                <p>
+                  As a Junior UX Designer, I have collaborated with a dynamic
+                  team of developers and designers to create and maintain the
+                  internal design system for multiple Nokia digital products.
+                </p>
+                <p>
+                  My primary role involved{" "}
+                    ensuring accessibility compliance
+                  {" "}
+                  with WCAG standards, managing the{" "}
+                    icon library,
+                  documenting new patterns and{" "}
+                    guidelines for AI
+                  {" "}
+                  products, and conducting{" "}
+                    design audits.
+                </p>
+              </div>
+            </ProseColumn>
+            <ProseColumn className="mt-8">
               <CaseStudyFigure
                 src="/images/nokia-hero.webp"
                 alt="Nokia Design System wordmark above dashboard components in light and dark themes"
                 width={1139}
                 height={667}
               />
-            </div>
+            </ProseColumn>
           </Reveal>
 
           <div className="mt-16">
@@ -105,86 +123,81 @@ export default function Nokia() {
             </Reveal>
           </div>
 
-          <div className="mt-16 border-t border-rule pt-10">
+          <div className="mt-16">
             <Reveal>
               <div>
                 <CaseStudySection
+                  divider
                   id="enhancing-accessibility"
                   title="Enhancing accessibility"
                   paragraphs={[
                     <>
                       Ensuring accessibility was one of the core priorities
                       for our team. In addition to adhering to{" "}
-                      <strong className="font-semibold text-ink">
                         WCAG AA
-                      </strong>{" "}
+                      {" "}
                       standards, the library supported{" "}
-                      <strong className="font-semibold text-ink">
                         AAA color contrast
-                      </strong>{" "}
+                      {" "}
                       by implementing high-contrast modes for both light and
                       dark themes. I conducted accessibility reviews on
                       several components, focusing on{" "}
-                      <strong className="font-semibold text-ink">
-                        touch target sizes and color contrast across themes
-                      </strong>
-                      . I also utilized JAWS screen reader software to
+                        touch target sizes and color contrast across themes.
+                      I also utilized JAWS screen reader software to
                       ensure our design system was{" "}
-                      <strong className="font-semibold text-ink">
                         fully keyboard navigable and optimized for screen
-                        reader use
-                      </strong>
-                      .
+                        reader use.
                     </>,
                     "During this process, we uncovered several accessibility issues within our chart components, which led me to research industry standards and user expectations to improve their usability and accessibility.",
                   ]}
                 />
-                <div className="mt-8">
+                <ProseColumn className="mt-8">
                   <CaseStudyFigure
                     src="/images/nokia-accessibility.webp"
                     alt="Nokia design system components shown with accessibility annotations"
                     width={1139}
                     height={655}
                   />
-                </div>
+                </ProseColumn>
               </div>
             </Reveal>
           </div>
 
-          <div className="mt-16 border-t border-rule pt-10">
+          <div className="mt-16">
             <Reveal>
               <div>
                 <CaseStudySection
+                  divider
                   id="icon-library"
                   title="Icon library management"
                   paragraphs={[
                     "Starting in May, I took on the responsibility of managing the icon library for our design system. This involved handling requests for new icons, making edits, and leading initiatives like introducing animated icons. The role required strong task management, clear communication with both designers requesting the icons and developers implementing them, and a solid understanding of icon design guidelines and library management.",
                   ]}
                 />
-                <div className="mt-8">
+                <ProseColumn className="mt-8">
                   <CaseStudyFigure
                     src="/images/nokia-icon-library.webp"
                     alt="Nokia icon library grid alongside an animated microphone icon concept"
                     width={2500}
                     height={1406}
                   />
-                </div>
+                </ProseColumn>
               </div>
             </Reveal>
           </div>
 
-          <div className="mt-16 border-t border-rule pt-10">
+          <div className="mt-16">
             <Reveal>
               <CaseStudySection
+                divider
                 id="ai-components"
                 title="Designing new components and patterns for AI tools"
                 paragraphs={[
                   "In September, I collaborated with a senior designer to develop new components and patterns specifically for AI tools. The goal was to design intuitive, user-friendly UI components that not only showcased AI capabilities in line with industry standards but also blended seamlessly with our existing component library. I focused on crafting patterns that were adaptable and ensured smooth interaction with AI systems.",
                   <>
                     Given that NokiaGPT{" "}
-                    <strong className="font-semibold text-ink">
                       already had over 10,000 users
-                    </strong>{" "}
+                    {" "}
                     prior to my involvement, it was essential that my
                     designs integrated harmoniously into the existing system
                     without causing disruption. I also prepared a clear,
@@ -197,9 +210,10 @@ export default function Nokia() {
             </Reveal>
           </div>
 
-          <div className="mt-16 border-t border-rule pt-10">
+          <div className="mt-16">
             <Reveal>
               <CaseStudySection
+                divider
                 id="design-audits"
                 title="Conducting design audits"
                 paragraphs={[
@@ -209,6 +223,12 @@ export default function Nokia() {
               />
             </Reveal>
           </div>
+
+          <Reveal>
+            <CaseStudyNextNav
+              next={{ label: "Simplii Financial", href: "/simpliifinancial" }}
+            />
+          </Reveal>
         </>
       }
     />

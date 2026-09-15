@@ -5,6 +5,13 @@ import { useEffect, useRef } from "react";
 const INTERACTIVE_SELECTOR =
   'a, button:not(:disabled), [role="button"]:not([aria-disabled="true"]), summary, input:not(:disabled):not([type="text"]):not([type="email"]):not([type="search"]):not([type="tel"]):not([type="url"]), select:not(:disabled)';
 
+// Case-study lightbox triggers opt out of the interactive-hover treatment
+// (see `LightboxImage`) so they read as plain content, not an obviously
+// clickable control, even though they're real buttons underneath. Checked
+// before `INTERACTIVE_SELECTOR` so it always wins for these triggers and
+// anything inside them.
+const CURSOR_EXCLUDE_SELECTOR = "[data-cc-cursor-exclude]";
+
 /**
  * A shared decorative dot that follows the (still fully visible) native
  * cursor with a ~70ms trailing lag (a CSS `transition` on the positioning
@@ -49,8 +56,17 @@ export default function CustomCursor() {
     rafId = requestAnimationFrame(loop);
 
     const setActive = (el: EventTarget | null) => {
+      // Single explicit toggle, always executed — never an early return
+      // that could leave a previous state (e.g. the enlarged ring from a
+      // link the pointer just left) stuck active. The exclusion check
+      // short-circuits `isInteractive` to false before it ever reaches
+      // `INTERACTIVE_SELECTOR`, so it always wins over that generic
+      // link/button/role detection for excluded triggers and their
+      // descendants.
+      const target = el instanceof Element ? el : null;
+      const isExcluded = !!target?.closest(CURSOR_EXCLUDE_SELECTOR);
       const isInteractive =
-        el instanceof Element && !!el.closest(INTERACTIVE_SELECTOR);
+        !isExcluded && !!target?.closest(INTERACTIVE_SELECTOR);
       dot.classList.toggle("cc-cursor-dot--active", isInteractive);
     };
 

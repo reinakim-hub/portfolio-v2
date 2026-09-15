@@ -152,3 +152,42 @@ body {
   background: transparent;
   border-width: 1px;
 }
+
+/* Shared image hover/focus treatment
+   ------------------------------------------------------------------
+   One definition, reused by any frame that should zoom out and dim its
+   image on hover/focus: homepage project thumbnails (`ProjectHighlight`)
+   and the About portrait. The frame (`.hover-zoom`) stays put — only the
+   `<img>` inside it transforms, so the effect can never fight an
+   entrance animation applied to the frame itself. At rest the image
+   sits at 1.04x scale, full brightness; hovering the frame, or
+   focus-visible when the frame itself is focusable (a link, not a
+   plain decorative `<div>`), settles it to 1x scale at 94% brightness
+   over 500ms ease-out, reversing the same way on exit.
+
+   Deliberately NOT used by case-study body images — see
+   `LightboxImage`/`CustomCursor`'s `data-cc-cursor-exclude`, which keeps
+   those looking like plain content instead. */
+.hover-zoom {
+  overflow: hidden;
+}
+
+.hover-zoom img {
+  transform: scale(1.04);
+  filter: brightness(1);
+  transition:
+    transform 500ms ease-out,
+    filter 500ms ease-out;
+}
+
+.hover-zoom:hover img,
+.hover-zoom:focus-visible img {
+  transform: scale(1);
+  filter: brightness(0.94);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hover-zoom img {
+    transition: none;
+  }
+}

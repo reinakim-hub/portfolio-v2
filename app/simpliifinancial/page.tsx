@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import CaseStudySidebar from "@/components/CaseStudySidebar";
 import CaseStudyFigure from "@/components/CaseStudyFigure";
+import CaseStudySummary from "@/components/CaseStudySummary";
+import CaseStudyNextNav from "@/components/CaseStudyNextNav";
 import ImageGallery from "@/components/ImageGallery";
 import SectionLabel from "@/components/SectionLabel";
 import PullQuote from "@/components/PullQuote";
+import ProseColumn from "@/components/ProseColumn";
 import Reveal from "@/components/Reveal";
-import TwoColumnLayout from "@/components/TwoColumnLayout";
+import CaseStudyLayout from "@/components/CaseStudyLayout";
 
 export const metadata: Metadata = {
   title: "Simplii Financial — Reina Kim",
@@ -26,8 +29,7 @@ const SECTIONS = [
 
 export default function SimpliiFinancial() {
   return (
-    <TwoColumnLayout
-      stickyGate="simplii"
+    <CaseStudyLayout
       left={
         <CaseStudySidebar
           name="Simplii Financial"
@@ -42,86 +44,106 @@ export default function SimpliiFinancial() {
         />
       }
       right={
+        <CaseStudySummary
+          challenge={
+            <>
+              User testing with nine recent newcomers to Canada found the
+              initial prototype&rsquo;s content too shallow, its
+              interactions hard to navigate, and its disconnect from Simplii
+              Financial&rsquo;s brand raised concerns about trustworthiness.
+            </>
+          }
+          solution={
+            <>
+              We integrated the content directly into Simplii
+              Financial&rsquo;s existing website instead of a separate
+              microsite, deepened the guidance content, and added
+              multi-language and mobile prototypes to meet the user needs we
+              uncovered.
+            </>
+          }
+        />
+      }
+      middle={
         <>
           <Reveal>
-            <p className="whitespace-pre-line font-heading text-2xl leading-snug font-bold text-ink sm:text-3xl">
-              Building trust and financial confidence for newcomers to Canada
-            </p>
-            <div className="mt-6 max-w-prose space-y-4 text-body">
-              <p>
-                This was a seven-week senior-level project where my team and
-                I were tasked with designing a new feature for Simplii
-                Financial&rsquo;s new customers, particularly newcomers to
-                Canada. Our goal was to{" "}
-                <strong className="font-semibold text-ink">
-                  identify a problem space within the existing website and
-                  create a solution
-                </strong>{" "}
-                that simplifies the onboarding process for these users.
+            <ProseColumn>
+              <p className="whitespace-pre-line font-heading text-2xl leading-snug font-bold text-ink sm:text-3xl">
+                Building trust and financial confidence for newcomers to Canada
               </p>
-              <p>
-                My primary role was in{" "}
-                <strong className="font-semibold text-ink">
-                  content strategy
-                </strong>
-                , focusing on{" "}
-                <strong className="font-semibold text-ink">
-                  content layout
-                </strong>{" "}
-                and{" "}
-                <strong className="font-semibold text-ink">
-                  interaction design
-                </strong>
-                . I researched and implemented UI features to ensure clear
-                information delivery and increased engagement through
-                effective call-to-action elements, benefiting all
-                stakeholders.
-              </p>
-            </div>
-            <div className="mt-8">
+              <div className="mt-6 space-y-4 text-body">
+                <p>
+                  This was a seven-week senior-level project where my team and
+                  I were tasked with designing a new feature for Simplii
+                  Financial&rsquo;s new customers, particularly newcomers to
+                  Canada. Our goal was to{" "}
+                    identify a problem space within the existing website and
+                    create a solution
+                  {" "}
+                  that simplifies the onboarding process for these users.
+                </p>
+                <p>
+                  My primary role was in{" "}
+                    content strategy,
+                  focusing on{" "}
+                    content layout
+                  {" "}
+                  and{" "}
+                    interaction design.
+                  I researched and implemented UI features to ensure clear
+                  information delivery and increased engagement through
+                  effective call-to-action elements, benefiting all
+                  stakeholders.
+                </p>
+              </div>
+            </ProseColumn>
+            <ProseColumn className="mt-8">
               <CaseStudyFigure
                 src="/images/simplii-hero.webp"
                 alt="Simplii Financial onboarding microsite shown on laptop and phone"
                 width={2500}
                 height={1700}
+                imageOffsetClassName="translate-y-[4%]"
+                pngBackground
               />
-            </div>
+            </ProseColumn>
           </Reveal>
 
-          <div className="mt-16 border-t border-rule pt-10">
+          <div className="mt-16">
             <Reveal>
               <section id="problem-space" className="scroll-mt-24">
-                <h2 className="text-3xl font-extrabold tracking-tight text-ink">
-                  Identifying the problem space
-                </h2>
-                <div className="mt-4 max-w-prose space-y-4 text-body">
-                  <p>
-                    Through research, we discovered that{" "}
-                    <strong className="font-semibold text-ink">
-                      many new Canadian immigrants, particularly in their
-                      first two years, struggle with low credit visibility,
-                      which hinders their ability to build financial
-                      security.
-                    </strong>{" "}
-                    <span className="underline">(Statistics Canada, 2023)</span>{" "}
-                    The complexities of the Canadian banking system further
-                    add to these challenges, leaving newcomers feeling
-                    overwhelmed and unable to establish credit histories.{" "}
-                    <span className="underline">(Scotiabank, 2022)</span>
-                  </p>
-                  <p>
-                    Given that nearly 1 in 5 people in Canada are immigrants,
-                    our team recognized this as a key problem area where
-                    financial institutions could develop digital solutions
-                    to benefit both newcomers and themselves.
-                  </p>
-                  <p>
-                    To present this opportunity, our team created a 1-minute
-                    video to pitch the problem space to teaching staff and
-                    invited UX designers from the industry.
-                  </p>
-                </div>
-                <div className="mt-8">
+                <ProseColumn className="border-t border-rule pt-10">
+                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                    Identifying the problem space
+                  </h2>
+                  <div className="mt-4 space-y-4 text-body">
+                    <p>
+                      Through research, we discovered that{" "}
+                        many new Canadian immigrants, particularly in their
+                        first two years, struggle with low credit visibility,
+                        which hinders their ability to build financial
+                        security.
+                      {" "}
+                      <span className="underline">(Statistics Canada, 2023)</span>{" "}
+                      The complexities of the Canadian banking system further
+                      add to these challenges, leaving newcomers feeling
+                      overwhelmed and unable to establish credit histories.{" "}
+                      <span className="underline">(Scotiabank, 2022)</span>
+                    </p>
+                    <p>
+                      Given that nearly 1 in 5 people in Canada are immigrants,
+                      our team recognized this as a key problem area where
+                      financial institutions could develop digital solutions
+                      to benefit both newcomers and themselves.
+                    </p>
+                    <p>
+                      To present this opportunity, our team created a 1-minute
+                      video to pitch the problem space to teaching staff and
+                      invited UX designers from the industry.
+                    </p>
+                  </div>
+                </ProseColumn>
+                <ProseColumn className="mt-8">
                   <ImageGallery
                     images={[
                       {
@@ -138,18 +160,15 @@ export default function SimpliiFinancial() {
                       },
                     ]}
                   />
-                </div>
+                </ProseColumn>
               </section>
             </Reveal>
           </div>
 
-          <div className="mt-16 border-t border-rule pt-10">
+          <div className="mt-16">
             <Reveal>
-              <section
-                id="selecting-client"
-                className="scroll-mt-24 grid gap-8 sm:grid-cols-2 sm:items-center sm:gap-12"
-              >
-                <div>
+              <section id="selecting-client" className="scroll-mt-24">
+                <ProseColumn className="border-t border-rule pt-10">
                   <h2 className="text-3xl font-extrabold tracking-tight text-ink">
                     Selecting the client
                   </h2>
@@ -168,249 +187,253 @@ export default function SimpliiFinancial() {
                       primarily fall within the 20-34 age demographic.
                     </p>
                   </div>
-                </div>
-                <CaseStudyFigure
-                  src="/images/simplii-selecting-client.webp"
-                  alt="Simplii Financial mobile app and debit card"
-                  width={2240}
-                  height={2800}
-                />
+                </ProseColumn>
+                <ProseColumn className="mt-8">
+                  <CaseStudyFigure
+                    src="/images/simplii-selecting-client.webp"
+                    alt="Simplii Financial mobile app and debit card"
+                    width={2240}
+                    height={2800}
+                    pngBackground
+                  />
+                </ProseColumn>
               </section>
             </Reveal>
           </div>
 
           <div className="mt-16">
             <Reveal>
-              <PullQuote>
-                How might Simplii Financial create a compelling experience
-                for the working group of immigrants to help them to build
-                financial confidence and security in Canada?
-              </PullQuote>
+              <ProseColumn>
+                <PullQuote>
+                  How might Simplii Financial create a compelling experience
+                  for the working group of immigrants to help them to build
+                  financial confidence and security in Canada?
+                </PullQuote>
+              </ProseColumn>
             </Reveal>
           </div>
 
-          <div className="mt-16 border-t border-rule pt-10">
+          <div className="mt-16">
             <Reveal>
               <section id="value-to-stakeholders" className="scroll-mt-24">
-                <h2 className="text-3xl font-extrabold tracking-tight text-ink">
-                  Value to stakeholders
-                </h2>
-                <div className="mt-6 grid gap-8 sm:grid-cols-2">
-                  <div>
-                    <SectionLabel size="sm">Business value</SectionLabel>
-                    <p className="mt-2 text-body">
-                      This intervention contributes to the business by
-                      educating newcomers about the Canadian financial
-                      system, showcasing expertise, and{" "}
-                      <strong className="font-semibold text-ink">
-                        building trust with potential customers
-                      </strong>
-                      . It also acts as a compelling tool to{" "}
-                      <strong className="font-semibold text-ink">
-                        attract new clients
-                      </strong>
-                      , encouraging them to open an account and start their
-                      credit journey with Simplii Financial.
-                    </p>
+                <ProseColumn className="border-t border-rule pt-10">
+                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                    Value to stakeholders
+                  </h2>
+                  <div className="mt-6 space-y-6">
+                    <div>
+                      <SectionLabel size="sm">Business value</SectionLabel>
+                      <p className="mt-2 text-body">
+                        This intervention contributes to the business by
+                        educating newcomers about the Canadian financial
+                        system, showcasing expertise, and building trust
+                        with potential customers. It also acts as a
+                        compelling tool to attract new clients, encouraging
+                        them to open an account and start their credit
+                        journey with Simplii Financial.
+                      </p>
+                    </div>
+                    <div>
+                      <SectionLabel size="sm">Customer value</SectionLabel>
+                      <p className="mt-2 text-body">
+                        Newcomers gain valuable insights into the Canadian
+                        financial system, enabling them to make more
+                        informed financial decisions. The solution also
+                        provides a seamless entry point for choosing Simplii
+                        Financial as their primary bank, allowing them to
+                        open an account before even arriving in Canada.
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <SectionLabel size="sm">Customer value</SectionLabel>
-                    <p className="mt-2 text-body">
-                      Newcomers gain valuable insights into the Canadian
-                      financial system,{" "}
-                      <strong className="font-semibold text-ink">
-                        enabling them to make more informed financial
-                        decisions
-                      </strong>
-                      . The solution also provides a seamless entry point
-                      for choosing Simplii Financial as their primary bank,
-                      allowing them to open an account before even arriving
-                      in Canada.
-                    </p>
-                  </div>
-                </div>
+                </ProseColumn>
               </section>
             </Reveal>
           </div>
 
-          <div className="mt-16 border-t border-rule pt-10">
+          <div className="mt-16">
             <Reveal>
               <section id="design-sprints" className="scroll-mt-24">
-                <h2 className="text-3xl font-extrabold tracking-tight text-ink">
-                  Design sprints
-                </h2>
-                <p className="mt-4 max-w-prose text-body">
-                  We utilized{" "}
-                  <a
-                    href="https://www.gv.com/sprint/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline hover:no-underline"
-                  >
-                    The Design Sprint
-                  </a>{" "}
-                  method from Google Ventures, which involved mapping out the
-                  challenge, sketching ideas, creating a mock prototype, and
-                  conducting user testing to refine the solution based on
-                  feedback.
-                </p>
+                <ProseColumn className="border-t border-rule pt-10">
+                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                    Design sprints
+                  </h2>
+                  <p className="mt-4 text-body">
+                    We utilized{" "}
+                    <a
+                      href="https://www.gv.com/sprint/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline hover:no-underline"
+                    >
+                      The Design Sprint
+                    </a>{" "}
+                    method from Google Ventures, which involved mapping out the
+                    challenge, sketching ideas, creating a mock prototype, and
+                    conducting user testing to refine the solution based on
+                    feedback.
+                  </p>
+                </ProseColumn>
 
-                <div className="mt-8">
+                <ProseColumn className="mt-8">
                   <SectionLabel>Mapping the challenge</SectionLabel>
-                </div>
-                <div className="mt-4">
-                  <CaseStudyFigure
-                    src="/images/simplii-mapping-challenge.webp"
-                    alt="Diagram mapping the immigrant and Simplii Financial journey to the intervention goal"
-                    width={2500}
-                    height={720}
-                    imageBg="bg-white"
-                  />
-                </div>
+                  <div className="mt-4">
+                    <CaseStudyFigure
+                      src="/images/simplii-mapping-challenge.webp"
+                      alt="Diagram mapping the immigrant and Simplii Financial journey to the intervention goal"
+                      width={2500}
+                      height={720}
+                      imageBg="bg-white"
+                    />
+                  </div>
+                </ProseColumn>
 
-                <div className="mt-8">
+                <ProseColumn className="mt-8">
                   <SectionLabel>Sketching prototype ideas</SectionLabel>
-                </div>
-                <div className="mt-4">
-                  <ImageGallery
-                    images={[
-                      {
-                        src: "/images/simplii-sketch-notes.webp",
-                        alt: "Sticky notes exploring storytelling, chunking, toggling, and consequences concepts",
-                        width: 1376,
-                        height: 877,
-                      },
-                      {
-                        src: "/images/simplii-sketch-corkboard.webp",
-                        alt: "Hand-drawn sketch of a knowledge bank concept with archive and improvement sticky notes",
-                        width: 2304,
-                        height: 2320,
-                      },
-                    ]}
-                  />
-                </div>
+                  <div className="mt-4">
+                    <ImageGallery
+                      images={[
+                        {
+                          src: "/images/simplii-sketch-notes.webp",
+                          alt: "Sticky notes exploring storytelling, chunking, toggling, and consequences concepts",
+                          width: 1376,
+                          height: 877,
+                        },
+                        {
+                          src: "/images/simplii-sketch-corkboard.webp",
+                          alt: "Hand-drawn sketch of a knowledge bank concept with archive and improvement sticky notes",
+                          width: 2304,
+                          height: 2320,
+                        },
+                      ]}
+                    />
+                  </div>
+                </ProseColumn>
 
-                <div className="mt-8">
+                <ProseColumn className="mt-8">
                   <SectionLabel>Creating a mock prototype on Figma</SectionLabel>
-                </div>
-                <div className="mt-4">
-                  <ImageGallery
-                    images={[
-                      {
-                        src: "/images/simplii-credit-system-demo-2.gif",
-                        alt: "Early Figma prototype walkthrough of the credit system education flow",
-                        width: 1280,
-                        height: 720,
-                      },
-                      {
-                        src: "/images/simplii-5components-demo.gif",
-                        alt: "Prototype screen asking what are the 5 components of credit scores",
-                        width: 2208,
-                        height: 1236,
-                      },
-                    ]}
-                  />
-                </div>
+                  <div className="mt-4">
+                    <ImageGallery
+                      images={[
+                        {
+                          src: "/images/simplii-credit-system-demo-2.gif",
+                          alt: "Early Figma prototype walkthrough of the credit system education flow",
+                          width: 1280,
+                          height: 720,
+                        },
+                        {
+                          src: "/images/simplii-5components-demo.gif",
+                          alt: "Prototype screen asking what are the 5 components of credit scores",
+                          width: 2208,
+                          height: 1236,
+                        },
+                      ]}
+                    />
+                  </div>
+                </ProseColumn>
               </section>
             </Reveal>
           </div>
 
-          <div className="mt-16 border-t border-rule pt-10">
+          <div className="mt-16">
             <Reveal>
               <section id="user-testing" className="scroll-mt-24">
-                <h2 className="text-3xl font-extrabold tracking-tight text-ink">
-                  Participants didn&rsquo;t like it!
-                </h2>
-                <div className="mt-4 max-w-prose space-y-4 text-body">
-                  <p>
-                    In our user testing with nine recent newcomers to
-                    Canada, participants found the initial prototype
-                    ineffective. They felt the information was{" "}
-                    <strong className="font-semibold text-ink">
-                      too shallow
-                    </strong>
-                    , the interactions were{" "}
-                    <strong className="font-semibold text-ink">
-                      difficult to navigate
-                    </strong>
-                    , and the design&rsquo;s disconnect from Simplii
-                    Financial&rsquo;s brand{" "}
-                    <strong className="font-semibold text-ink">
-                      raised concerns about trustworthiness
-                    </strong>
-                    .
-                  </p>
-                  <p>
-                    However, many participants resonated with the problem
-                    space and provided valuable insights into the type of
-                    information they would prefer to see in this
-                    experience.
-                  </p>
-                </div>
+                <ProseColumn className="border-t border-rule pt-10">
+                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                    Participants didn&rsquo;t like it!
+                  </h2>
+                  <div className="mt-4 space-y-4 text-body">
+                    <p>
+                      In our user testing with nine recent newcomers to
+                      Canada, participants found the initial prototype
+                      ineffective. They felt the information was{" "}
+                        too shallow,
+                      the interactions were{" "}
+                        difficult to navigate,
+                      and the design&rsquo;s disconnect from Simplii
+                      Financial&rsquo;s brand{" "}
+                        raised concerns about trustworthiness.
+                    </p>
+                    <p>
+                      However, many participants resonated with the problem
+                      space and provided valuable insights into the type of
+                      information they would prefer to see in this
+                      experience.
+                    </p>
+                  </div>
+                </ProseColumn>
               </section>
             </Reveal>
           </div>
 
-          <div className="mt-16 border-t border-rule pt-10">
+          <div className="mt-16">
             <Reveal>
               <section id="pivot" className="scroll-mt-24">
-                <h2 className="text-3xl font-extrabold tracking-tight text-ink">
-                  So we went back and pivoted
-                </h2>
-                <p className="mt-4 max-w-prose text-body">
-                  A major pivot we made was integrating the new content
-                  directly into Simplii Financial&rsquo;s existing website,
-                  rather than creating a separate microsite. This decision
-                  enhanced trust, a critical factor for financial
-                  institutions.
-                </p>
+                <ProseColumn className="border-t border-rule pt-10">
+                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                    So we went back and pivoted
+                  </h2>
+                  <p className="mt-4 text-body">
+                    A major pivot we made was integrating the new content
+                    directly into Simplii Financial&rsquo;s existing website,
+                    rather than creating a separate microsite. This decision
+                    enhanced trust, a critical factor for financial
+                    institutions.
+                  </p>
+                </ProseColumn>
 
-                <div className="my-8">
+                <ProseColumn className="my-8">
                   <CaseStudyFigure
                     src="/images/simplii-styleguide.webp"
                     alt="Simplii Financial style guide showing brand colours, text styles, and image work"
                     width={2500}
                     height={906}
                     imageBg="bg-white"
+                    pngBackground
                   />
-                </div>
+                </ProseColumn>
 
-                <p className="max-w-prose text-body">
-                  As the lead for content strategy, I was responsible for
-                  addressing the issue of shallow information by diving
-                  deeper and ensuring the clear delivery of the now more
-                  detailed content. My focus was on identifying the
-                  essential information newcomers need and structuring the
-                  content around key pain points, such as unfamiliarity with
-                  credit systems and financial tools.
-                </p>
+                <ProseColumn>
+                  <p className="text-body">
+                    As the lead for content strategy, I was responsible for
+                    addressing the issue of shallow information by diving
+                    deeper and ensuring the clear delivery of the now more
+                    detailed content. My focus was on identifying the
+                    essential information newcomers need and structuring the
+                    content around key pain points, such as unfamiliarity with
+                    credit systems and financial tools.
+                  </p>
+                </ProseColumn>
 
-                <div className="my-8">
+                <ProseColumn className="my-8">
                   <CaseStudyFigure
                     src="/images/simplii-feedback-row1.webp"
                     alt="Prototype screens with feedback annotations for landing page, credit system, and credit score component"
                     width={2500}
                     height={867}
                     imageBg="bg-white"
+                    pngBackground
                   />
-                </div>
+                </ProseColumn>
 
-                <div className="my-8">
+                <ProseColumn className="my-8">
                   <CaseStudyFigure
                     src="/images/simplii-feedback-row2.webp"
                     alt="Prototype screens with feedback annotations for credit decisions, testimonies, and here to help sections"
                     width={2500}
                     height={865}
                     imageBg="bg-white"
+                    pngBackground
                   />
-                </div>
+                </ProseColumn>
 
-                <p className="max-w-prose text-body">
-                  I researched interactive UI elements to help simplify
-                  complex financial concepts, making it easier for users to
-                  engage with and absorb the newly incorporated content.
-                </p>
-                <div className="mt-8">
+                <ProseColumn>
+                  <p className="text-body">
+                    I researched interactive UI elements to help simplify
+                    complex financial concepts, making it easier for users to
+                    engage with and absorb the newly incorporated content.
+                  </p>
+                </ProseColumn>
+                <ProseColumn className="mt-8">
                   <ImageGallery
                     images={[
                       {
@@ -427,34 +450,36 @@ export default function SimpliiFinancial() {
                       },
                     ]}
                   />
-                </div>
+                </ProseColumn>
               </section>
             </Reveal>
           </div>
 
-          <div className="mt-16 border-t border-rule pt-10">
+          <div className="mt-16">
             <Reveal>
               <section id="user-needs" className="scroll-mt-24">
-                <h2 className="text-3xl font-extrabold tracking-tight text-ink">
-                  Understanding the real user needs
-                </h2>
-                <div className="mt-4 max-w-prose space-y-4 text-body">
-                  <p>
-                    From the user testing, the team recognized the
-                    importance of making this intervention multi-language
-                    friendly. We identified the most common languages spoken
-                    by Canadian newcomers and developed a prototype to
-                    showcase the design&rsquo;s flexibility in accommodating
-                    different languages.
-                  </p>
-                  <p>
-                    The responsiveness was also an important factor.
-                    Research showed that our target age demographic prefers
-                    to bank via mobile devices, so we created a mobile
-                    prototype to visualize this experience.
-                  </p>
-                </div>
-                <div className="mt-8">
+                <ProseColumn className="border-t border-rule pt-10">
+                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                    Understanding the real user needs
+                  </h2>
+                  <div className="mt-4 space-y-4 text-body">
+                    <p>
+                      From the user testing, the team recognized the
+                      importance of making this intervention multi-language
+                      friendly. We identified the most common languages spoken
+                      by Canadian newcomers and developed a prototype to
+                      showcase the design&rsquo;s flexibility in accommodating
+                      different languages.
+                    </p>
+                    <p>
+                      The responsiveness was also an important factor.
+                      Research showed that our target age demographic prefers
+                      to bank via mobile devices, so we created a mobile
+                      prototype to visualize this experience.
+                    </p>
+                  </div>
+                </ProseColumn>
+                <ProseColumn className="mt-8">
                   <ImageGallery
                     images={[
                       {
@@ -471,8 +496,8 @@ export default function SimpliiFinancial() {
                       },
                     ]}
                   />
-                </div>
-                <div className="mt-8 max-w-prose space-y-4 text-body">
+                </ProseColumn>
+                <ProseColumn className="mt-8 space-y-4 text-body">
                   <p>
                     The &ldquo;Simplii Stories&rdquo; section in our initial
                     prototype was well received by user testing
@@ -484,28 +509,30 @@ export default function SimpliiFinancial() {
                     empathy, providing valuable insights for potential
                     customers of Simplii Financial.
                   </p>
-                </div>
+                </ProseColumn>
               </section>
             </Reveal>
           </div>
 
-          <div className="mt-16 border-t border-rule pt-10">
+          <div className="mt-16">
             <Reveal>
               <section id="reiterating-value" className="scroll-mt-24">
-                <h2 className="text-3xl font-extrabold tracking-tight text-ink">
-                  Reiterating value to both stakeholders
-                </h2>
-                <p className="mt-4 max-w-prose text-body">
-                  As the content design lead, I aimed to implement
-                  call-to-action UI elements throughout the page to enhance
-                  the business value of this design intervention. This
-                  approach not only supports Simplii Financial in promoting
-                  its offerings to newcomers but also provides an accessible
-                  pathway for new customers to explore and engage with these
-                  services, making it easier for them to start banking with
-                  Simplii Financial.
-                </p>
-                <div className="mt-8">
+                <ProseColumn className="border-t border-rule pt-10">
+                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                    Reiterating value to both stakeholders
+                  </h2>
+                  <p className="mt-4 text-body">
+                    As the content design lead, I aimed to implement
+                    call-to-action UI elements throughout the page to enhance
+                    the business value of this design intervention. This
+                    approach not only supports Simplii Financial in promoting
+                    its offerings to newcomers but also provides an accessible
+                    pathway for new customers to explore and engage with these
+                    services, making it easier for them to start banking with
+                    Simplii Financial.
+                  </p>
+                </ProseColumn>
+                <ProseColumn className="mt-8">
                   <CaseStudyFigure
                     src="/images/simplii-cta-getstarted.webp"
                     alt="Want to get started call-to-action panel showing Simplii Financial products"
@@ -513,47 +540,50 @@ export default function SimpliiFinancial() {
                     height={957}
                     imageBg="bg-white"
                   />
-                </div>
+                </ProseColumn>
               </section>
             </Reveal>
           </div>
 
-          <div className="mt-16 border-t border-rule pt-10">
+          <div className="mt-16">
             <Reveal>
               <section id="final-presentation" className="scroll-mt-24">
-                <h2 className="text-2xl font-extrabold text-ink">
-                  <span aria-hidden="true">✨ </span>Final presentation and
-                  key takeaways
-                </h2>
-                <p className="mt-4 max-w-prose text-body">
-                  Our final presentation was very well received by the
-                  teaching team and industry UX designers who were invited
-                  as critics. They were particularly impressed with how
-                  clearly we presented the problem space and found our
-                  design intervention highly appropriate. The
-                  multi-language support stood out as a key feature that
-                  resonated with the audience, as it effectively addressed
-                  the needs of our target users.
-                </p>
-                <div className="mt-8">
+                <ProseColumn className="border-t border-rule pt-10">
+                  <h2 className="text-2xl font-extrabold text-ink">
+                    Final presentation and key takeaways
+                  </h2>
+                  <p className="mt-4 text-body">
+                    Our final presentation was very well received by the
+                    teaching team and industry UX designers who were invited
+                    as critics. They were particularly impressed with how
+                    clearly we presented the problem space and found our
+                    design intervention highly appropriate. The
+                    multi-language support stood out as a key feature that
+                    resonated with the audience, as it effectively addressed
+                    the needs of our target users.
+                  </p>
+                </ProseColumn>
+                <ProseColumn className="mt-8">
                   <CaseStudyFigure
                     src="/images/simplii-final-presentation.webp"
                     alt="The team presenting the Simplii Financial project to an audience"
                     width={2500}
                     height={3333}
                   />
-                </div>
+                </ProseColumn>
               </section>
             </Reveal>
           </div>
 
-          <div className="mt-16 border-t border-rule pt-10">
+          <div className="mt-16">
             <Reveal>
               <div id="the-team" className="scroll-mt-24">
-                <h2 className="text-2xl font-extrabold text-ink">
-                  <span aria-hidden="true">💪 </span>The team
-                </h2>
-                <div className="mt-8">
+                <ProseColumn className="border-t border-rule pt-10">
+                  <h2 className="text-2xl font-extrabold text-ink">
+                    The team
+                  </h2>
+                </ProseColumn>
+                <ProseColumn className="mt-8">
                   <ImageGallery
                     images={[
                       {
@@ -588,10 +618,19 @@ export default function SimpliiFinancial() {
                       },
                     ]}
                   />
-                </div>
+                </ProseColumn>
               </div>
             </Reveal>
           </div>
+
+          <Reveal>
+            <CaseStudyNextNav
+              next={{
+                label: "Strange Sounds From Beyond",
+                href: "/ssfb",
+              }}
+            />
+          </Reveal>
         </>
       }
     />

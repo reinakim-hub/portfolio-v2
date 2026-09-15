@@ -1,4 +1,4 @@
-import Image from "next/image";
+import LightboxImage from "./LightboxImage";
 
 type GalleryImage = { src: string; alt: string; width: number; height: number };
 
@@ -8,14 +8,13 @@ export default function ImageGallery({ images }: { images: GalleryImage[] }) {
       {images.map((image) => (
         <div
           key={image.src}
-          className="mb-4 overflow-hidden rounded-tile break-inside-avoid"
+          className="mb-4 overflow-hidden break-inside-avoid"
         >
-          <Image
+          <LightboxImage
             src={image.src}
             alt={image.alt}
             width={image.width}
             height={image.height}
-            unoptimized={image.src.endsWith(".gif")}
             className="h-auto w-full object-cover"
           />
         </div>
