@@ -165,8 +165,22 @@ body {
   }
 }
 
+/* Longhand properties, deliberately not the `animation` shorthand: the
+   shorthand implicitly resets `animation-delay` to `0s` for any
+   sub-property it doesn't mention, which — since Tailwind v4 injects
+   generated utility classes (including each instance's own arbitrary
+   `[animation-delay:_Nms]`) at the position of the `@import "tailwindcss"`
+   line above, earlier in the compiled stylesheet than this rule — would
+   silently override every instance's per-element delay back to `0s`
+   whenever both rules have equal specificity and this one comes later in
+   source order. Splitting the shorthand into its longhand parts here
+   means this rule never declares `animation-delay` in any form, so each
+   instance's own utility class is the only thing that ever sets it. */
 .home-reveal {
-  animation: home-reveal 500ms ease-out both;
+  animation-name: home-reveal;
+  animation-duration: 500ms;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
 }
 
 .home-reveal:focus-within {
