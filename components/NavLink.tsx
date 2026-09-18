@@ -13,13 +13,16 @@ export default function NavLink({
   const pathname = usePathname();
   const isActive = pathname === href;
 
+  const sharedStyle =
+    "hover:text-accent focus-visible:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
+
   return (
     <Link
       href={href}
       className={
         isActive
-          ? "text-ink underline decoration-2 underline-offset-4"
-          : "text-ink hover:underline"
+          ? `text-ink underline decoration-2 underline-offset-4 ${sharedStyle}`
+          : `text-ink hover:underline underline-offset-4 ${sharedStyle}`
       }
     >
       {children}

@@ -31,7 +31,7 @@ export default function SiteHeader() {
           href="/ReinaKim_Resume_2026_Sep.pdf"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-ink hover:underline"
+          className="text-ink underline-offset-4 hover:text-accent hover:underline focus-visible:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         >
           Resume ↗
         </a>

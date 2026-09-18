@@ -28,6 +28,7 @@ export default function LightboxImage({
   className,
   wrapperClassName,
   pngBackground,
+  imageOffsetClassName,
 }: {
   src: string;
   alt: string;
@@ -41,6 +42,13 @@ export default function LightboxImage({
    * so transparent areas (and any dark annotations drawn on them) stay
    * readable against the lightbox's own dark overlay. */
   pngBackground?: boolean;
+  /** Forwarded to the lightbox's own `offsetClassName` (see
+   * `Lightbox.tsx`) — the same static vertical shift `CaseStudyFigure`
+   * applies to its inline frame, reused here so the enlarged view matches
+   * instead of showing the raw, unshifted asset. Doesn't affect this
+   * component's own inline rendering (`className`/`wrapperClassName`
+   * still control that); only the lightbox's enlarged view uses it. */
+  imageOffsetClassName?: string;
 }) {
   const openLightbox = useLightbox();
 
@@ -48,7 +56,10 @@ export default function LightboxImage({
     <button
       type="button"
       onClick={(event) =>
-        openLightbox({ src, alt, width, height, pngBackground }, event.currentTarget)
+        openLightbox(
+          { src, alt, width, height, pngBackground, offsetClassName: imageOffsetClassName },
+          event.currentTarget,
+        )
       }
       aria-label={alt ? `View larger image: ${alt}` : "View larger image"}
       data-cc-cursor-exclude

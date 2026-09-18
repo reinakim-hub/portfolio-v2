@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import CaseStudySidebar from "@/components/CaseStudySidebar";
+import CaseStudyOpening from "@/components/CaseStudyOpening";
 import CaseStudySummary from "@/components/CaseStudySummary";
 import CaseStudyNextNav from "@/components/CaseStudyNextNav";
 import ImageGallery from "@/components/ImageGallery";
@@ -62,69 +63,85 @@ export default function Ssfb() {
       }
       middle={
         <>
-          <Reveal>
-            <ProseColumn>
-              <p className="font-heading text-2xl leading-snug font-bold text-ink sm:text-3xl">
-                Creating a unique digital experience for music lovers
-              </p>
-              <div className="mt-6 space-y-4 text-body">
-                <p>
-                  This five-week school project was centered around developing
-                  a visually engaging and interactive microsite for
-                  &ldquo;Strange Sounds from Beyond,&rdquo; an avant-garde
-                  music festival held in Amsterdam. The festival attracts a
-                  niche audience with a love for underground and experimental
-                  music. The challenge was to{" "}
-                    create a compelling microsite experience that incorporate
-                    both visual and auditorial concepts
-                  {" "}
-                  that are appealing for visitors who may not be familiar with
-                  the festival&rsquo;s style or artists.
+          {/* Opening: the existing, approved hero gallery — the same
+              four gifs already used as this page's intro visual, now
+              shown first at their own gallery width rather than the
+              narrower `ProseColumn` reading width — followed by the
+              shared "Scroll to view more" cue. See `CaseStudyOpening`
+              (established on `/nokia`) for the fill-the-first-screen
+              mechanism this reuses. Every image, its alt text, and
+              order are unchanged. */}
+          <CaseStudyOpening>
+            <ImageGallery
+              images={[
+                {
+                  src: "/images/ssfb-hero-landing.gif",
+                  alt: "Green landing screen reading this is an Amsterdam-based music festival",
+                  width: 1280,
+                  height: 720,
+                },
+                {
+                  src: "/images/ssfb-hero-nav.gif",
+                  alt: "Black landing screen with a glowing green square and listen to the strange sounds prompt",
+                  width: 1280,
+                  height: 720,
+                },
+                {
+                  src: "/images/ssfb-hero.gif",
+                  alt: "Dark screen with an ENTER button over African Acid Is The Future text",
+                  width: 1280,
+                  height: 720,
+                },
+                {
+                  src: "/images/ssfb-hero-active.gif",
+                  alt: "Bright green African Acid Is The Future screen with a track selected",
+                  width: 1280,
+                  height: 720,
+                },
+              ]}
+            />
+          </CaseStudyOpening>
+
+          {/* Introduction — same copy as before, now wrapped to match
+              every other case study's opening heading/body: its own
+              `#introduction` anchor target and a `Reveal className="mt-14"`
+              entrance, since it now starts below the first screen instead
+              of being immediately visible alongside the hero gallery. */}
+          <section id="introduction" className="scroll-mt-24">
+            <Reveal className="mt-14">
+              <ProseColumn>
+                <p className="font-heading text-2xl leading-snug font-bold text-ink sm:text-3xl">
+                  Creating a unique digital experience for music lovers
                 </p>
-                <p>
-                  As the primary{" "}
-                    interaction designer,
-                  I led the{" "}
-                    conceptualization and implementation of the interactive UI
-                    features.
-                  I focused on creating a user journey that allowed music
-                  enthusiasts to explore the festival&rsquo;s unique identity
-                  while balancing an engaging aesthetic with functional
-                  usability.
-                </p>
-              </div>
-            </ProseColumn>
-            <ProseColumn className="mt-8">
-              <ImageGallery
-                images={[
-                  {
-                    src: "/images/ssfb-hero-landing.gif",
-                    alt: "Green landing screen reading this is an Amsterdam-based music festival",
-                    width: 1280,
-                    height: 720,
-                  },
-                  {
-                    src: "/images/ssfb-hero-nav.gif",
-                    alt: "Black landing screen with a glowing green square and listen to the strange sounds prompt",
-                    width: 1280,
-                    height: 720,
-                  },
-                  {
-                    src: "/images/ssfb-hero.gif",
-                    alt: "Dark screen with an ENTER button over African Acid Is The Future text",
-                    width: 1280,
-                    height: 720,
-                  },
-                  {
-                    src: "/images/ssfb-hero-active.gif",
-                    alt: "Bright green African Acid Is The Future screen with a track selected",
-                    width: 1280,
-                    height: 720,
-                  },
-                ]}
-              />
-            </ProseColumn>
-          </Reveal>
+                <div className="mt-6 space-y-4 text-body">
+                  <p>
+                    This five-week school project was centered around developing
+                    a visually engaging and interactive microsite for
+                    &ldquo;Strange Sounds from Beyond,&rdquo; an avant-garde
+                    music festival held in Amsterdam. The festival attracts a
+                    niche audience with a love for underground and experimental
+                    music. The challenge was to{" "}
+                      create a compelling microsite experience that incorporate
+                      both visual and auditorial concepts
+                    {" "}
+                    that are appealing for visitors who may not be familiar with
+                    the festival&rsquo;s style or artists.
+                  </p>
+                  <p>
+                    As the primary{" "}
+                      interaction designer,
+                    I led the{" "}
+                      conceptualization and implementation of the interactive UI
+                      features.
+                    I focused on creating a user journey that allowed music
+                    enthusiasts to explore the festival&rsquo;s unique identity
+                    while balancing an engaging aesthetic with functional
+                    usability.
+                  </p>
+                </div>
+              </ProseColumn>
+            </Reveal>
+          </section>
 
           <div className="mt-16">
             <Reveal>
@@ -319,7 +336,7 @@ export default function Ssfb() {
                       alt="Content strategy flow diagram from landing page to exploratory page, artist music page, and ticket page"
                       width={1760}
                       height={629}
-                      className="h-auto w-full object-contain"
+                      className="case-study-image"
                       pngBackground
                     />
                   </div>
@@ -386,7 +403,7 @@ export default function Ssfb() {
                     alt="Annotated landing page explaining the background noise transition to festival music"
                     width={1824}
                     height={586}
-                    className="h-auto w-full object-contain"
+                    className="case-study-image"
                     pngBackground
                   />
                   <LightboxImage
@@ -394,7 +411,7 @@ export default function Ssfb() {
                     alt="Annotated screens explaining the hover-to-reveal artist name interaction and the sound sample navigation bar"
                     width={1829}
                     height={754}
-                    className="h-auto w-full object-contain"
+                    className="case-study-image"
                     pngBackground
                   />
                   <LightboxImage
@@ -402,7 +419,7 @@ export default function Ssfb() {
                     alt="Annotated screen explaining the track selection squares and back button"
                     width={1824}
                     height={586}
-                    className="h-auto w-full object-contain"
+                    className="case-study-image"
                     pngBackground
                   />
                 </ProseColumn>
@@ -440,7 +457,7 @@ export default function Ssfb() {
                     alt="Annotated screen explaining the functional navigation bar for returning visitors"
                     width={1829}
                     height={581}
-                    className="h-auto w-full object-contain"
+                    className="case-study-image"
                     pngBackground
                   />
                 </ProseColumn>
@@ -470,7 +487,7 @@ export default function Ssfb() {
             <Reveal>
               <section id="reflection" className="scroll-mt-24">
                 <ProseColumn className="border-t border-rule pt-10">
-                  <h2 className="text-2xl font-extrabold text-ink">
+                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
                     Reflection
                   </h2>
                   <p className="mt-4 text-body">

@@ -42,7 +42,9 @@ export default function About() {
             />
           </div>
 
-          <ContactLinks />
+          <div className="xl:mt-auto">
+            <ContactLinks />
+          </div>
         </>
       }
       right={

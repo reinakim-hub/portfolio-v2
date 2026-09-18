@@ -1,30 +1,34 @@
-// Same shared height threshold as `TwoColumnLayout`'s `STICKY_GATE` (see
-// that file for why it's a single site-wide value, not a per-page one) —
-// gated at `xl` instead of `lg` here since that's this shell's own
-// column-collapse breakpoint. Kept as its own literal string, not built
-// from the imported value, since Tailwind's class scanner needs each class
-// written out in full wherever it's actually used.
-const STICKY_GATE_XL = "xl:[@media(min-height:880px)]:sticky";
+import { SITE_GRID_COLUMNS } from "./siteGrid";
 
 /**
  * The three-column shell for a case-study page: project info + section nav
- * (left), the case-study narrative (middle, normal document scrolling), and
- * a short Challenge/Solution summary (right). Left and right both sit in a
- * sticky-without-slide box (same `top-20` mechanic as `TwoColumnLayout`) so
- * they stay stationary beneath the fixed header while the middle column
- * scrolls; the two hairline dividers are drawn on the middle column's own
- * left/right edges, since it's the one column that always stretches to the
- * full row height (the sticky columns intentionally don't).
+ * (left), the case-study narrative (middle — ordinary document flow, the
+ * page's real scroll content), and a short Challenge/Solution summary
+ * (right). This is the project's source-of-truth shape for `SITE_GRID_COLUMNS`
+ * (see `siteGrid.ts`) — Home's own grid and `TwoColumnLayout` both use the
+ * exact same proportions and `xl` breakpoint this shell does, rather than
+ * this shell matching them.
  *
- * Columns collapse to a single stacked flow below `xl` — a full three-column
- * row needs more width than `TwoColumnLayout`'s two-column `lg` breakpoint
- * allows before the middle column gets cramped — at which point section-nav,
- * narrative, and summary all follow in normal document order.
+ * Native document scrolling, same as `TwoColumnLayout` (see that file's
+ * comment for the full reasoning): both side columns are `position:
+ * sticky` (`top-20`, at `xl`+ — this shell's own column-collapse
+ * breakpoint, a three-column row needs more width before the middle
+ * column gets cramped, which is also why `TwoColumnLayout` and Home's own
+ * grid now share this same breakpoint instead of the narrower `lg` they
+ * used before), and the middle column is plain, unwrapped content — no
+ * nested scroll container, no wheel-event forwarding. The two hairline
+ * dividers are drawn on the middle column's own left/right edges, which
+ * stretches (ordinary CSS Grid `align-items: stretch`) to match the row's
+ * real height — normally set by the middle column's own long narrative
+ * anyway.
  *
- * The left column keeps the exact `0.87fr` share `TwoColumnLayout` uses, and
- * the middle+right columns together keep its `3fr` share, so the first
- * divider lines up with Home/About's own column boundary at `xl` and wider.
+ * Columns collapse to a single stacked flow below `xl`, where section-nav,
+ * narrative, and summary all follow in normal document order and the page
+ * scrolls normally, as before.
  */
+export const STICKY_COLUMN_XL =
+  "xl:sticky xl:top-20 xl:self-start xl:max-h-[calc(100dvh-5rem)] xl:overflow-y-auto";
+
 export default function CaseStudyLayout({
   left,
   middle,
@@ -35,19 +39,21 @@ export default function CaseStudyLayout({
   right: React.ReactNode;
 }) {
   return (
-    <div className="px-6 pb-24 sm:px-10">
-      <div className="grid grid-cols-1 gap-y-16 xl:grid-cols-[minmax(0,0.87fr)_minmax(0,2.1fr)_minmax(0,0.9fr)] xl:gap-y-0">
-        <div className={`xl:top-20 xl:self-start ${STICKY_GATE_XL}`}>
-          <div className="animate-fade-in flex flex-col gap-8 pt-10 xl:pt-12 xl:pr-8">
+    <div className="px-6 sm:px-10">
+      <div className={`grid grid-cols-1 gap-y-16 ${SITE_GRID_COLUMNS} xl:gap-y-0`}>
+        <div className={STICKY_COLUMN_XL}>
+          <div className="animate-fade-in flex flex-col gap-8 pt-10 xl:min-h-[calc(100dvh-5rem)] xl:pt-12 xl:pr-8 xl:pb-8">
             {left}
           </div>
         </div>
 
         <div className="xl:border-x xl:border-rule">
-          <div className="@container pt-10 xl:pt-12 xl:px-8">{middle}</div>
+          <div className="@container pt-10 pb-24 xl:pt-12 xl:px-8">
+            {middle}
+          </div>
         </div>
 
-        <div className={`xl:top-20 xl:self-start ${STICKY_GATE_XL}`}>
+        <div className={STICKY_COLUMN_XL}>
           <div className="animate-fade-in flex flex-col gap-8 pt-10 xl:pt-12 xl:pl-8">
             {right}
           </div>

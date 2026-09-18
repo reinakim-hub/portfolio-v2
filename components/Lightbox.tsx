@@ -19,6 +19,25 @@ type LightboxImage = {
    * the enlarged view a white backdrop so transparency (and any dark
    * annotations drawn on it) stays readable over the dark overlay. */
   pngBackground?: boolean;
+  /** Static vertical shift for a source image whose own visible content
+   * sits off-center within its canvas (baked-in uneven padding) — the
+   * lightbox counterpart to `CaseStudyFigure`'s `imageOffsetClassName`,
+   * forwarded here through `LightboxImage` so the enlarged view gets the
+   * same correction as the inline figure instead of showing the raw,
+   * unshifted asset. Applied to the `<Image>` itself as a plain CSS
+   * `transform` (e.g. `translate-y-[4%]`), which — being purely visual —
+   * doesn't affect the surrounding canvas box's own computed size: that
+   * box still sizes itself from the image's untransformed layout box, so
+   * it stays the same dimensions, aspect ratio, and centered position
+   * either way. The canvas's `overflow-hidden` (always present, not
+   * conditional) clips whatever the shift pushes past an edge; a
+   * percentage shift should stay within the asset's own known empty
+   * margin so nothing real gets clipped — see the call site for the
+   * specific measurement. Static framing, not a zoom/pan control — if
+   * pan/zoom is ever added, it should transform a further-nested wrapper
+   * rather than replace this one, so the two don't overwrite each
+   * other's `transform` value. */
+  offsetClassName?: string;
 };
 
 type OpenLightbox = (image: LightboxImage, trigger: HTMLElement | null) => void;
@@ -65,7 +84,9 @@ export function LightboxProvider({ children }: { children: React.ReactNode }) {
     // still moved `window.scrollY` with only `body` locked). Locking the
     // root element is what actually stops the scroll; `body` is kept
     // locked too for the same overflow-propagation reasons libraries
-    // conventionally lock both.
+    // conventionally lock both. The site has exactly one real scroll
+    // container — the document itself, native sticky sidebars, no nested
+    // scroll root — so this is the only lock needed.
     const previousHtmlOverflow = document.documentElement.style.overflow;
     const previousBodyOverflow = document.body.style.overflow;
     document.documentElement.style.overflow = "hidden";
@@ -100,7 +121,7 @@ export function LightboxProvider({ children }: { children: React.ReactNode }) {
           </button>
 
           <div
-            className={`relative max-h-[78vh] max-w-[92vw] ${image.pngBackground ? "bg-white" : ""}`}
+            className={`relative max-h-[78vh] max-w-[92vw] overflow-hidden ${image.pngBackground ? "bg-white" : ""}`}
             onClick={(event) => event.stopPropagation()}
           >
             <Image
@@ -109,7 +130,7 @@ export function LightboxProvider({ children }: { children: React.ReactNode }) {
               width={image.width}
               height={image.height}
               unoptimized={image.src.endsWith(".gif")}
-              className="max-h-[78vh] w-auto h-auto max-w-[92vw] object-contain"
+              className={`max-h-[78vh] w-auto h-auto max-w-[92vw] object-contain ${image.offsetClassName ?? ""}`}
             />
           </div>
 

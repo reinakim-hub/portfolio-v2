@@ -8,12 +8,13 @@ const CONTACT_LINKS = [
 ];
 
 const contactLinkStyle =
-  "text-muted underline-offset-4 hover:text-ink hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
+  "text-muted underline-offset-4 hover:text-accent hover:underline focus-visible:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 
 /**
  * The quiet email + LinkedIn list used at the bottom of a left-column
- * sidebar. Shared between Home and About so both stay in sync — Resume
- * lives in `SiteHeader`'s nav now, so it isn't repeated here.
+ * sidebar. Shared between Home, About, and AI Lab so all three stay in
+ * sync — Resume lives in `SiteHeader`'s nav now, so it isn't repeated
+ * here.
  */
 export default function ContactLinks() {
   return (

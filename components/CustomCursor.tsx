@@ -12,6 +12,14 @@ const INTERACTIVE_SELECTOR =
 // anything inside them.
 const CURSOR_EXCLUDE_SELECTOR = "[data-cc-cursor-exclude]";
 
+// Home-only: the SAP/Nokia thumbnail links (`ProjectHighlight`'s
+// `whiteCursorRing` prop) mark themselves with this attribute so the
+// ring's stroke swaps to white while hovering/focusing them or any
+// descendant — see `.cc-cursor-dot--white` in globals.css. Independent
+// of `CURSOR_EXCLUDE_SELECTOR`/`INTERACTIVE_SELECTOR`: this only ever
+// changes the ring's color, never whether it shows at all.
+const CURSOR_WHITE_SELECTOR = "[data-cc-cursor-white]";
+
 /**
  * A shared decorative dot that follows the (still fully visible) native
  * cursor with a ~70ms trailing lag (a CSS `transition` on the positioning
@@ -67,12 +75,15 @@ export default function CustomCursor() {
       const isExcluded = !!target?.closest(CURSOR_EXCLUDE_SELECTOR);
       const isInteractive =
         !isExcluded && !!target?.closest(INTERACTIVE_SELECTOR);
+      const isWhite = !!target?.closest(CURSOR_WHITE_SELECTOR);
       dot.classList.toggle("cc-cursor-dot--active", isInteractive);
+      dot.classList.toggle("cc-cursor-dot--white", isWhite);
     };
 
     const onMove = (e: MouseEvent) => {
-      target = { x: e.clientX, y: e.clientY };
       setActive(e.target);
+      target = { x: e.clientX, y: e.clientY };
+
       if (!shown) {
         shown = true;
         // Snap to the first known position instead of transitioning in

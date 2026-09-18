@@ -3,7 +3,7 @@ import EyebrowLabel from "./EyebrowLabel";
 import ProseColumn from "./ProseColumn";
 
 const linkStyle =
-  "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent";
+  "focus-visible:text-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent";
 
 /**
  * Closes out a case study's middle-column narrative: a quiet "Next case
@@ -19,6 +19,12 @@ const linkStyle =
  *
  * `next` is omitted for the last case study in the site's project order —
  * only "All work" renders then, with no empty "next case study" label.
+ *
+ * `xl:hidden`: from `xl` up, `CaseStudySidebar` renders this same
+ * navigation itself (compact, pinned toward the left sidebar's bottom
+ * edge) — see its own doc comment. This instance stays visible below `xl`
+ * (after the narrative, its original position) so exactly one accessible
+ * instance of the navigation exists at any given breakpoint, never both.
  */
 export default function CaseStudyNextNav({
   next,
@@ -26,13 +32,13 @@ export default function CaseStudyNextNav({
   next?: { label: string; href: string };
 }) {
   return (
-    <ProseColumn className="mt-12 border-t border-rule pt-8">
+    <ProseColumn className="mt-12 border-t border-rule pt-8 xl:hidden">
       {next && (
         <div>
           <EyebrowLabel>Next case study</EyebrowLabel>
           <Link
             href={next.href}
-            className={`mt-3 inline-flex items-center gap-2 font-heading text-3xl font-extrabold tracking-tight text-ink hover:text-accent ${linkStyle}`}
+            className={`mt-3 inline-flex items-center gap-2 font-heading text-3xl font-extrabold tracking-tight text-ink underline-offset-4 hover:text-accent hover:underline ${linkStyle}`}
           >
             {next.label}
             <span aria-hidden="true">→</span>
@@ -41,7 +47,7 @@ export default function CaseStudyNextNav({
       )}
       <Link
         href="/#projects"
-        className={`inline-block text-sm text-muted underline-offset-4 hover:text-ink hover:underline ${linkStyle} ${next ? "mt-6" : ""}`}
+        className={`inline-block text-sm text-muted underline-offset-4 hover:text-accent hover:underline ${linkStyle} ${next ? "mt-6" : ""}`}
       >
         All work
       </Link>

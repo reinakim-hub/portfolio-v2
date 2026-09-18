@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import CaseStudySidebar from "@/components/CaseStudySidebar";
+import CaseStudySummary, { NDA_NOTE_TEXT } from "@/components/CaseStudySummary";
 import CaseStudyFigure from "@/components/CaseStudyFigure";
-import CaseStudySummary from "@/components/CaseStudySummary";
-import CalloutNote from "@/components/CalloutNote";
+import CaseStudyOpening from "@/components/CaseStudyOpening";
 import CaseStudySection from "@/components/CaseStudySection";
 import CaseStudyNextNav from "@/components/CaseStudyNextNav";
 import ImageGallery from "@/components/ImageGallery";
@@ -35,75 +35,80 @@ export default function Sap() {
             { label: "Tools", value: "Figma, FigJam, Jira, Claude" },
           ]}
           sections={SECTIONS}
+          nextCaseStudy={{ label: "Nokia", href: "/nokia" }}
         />
       }
       right={
         <CaseStudySummary
           challenge={
             <>
-              Several SAP products relied on legacy or custom-built UX
-              patterns that no longer aligned with current design-system
-              guidance, but still supported product-specific requirements
-              that couldn&rsquo;t simply be removed.
+              Several SAP products relied on legacy UX patterns that no
+              longer matched design-system guidance but still met real
+              product needs.
             </>
           }
           solution={
             <>
-              I audited existing patterns across SAP Analytics Cloud,
-              Datasphere, and Business Data Cloud, aligned on shared
-              solutions with product leads, and delivered the Figma
-              components, developer specs, and accessibility guidance teams
-              needed to implement them consistently.
+              I audited existing patterns, aligned on shared solutions with
+              product leads, and delivered the Figma components and specs
+              teams needed to implement them consistently.
             </>
           }
+          ndaNote={NDA_NOTE_TEXT}
         />
       }
       middle={
         <>
-          <Reveal>
-            <ProseColumn>
-              <p className="font-heading text-2xl leading-snug font-bold text-ink sm:text-3xl">
-                Aligning scalable UX patterns across complex data products
-              </p>
-              <div className="mt-6 space-y-4 text-body">
-                <p>
-                  During my 13-month UX Design internship, I worked on
-                  SAP’s Data & Analytics Design System team, supporting SAP
-                  Analytics Cloud, SAP Datasphere, and SAP Business Data Cloud.
-                </p>
-                <p>
-                  My work focused on aligning UX patterns across products,
-                  creating scalable Figma components and guidelines, and
-                  preparing developer specs and accessibility requirements.
-                </p>
-                <p>
-                  I collaborated with product designers, developers, PMs, and
-                  the central design system team to balance cross-product
-                  consistency with the needs of complex, data-heavy workflows.
-                </p>
-              </div>
-            </ProseColumn>
-            <ProseColumn className="mt-8">
-              <CaseStudyFigure
-                src="/images/sap-dashboard.webp"
-                alt="SAP Analytics Cloud example dashboard using the Fiori Light theme"
-                width={1653}
-                height={1122}
-                imageBg="bg-[#f4f6f7]"
-              />
-            </ProseColumn>
-          </Reveal>
+          {/* Opening: the approved `sap-dashboard.webp` case-study hero —
+              a real screenshot of a data modeling workflow, with
+              sensitive labels/values blurred per the NDA note in the
+              sidebar — shown at its own natural size via `fullBleed`,
+              followed by the shared "Scroll to view more" cue. See
+              `CaseStudyOpening` for the fill-the-first-screen mechanism,
+              established on `/nokia` and reused here. */}
+          <CaseStudyOpening>
+            <CaseStudyFigure
+              src="/images/sap-dashboard.webp"
+              alt="SAP data modeling workflow showing a table join and local table properties panel, with sensitive labels blurred"
+              width={1440}
+              height={803}
+              imageBg="bg-white"
+              fullBleed
+            />
+          </CaseStudyOpening>
 
-          <div className="mt-16">
-            <Reveal>
-              <CalloutNote
-                label="NDA Note"
-                paragraphs={[
-                  "Some details and visuals have been simplified or replaced with public examples due to NDA restrictions. I’m happy to discuss my process and contributions in more detail during an interview.",
-                ]}
-              />
+          {/* Introduction — same typography, reading width, and entrance
+              behavior as every other case study's opening heading/body
+              (see `/nokia`'s equivalent block): a bold heading-style line
+              plus supporting paragraphs, wrapped in `Reveal` since it now
+              starts below the first screen instead of being immediately
+              visible. Copy is unchanged from the previous text-only
+              opening — only the typography and structure changed to
+              match the shared pattern. */}
+          <section id="introduction" className="scroll-mt-24">
+            <Reveal className="mt-14">
+              <ProseColumn>
+                <p className="font-heading text-2xl leading-snug font-bold text-ink sm:text-3xl">
+                  Aligning scalable UX patterns across complex data products
+                </p>
+                <div className="mt-6 space-y-4 text-body">
+                  <p>
+                    During my 13-month UX Design internship, I worked on
+                    SAP’s Data & Analytics Design System team, supporting SAP
+                    Analytics Cloud, SAP Datasphere, and SAP Business Data Cloud.
+                  </p>
+                  <p>
+                    I aligned UX patterns across these products, creating
+                    scalable Figma components, developer specs, and
+                    accessibility guidelines — working closely with product
+                    designers, developers, PMs, and the central design system
+                    team to balance cross-product consistency with each
+                    product’s own workflow needs.
+                  </p>
+                </div>
+              </ProseColumn>
             </Reveal>
-          </div>
+          </section>
 
           <div className="mt-16">
             <Reveal>
@@ -193,7 +198,7 @@ export default function Sap() {
                     alt="SAP Fiori dashboard mockups showing light and dark theme components"
                     width={1200}
                     height={701}
-                    className="h-auto w-full object-contain"
+                    className="case-study-image"
                   />
                 </ProseColumn>
 

@@ -6,6 +6,30 @@
   color-scheme: light;
 }
 
+/* Stable scrollbar gutter
+   ------------------------------------------------------------------
+   Reserves the vertical scrollbar's own width on every route, whether
+   that route's content actually overflows or not — the real, measured
+   cause of the shared three-column shell's divider positions drifting
+   between routes (see the "Nokia as source of truth" and later
+   diagnosis changelog entries in PROJECT_STATUS.md). Home, About, and AI
+   Lab are short enough to fit one viewport with no vertical scrollbar;
+   every case study is long enough that its page genuinely scrolls. With
+   no gutter reservation, a route with no scrollbar gets a ~15–17px-wider
+   viewport (`window.innerWidth`, unaffected either way) to lay its grid
+   out in than a route whose real scrollbar eats into that width, so the
+   *same* `fr` proportions resolved to different px values and the
+   divider after the left column landed a few px apart between routes at
+   an otherwise-identical window width. `scrollbar-gutter: stable`
+   reserves that space unconditionally — it does not force a scrollbar
+   to render, so Home's genuine one-screen, no-scroll layout is
+   unaffected; it only stops that reserved gutter from silently coming
+   and going (and taking layout width with it) depending on whether a
+   given route happens to scroll. */
+html {
+  scrollbar-gutter: stable;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -95,6 +119,98 @@ body {
   }
 }
 
+/* Home's initial entrance sequence
+   ------------------------------------------------------------------
+   `.home-reveal`: applied only in `app/page.tsx`, to ten content groups
+   in reveal order (name/role, introduction, photo, "Selected work"
+   label, the SAP card, the Nokia card, "Academic projects" label, the
+   Simplii card, the SSFB card, then contacts/availability together) —
+   opacity 0→1 plus an upward `0.5rem`→`0` shift, 500ms ease-out, each
+   instance carrying its own `animation-delay` via Tailwind's arbitrary
+   `[animation-delay:_Nms]` (0ms, 150ms, ... 1350ms, one 150ms step per
+   group) so the whole sequence finishes at 1350ms + 500ms = 1850ms,
+   under the ~2s target. `animation-fill-mode: both` holds the *from*
+   state during an instance's own delay (so nothing flashes visible
+   before its turn) and the *to* state afterward.
+
+   Pure CSS, no JS or IntersectionObserver: the animation plays once,
+   automatically, the instant each element is first painted (on Home's
+   initial mount) — a React re-render never restarts it (the DOM node
+   persists across a re-render; only unmounting and remounting the node
+   would), and hover/resize never touch these classes at all, so neither
+   can retrigger it either. `transform` only, so it can never affect
+   layout/height or shift surrounding content — each group already
+   occupies its normal document-flow position throughout; only its
+   opacity/position-within-that-space animate. It also always targets a
+   *different* element than any hover transform in the same group (this
+   class sits on the outer group wrapper — the project card's own
+   `<article>`, or `HoverExpandPhoto`'s reserved outer box — never on
+   `.hover-zoom`'s inner `<img>` or `.hover-expand-frame`'s inner frame,
+   which animate their own hover transform independently), so the two
+   can never fight over the same `transform`.
+
+   A keyboard user tabbing quickly can reach a link inside a group
+   before that group's own delay has elapsed, while it's still
+   `opacity: 0` — `:focus-within` cancels the animation the instant
+   focus lands anywhere inside the group, snapping it to fully visible
+   immediately rather than leaving focused content invisible. */
+@keyframes home-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.home-reveal {
+  animation: home-reveal 500ms ease-out both;
+}
+
+.home-reveal:focus-within {
+  animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-reveal {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Scroll cue (Nokia case-study opening only)
+   ------------------------------------------------------------------
+   `.scroll-cue-arrow`: a gentle, indefinitely-repeating vertical nudge on
+   just the downward-arrow icon below "Scroll to read more" — the text
+   itself never animates. Scoped to the arrow alone (not the whole link)
+   so the movement reads as a soft affordance rather than distracting
+   motion on the accessible label text. `transform` only — color,
+   opacity, and size all stay constant, and since a transform never
+   participates in layout, the label and surrounding spacing can't shift
+   as the arrow moves. */
+@keyframes scroll-cue-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(0.25rem);
+  }
+}
+
+.scroll-cue-arrow {
+  animation: scroll-cue-bounce 1.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue-arrow {
+    animation: none;
+  }
+}
+
 /* Custom cursor
    ------------------------------------------------------------------
    `components/CustomCursor.tsx` bails out entirely (no DOM, no listeners)
@@ -153,6 +269,18 @@ body {
   border-width: 1px;
 }
 
+/* Home-only exception (see `ProjectHighlight`'s `whiteCursorRing` prop,
+   scoped to the SAP/Nokia thumbnail links): swaps just the ring's stroke
+   color to white while hovering/focusing one of those links or anything
+   inside them — their thumbnails are a solid brand-blue field the
+   default blue ring would nearly disappear against. Only `border-color`
+   changes; size, transparent fill, stroke width, and the existing
+   transition are all untouched, and this has no effect at rest (the
+   solid dot has no visible stroke until `--active` sets `border-width`). */
+.cc-cursor-dot--white {
+  border-color: #ffffff;
+}
+
 /* Shared image hover/focus treatment
    ------------------------------------------------------------------
    One definition, reused by any frame that should zoom out and dim its
@@ -189,5 +317,114 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .hover-zoom img {
     transition: none;
+  }
+}
+
+/* Shared hover-to-expand sidebar photo (Home only)
+   ------------------------------------------------------------------
+   Used by `components/HoverExpandPhoto.tsx` — Reina's portrait: a small
+   inner frame (150×200, set inline on the component) grows to fill its
+   reserved outer box (see that component's own comment for why the
+   outer box is `aspect-[3/4]` rather than a fixed height) on hover,
+   shrinking back on pointer leave. `width`/`height` are the only
+   properties that ever change; the outer reserved box itself never does,
+   so hovering can't shift the intro paragraph above it or `ContactLinks`
+   below it.
+
+   Gated behind `(hover: hover) and (pointer: fine)` — real mouse/trackpad
+   hover only. On a touch device this rule doesn't exist at all, so the
+   frame simply always renders at its small default size; there's no
+   `:hover`-triggered state to ever get stuck after a tap. */
+@media (hover: hover) and (pointer: fine) {
+  .hover-expand-frame {
+    transition:
+      width 350ms ease-in-out,
+      height 350ms ease-in-out;
+  }
+
+  .hover-expand:hover .hover-expand-frame {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hover-expand-frame {
+    transition: none;
+  }
+}
+
+/* Case-study body image size cap
+   ------------------------------------------------------------------
+   Shared by every case-study body image rendered through `LightboxImage`
+   (directly, or via `CaseStudyFigure`/`ImageGallery`): caps how tall an
+   image can render at to the smaller of 480px or 60% of the viewport's
+   small height (`60svh`), so an oversized source image (e.g. a tall
+   portrait screenshot) never dwarfs the surrounding case-study prose,
+   even on a short viewport.
+
+   The element keeps its normal `width: 100%` (matching the reading-width
+   wrapper) and only `height`/`max-height` are constrained — deliberately
+   NOT `width: auto` with `height: auto`, which was tried first and found
+   to break `next/image`'s native lazy-loading: with both dimensions
+   `auto`, the `<img>` has no definite box size until the browser already
+   knows the real decoded image size, so it collapses to 0×0 and Chrome's
+   lazy-loader (which needs a real geometry to test against the viewport)
+   never fires the fetch — the image simply never loads. Keeping `width:
+   100%` gives the element a definite box (and correct native lazy-load
+   behavior) from the very first layout pass, using only the image's
+   `width`/`height` HTML attributes (which the browser maps to an intrinsic
+   `aspect-ratio` before the resource itself has even started loading).
+
+   `object-fit: contain` then does the actual scaling: within that
+   full-width, height-capped box, the image itself scales down
+   proportionally and centers (browsers default `object-position` to
+   center) — the same pillarboxing technique already used by the homepage
+   `ProjectHighlight` frames. Nothing is cropped, stretched, or upscaled.
+   The element's own box (and so its wrapper, which carries no separate
+   height rule) is already exactly the capped height, so there's never any
+   leftover fixed-height space to trim. An image that's already shorter
+   than the cap at its wrapper's width never reaches `max-height`, so its
+   `height: auto` renders exactly as it did before this rule existed.
+
+   Deliberately not used by the `CaseStudyFigure` `imageOffsetClassName`
+   branch (currently only Simplii Financial's intro figure) — that frame
+   locks its aspect ratio and uses `object-cover` plus a translate shift to
+   fix a source image's own off-center content, a different, more delicate
+   mechanism than a plain proportional scale-down. */
+.case-study-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: min(480px, 60svh);
+  object-fit: contain;
+}
+
+/* Pale-gray screenshot presentation frame
+   ------------------------------------------------------------------
+   Opt-in, per-image treatment — not automatic — for a screenshot whose
+   own background is white or near-white and would otherwise blend into
+   the surrounding white page. Adds a pale, neutral backdrop plus padding
+   around the image so its edges stay visible against the page. Square
+   corners, no shadow, no border: this is a background-and-padding
+   treatment only. `ImageGallery`'s per-image `frame` field and
+   `CaseStudyFigure`'s `frame` prop apply this only to the specific
+   images that need it (currently the two Figma-prototype screenshots on
+   `/simpliifinancial`) — most images don't pass it and render exactly as
+   before. The frame sits on the same wrapper that already establishes
+   the figure's outer box, so that box's own edges (aligned with the
+   surrounding `ProseColumn` reading width) are unchanged; only the image
+   inside shrinks to fit within the added padding, scaling down
+   proportionally with no cropping. Inline presentation only — the
+   lightbox's own enlarged view, and its white backdrop for
+   transparent-PNG sources, are untouched by this. */
+.screenshot-frame {
+  background-color: #f5f5f5;
+  padding: 0.75rem; /* 12px */
+}
+
+@media (min-width: 640px) {
+  .screenshot-frame {
+    padding: 1rem; /* 16px */
   }
 }

@@ -1,85 +1,111 @@
 import Image from "next/image";
 import Link from "next/link";
-import EyebrowLabel from "./EyebrowLabel";
 
 /**
- * A single project entry on the homepage: company name and work-focused
- * title first (plain, non-interactive text — so the work is identifiable
- * before the image loads), then a large 16:10 image, a short summary, an
- * optional meta line, and a "View case study" call to action. The image is
- * contained rather than cropped, so `imageBg` should match the artwork's
- * own background for a seamless frame.
+ * A single project entry on the homepage: the thumbnail first, then a
+ * compact one-line caption (company/project name plus a short work
+ * descriptor, separated by a middle dot), then a quiet "View case study"
+ * link. No large heading, no separate descriptive headline, no
+ * paragraph-length summary or meta row — those live on the corresponding
+ * case-study page instead, not duplicated here. The image is contained
+ * rather than cropped, so `imageBg` should match the artwork's own
+ * background for a seamless frame.
+ *
+ * The caption is a real `<h3>` for semantic structure even though it's
+ * visually small — `company` renders at medium weight, `descriptor` at
+ * regular weight in the shared secondary text color, both on one baseline
+ * so they read as a single caption rather than two competing labels. It's
+ * plain, non-interactive text, wrapping naturally with no truncation.
+ *
+ * `imageFit` (default `"contain"`) picks the `<Image>`'s `object-fit`.
+ * `"cover"` is for a source whose own canvas aspect is close enough to
+ * the frame's that filling edge-to-edge crops only the artwork's own
+ * background, never its subject — used by the SAP/Nokia cards, whose
+ * source images are a solid brand-color field with a small, centered
+ * logo mark, so cropping the field never touches the logo itself. Every
+ * other card keeps the default `"contain"`, where `imageBg` matters (see
+ * above).
  *
  * Only two things are interactive, as separate sibling links to the same
  * `href`: the thumbnail image frame, and the "View case study" CTA below
- * the description. There's no card-wide wrapper link, stretched-link
- * overlay, or click handler — the company name, title, description, meta,
- * and surrounding whitespace are all plain text, not part of any link.
- * Each link gets its own descriptive `aria-label` (the image has no text
- * of its own to announce; the CTA's visible text repeats on every card, so
- * a screen reader navigating by links list would otherwise hear the same
- * name four times).
+ * the caption. There's no card-wide wrapper link, stretched-link overlay,
+ * or click handler — the caption and surrounding whitespace are not part
+ * of any link. Each link gets its own descriptive `aria-label`.
  *
  * Hover/focus feedback lives entirely on the `<Image>` itself, via the
  * shared `.hover-zoom` style (see `globals.css` — also used by the About
  * portrait) applied to the thumbnail link: the frame stays stationary
  * (`overflow: hidden`, from `.hover-zoom` itself) and only the image
- * transforms, scoped to this link alone, so hovering or focusing the
- * summary, CTA, or anywhere else on the card has no effect on it.
+ * transforms, scoped to this link alone.
  *
  * `imageOffsetClassName` (optional) applies a static transform to a thin
  * wrapper div between the frame and the `<Image>` — for a source asset
- * whose own visible content sits off-center within its canvas (uneven
- * baked-in padding), when `object-position` has no room to work because
- * the image already touches the frame on that axis. Kept on its own
- * wrapper, never on the `<Image>` itself, so it can never combine with or
- * fight `.hover-zoom`'s hover-driven `scale`/`brightness` transform on the
- * image. The frame's own background (`imageBg`) shows through the gap this
- * opens up on the opposite edge, exactly as it already shows through the
- * source's transparent margins, so no separate fill color is needed.
+ * whose own visible content sits off-center within its canvas. Kept on
+ * its own wrapper, never on the `<Image>` itself, so it can never combine
+ * with or fight `.hover-zoom`'s hover-driven transform on the image.
+ *
+ * `whiteCursorRing` (optional) marks the thumbnail link (and only that
+ * link — never the CTA below it) with `data-cc-cursor-white`, which
+ * `CustomCursor` reads to swap the decorative cursor ring's stroke to
+ * white while hovering/focusing it or anything inside it (see
+ * `.cc-cursor-dot--white` in globals.css) — for a thumbnail whose own
+ * background is close enough to the ring's default brand-blue that the
+ * ring would otherwise nearly disappear against it. Currently only the
+ * SAP and Nokia cards on Home pass this.
+ *
+ * Thumbnail sizing is gated on two conditions together, not just the `xl`
+ * viewport breakpoint alone: `xl:@min-[620px]:aspect-auto` only cancels
+ * the default `aspect-[16/10]` (in favor of `imageHeightClassName` — one
+ * literal calc() height, shared by every call site on Home, see
+ * `app/page.tsx`'s `THUMBNAIL_HEIGHT`) once the viewport is `xl`+ *and*
+ * the project column's own container has reached the same `620px` this
+ * card's parent grid needs to actually go two-up (`PROJECT_GRID`'s
+ * `@min-[620px]:grid-cols-2` in `app/page.tsx`). Below either threshold —
+ * including a real, verified gap at exactly `xl` (1280px) wide, where the
+ * project column is still only ~582px, under the two-up grid's own
+ * container-query threshold, so cards render one-per-row — the frame
+ * falls back to the ordinary `aspect-[16/10]` sizing every card already
+ * uses on mobile, rather than reserving a fixed calc() height that
+ * assumes a two-row grid that isn't actually there. That fixed height
+ * only ever makes sense once both conditions hold; combining them is
+ * what actually keeps Home's one-screen desktop layout accurate rather
+ * than assuming they always agree. `object-contain` on the `<Image>`
+ * means this never stretches or crops the artwork itself — a frame shape
+ * further from 16:10 just letterboxes more visibly against `imageBg`,
+ * exactly as an unusually-shaped source image already does today.
  */
 export default function ProjectHighlight({
   href,
   company,
-  title,
-  summary,
-  meta,
+  descriptor,
   image,
   imageBg,
+  imageFit = "contain",
   imageOffsetClassName,
+  imageHeightClassName,
   priority = false,
   cta = "View case study",
+  whiteCursorRing = false,
 }: {
   href: string;
   company: string;
-  title: string;
-  summary: string;
-  meta?: string[];
+  descriptor: string;
   image: string;
   imageBg?: string;
+  imageFit?: "contain" | "cover";
   imageOffsetClassName?: string;
+  imageHeightClassName?: string;
   priority?: boolean;
   cta?: string;
+  whiteCursorRing?: boolean;
 }) {
   return (
-    <article className="flex flex-col">
-      {/* min-height only from the 2-up breakpoint up, matched to fit the
-          longest heading among the four projects at two lines — so both
-          cards' thumbnails start at the same y regardless of whether a
-          given title wraps to one line or two. No min-height below that
-          breakpoint: on mobile the cards stack, so nothing needs to line
-          up, and the heading returns to its natural height. */}
-      <div className="@min-[752px]:min-h-[104px]">
-        <EyebrowLabel as="p">{company}</EyebrowLabel>
-        <h3 className="mt-2 text-xl leading-snug font-bold text-ink sm:text-2xl">
-          {title}
-        </h3>
-      </div>
-
+    <article>
       <Link
         href={href}
-        aria-label={`${company} — ${title}`}
-        className={`hover-zoom mt-5 block aspect-[16/10] border border-rule focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent ${imageBg ?? "bg-neutral-50"}`}
+        aria-label={`${company} — ${descriptor}`}
+        {...(whiteCursorRing ? { "data-cc-cursor-white": "" } : {})}
+        className={`hover-zoom block aspect-[16/10] border border-rule focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent xl:@min-[620px]:aspect-auto ${imageHeightClassName ?? ""} ${imageBg ?? "bg-neutral-50"}`}
       >
         <div className={`h-full w-full ${imageOffsetClassName ?? ""}`}>
           <Image
@@ -89,20 +115,37 @@ export default function ProjectHighlight({
             height={750}
             priority={priority}
             unoptimized={image.endsWith(".gif")}
-            sizes="(min-width: 1024px) 33vw, 100vw"
-            className="h-full w-full object-contain"
+            sizes="(min-width: 1280px) 33vw, 100vw"
+            className={`h-full w-full ${imageFit === "cover" ? "object-cover" : "object-contain"}`}
           />
         </div>
       </Link>
 
-      <p className="mt-4 text-lg leading-relaxed text-body">{summary}</p>
-      {meta && meta.length > 0 && (
-        <p className="mt-4 text-sm text-muted">{meta.join(" · ")}</p>
-      )}
+      {/* `xl:@min-[620px]:min-h-[41.25px]` reserves exactly two lines of
+          caption text (15px / `leading-snug` = 1.375 → 20.625px × 2) —
+          gated on the same combined condition as the frame's own
+          `aspect-auto` above, since it only matters once cards are
+          actually two-up in the same CSS Grid row (e.g. "Strange Sounds
+          from Beyond · Branding & microsite" only wraps at narrower
+          desktop widths). Without this, a one-line caption next to a
+          two-line one in the same grid row let CSS Grid's default
+          `align-items: stretch` grow the whole row — and so Home's
+          shared `THUMBNAIL_HEIGHT` reserved-space budget — inconsistently
+          by breakpoint. Reserving the worst case unconditionally (once
+          two-up) keeps every row's real height, and so
+          `THUMBNAIL_HEIGHT`'s own math, constant regardless of how any
+          one caption happens to wrap. */}
+      <h3 className="mt-3 text-[15px] leading-snug text-ink xl:@min-[620px]:min-h-[41.25px]">
+        <span className="font-medium">{company}</span>
+        <span className="ml-1.5 text-sm font-normal text-muted">
+          · {descriptor}
+        </span>
+      </h3>
+
       <Link
         href={href}
-        aria-label={`${cta}: ${title}`}
-        className="mt-5 inline-block w-fit text-base font-semibold text-accent underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        aria-label={`${cta}: ${company}`}
+        className="mt-2 inline-block w-fit text-sm font-normal text-accent underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
       >
         {cta} →
       </Link>

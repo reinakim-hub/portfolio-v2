@@ -28,9 +28,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full">
         {/* If JS is disabled, force scroll-reveal content back to visible —
-            see `.reveal-up` in globals.css and components/Reveal.tsx. */}
+            see `.reveal-up` in globals.css and components/Reveal.tsx.
+            `.home-reveal` (Home's staggered entrance, see globals.css) is
+            pure CSS and plays on its own with no JS dependency, but it's
+            included here too so a no-JS visitor sees everything
+            immediately rather than waiting out the ~1.85s sequence. */}
         <noscript>
-          <style>{".reveal-up { opacity: 1 !important; transform: none !important; }"}</style>
+          <style>{".reveal-up, .home-reveal { opacity: 1 !important; transform: none !important; animation: none !important; }"}</style>
         </noscript>
         <CustomCursor />
         <SiteHeader />

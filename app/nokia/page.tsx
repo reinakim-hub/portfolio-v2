@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import CaseStudySidebar from "@/components/CaseStudySidebar";
 import CaseStudyFigure from "@/components/CaseStudyFigure";
+import CaseStudyOpening from "@/components/CaseStudyOpening";
 import CaseStudySection from "@/components/CaseStudySection";
 import CaseStudyNextNav from "@/components/CaseStudyNextNav";
-import CaseStudySummary from "@/components/CaseStudySummary";
-import CalloutNote from "@/components/CalloutNote";
+import CaseStudySummary, { NDA_NOTE_TEXT } from "@/components/CaseStudySummary";
 import ProseColumn from "@/components/ProseColumn";
 import Reveal from "@/components/Reveal";
 import CaseStudyLayout from "@/components/CaseStudyLayout";
@@ -35,6 +35,7 @@ export default function Nokia() {
             },
           ]}
           sections={SECTIONS}
+          nextCaseStudy={{ label: "Simplii Financial", href: "/simpliifinancial" }}
         />
       }
       right={
@@ -56,72 +57,75 @@ export default function Nokia() {
               documentation that fit the existing system.
             </>
           }
+          ndaNote={NDA_NOTE_TEXT}
         />
       }
       middle={
         <>
-          <Reveal>
-            <ProseColumn>
-              <p className="whitespace-pre-line font-heading text-2xl leading-snug font-bold text-ink sm:text-3xl">
-                Building accessible, scalable, and innovative design system for
-                designers
-              </p>
-              <div className="mt-6 space-y-4 text-body">
-                <p>
-                  Nokia is a global leader in telecommunications and networking
-                  technology, driving innovation in 5G, cloud infrastructure,
-                  IoT, and digital health.
-                </p>
-                <p>
-                  As a Junior UX Designer, I have collaborated with a dynamic
-                  team of developers and designers to create and maintain the
-                  internal design system for multiple Nokia digital products.
-                </p>
-                <p>
-                  My primary role involved{" "}
-                    ensuring accessibility compliance
-                  {" "}
-                  with WCAG standards, managing the{" "}
-                    icon library,
-                  documenting new patterns and{" "}
-                    guidelines for AI
-                  {" "}
-                  products, and conducting{" "}
-                    design audits.
-                </p>
-              </div>
-            </ProseColumn>
-            <ProseColumn className="mt-8">
-              <CaseStudyFigure
-                src="/images/nokia-hero.webp"
-                alt="Nokia Design System wordmark above dashboard components in light and dark themes"
-                width={1139}
-                height={667}
-              />
-            </ProseColumn>
-          </Reveal>
+          {/* Opening: the restored `nokia-hero.webp` collage (unchanged —
+              the complete original asset, full "NOKIA Design System"
+              heading, both dashboard screenshots, white canvas, square
+              corners, shown at its full natural aspect ratio via
+              `fullBleed`) followed by the shared "Scroll to view more"
+              cue — see `CaseStudyOpening` for the fill-the-first-screen
+              mechanism this page established and every other case study
+              now reuses. */}
+          <CaseStudyOpening>
+            <CaseStudyFigure
+              src="/images/nokia-hero.webp"
+              alt="Nokia Design System heading above two product dashboard screenshots"
+              width={1139}
+              height={667}
+              imageBg="bg-white"
+              fullBleed
+            />
+          </CaseStudyOpening>
 
-          <div className="mt-16">
-            <Reveal>
-              <CalloutNote
-                label="Note"
-                paragraphs={[
-                  "Due to NDA restrictions, this case study highlights the key tasks I contributed to during my co-op experience at a high level.",
-                  <>
-                    If you&rsquo;d like more details about my work, feel free
-                    to contact me via{" "}
-                    <a
-                      href="mailto:reinakim1221@gmail.com"
-                      className="underline hover:no-underline"
-                    >
-                      email
-                    </a>
-                    !
-                  </>,
-                ]}
-              />
+          {/* Introduction — unchanged copy, just now below the opening
+              above instead of directly under the image. `id`/
+              `scroll-mt-24` on this wrapper (not on `Reveal`, which
+              doesn't take an `id` prop) is the cue's own anchor target,
+              matching the same `id`+`scroll-mt-24` pattern already used
+              for every other in-page section link on this page (see
+              `SECTIONS` above). Still wrapped in the same `Reveal` every
+              other below-the-fold section on this page already uses —
+              not a new opacity-hiding mechanism, the ordinary
+              scroll-into-view fade already established sitewide, now
+              simply reached one screen later than before. */}
+          <section id="introduction" className="scroll-mt-24">
+            <Reveal className="mt-14">
+              <ProseColumn>
+                <p className="whitespace-pre-line font-heading text-2xl leading-snug font-bold text-ink sm:text-3xl">
+                  Building accessible, scalable, and innovative design system for
+                  designers
+                </p>
+                <div className="mt-6 space-y-4 text-body">
+                  <p>
+                    Nokia is a global leader in telecommunications and networking
+                    technology, driving innovation in 5G, cloud infrastructure,
+                    IoT, and digital health.
+                  </p>
+                  <p>
+                    As a Junior UX Designer, I have collaborated with a dynamic
+                    team of developers and designers to create and maintain the
+                    internal design system for multiple Nokia digital products.
+                  </p>
+                  <p>
+                    My primary role involved{" "}
+                      ensuring accessibility compliance
+                    {" "}
+                    with WCAG standards, managing the{" "}
+                      icon library,
+                    documenting new patterns and{" "}
+                      guidelines for AI
+                    {" "}
+                    products, and conducting{" "}
+                      design audits.
+                  </p>
+                </div>
+              </ProseColumn>
             </Reveal>
-          </div>
+          </section>
 
           <div className="mt-16">
             <Reveal>
