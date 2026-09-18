@@ -26,10 +26,11 @@ import { SITE_GRID_COLUMNS } from "@/components/siteGrid";
 // scrollbar and wheel/keyboard/touch scrolling apply everywhere on the
 // page, over any column. Below `xl`, all three stack in normal document
 // flow.
-const HOME_GRID = `grid grid-cols-1 gap-y-20 ${SITE_GRID_COLUMNS} xl:gap-y-0`;
+const HOME_GRID = `grid grid-cols-1 gap-y-16 ${SITE_GRID_COLUMNS} xl:gap-y-0`;
 
-// Shared by the left and middle columns so their content starts at the
-// same y below the fixed header. Matches the shared shell's own default
+// Desktop columns start at the same y below the fixed header. The stacked
+// project section uses the grid gap without additional top padding.
+// Matches the shared shell's own default
 // top padding (`TwoColumnLayout`/`CaseStudyLayout`, both `pt-10 xl:pt-12`)
 // instead of a smaller, Home-only value, so vertical rhythm lines up with
 // every other route too.
@@ -49,11 +50,11 @@ const BOTTOM_PADDING = "xl:pb-8";
 // `@min-[…]:` queries below measure this div's actual rendered width (set
 // by the middle grid column itself); `xl:px-8` (32px) is the breathing
 // room from the middle column's own dividers on both sides.
-const PROJECT_SECTIONS_WRAPPER = `@container ${TOP_PADDING} px-5 pb-10 sm:px-6 xl:px-8 ${BOTTOM_PADDING}`;
+const PROJECT_SECTIONS_WRAPPER = `@container pb-28 xl:pt-12 xl:px-8 ${BOTTOM_PADDING}`;
 
 // Every project thumbnail's frame height, calculated top-down from the
 // viewport rather than a fixed aspect ratio or flex-stretched share of a
-// fixed-height ancestor: `444px` reserves the fixed header (80px) plus
+// fixed-height ancestor: `433px` reserves the fixed header (80px) plus
 // this column's own top padding (48px, `TOP_PADDING` above, now matching
 // the shared shell's own value) and shared bottom padding (32px,
 // `BOTTOM_PADDING` above — matching both sidebars), both section labels
@@ -64,10 +65,14 @@ const PROJECT_SECTIONS_WRAPPER = `@container ${TOP_PADDING} px-5 pb-10 sm:px-6 x
 // breakpoint) — everything *except* the two rows of thumbnails
 // themselves — leaving the remainder split evenly between the two rows,
 // plus a few px of safety margin so a font-metric or sub-pixel rounding
-// difference can never reintroduce a scrollbar. One literal calc(),
-// reused by every `ProjectHighlight` instance below via the same prop, so
-// all four thumbnails share identical frame dimensions at any given
-// viewport height by construction.
+// difference can never reintroduce a scrollbar. Down from `444px`: the
+// caption moved from a hardcoded `15px` to the shared `copy-caption`
+// token (`0.8125rem` = 13px), shrinking each row's own reserved
+// two-line caption height from `41.25px` to `35.75px` — re-measured
+// live after the typography pass below, not just recalculated on paper.
+// One literal calc(), reused by every `ProjectHighlight` instance below
+// via the same prop, so all four thumbnails share identical frame
+// dimensions at any given viewport height by construction.
 //
 // Only actually applied once `ProjectHighlight`'s own combined gate
 // (`xl:@min-[620px]:`, see that component's comment) holds — i.e. once
@@ -88,7 +93,7 @@ const PROJECT_SECTIONS_WRAPPER = `@container ${TOP_PADDING} px-5 pb-10 sm:px-6 x
 // the narrow 1280–~1360px gap — if this column's own padding, label
 // sizes, or inter-section spacing ever change, this constant needs
 // re-measuring to match.
-const THUMBNAIL_HEIGHT = "xl:@min-[620px]:h-[calc((100dvh-444px)/2)]";
+const THUMBNAIL_HEIGHT = "xl:@min-[620px]:h-[calc((100dvh-433px)/2)]";
 
 // Two equal columns once the project column has ~620px to give each card
 // (2 × 294px + the 32px column gap) — deliberately lower than an
@@ -111,12 +116,10 @@ const PROJECT_GRID =
 // from surrounding content by placement/spacing/dividers alone.
 const SECTION_HEADING = "text-sm font-normal text-muted";
 
-// Home's initial entrance: ten content groups reveal in page order, each
-// starting 150ms after the previous one (`.home-reveal`, see
-// globals.css — opacity 0→1 + an upward 0.5rem→0 shift, 500ms ease-out,
-// pure CSS, plays once on mount). The last group starts at 1350ms and
-// finishes at 1850ms, under the ~2s target. Named, literal class strings
-// (not a computed `${i * 150}ms` template) since Tailwind's class
+// Home's entrance: content and divider groups start 40ms apart, with
+// 400ms animations. The last group finishes at 840ms, matching About's brisk entrance.
+// Dividers fade in place; content retains its small upward reveal.
+// Named, literal class strings (not a computed delay template) since Tailwind's class
 // scanner needs literal text to find the arbitrary `[animation-delay:…]`
 // value — the same pattern this file already uses for `PROJECT_GRID`/
 // `THUMBNAIL_HEIGHT` above. Replaces this page's previous `Reveal`
@@ -125,20 +128,22 @@ const SECTION_HEADING = "text-sm font-normal text-muted";
 // `Reveal`/`animate-fade-in` usage is untouched.
 const REVEAL = {
   nameRole: "home-reveal [animation-delay:0ms]",
-  introduction: "home-reveal [animation-delay:150ms]",
-  photo: "home-reveal [animation-delay:300ms]",
-  selectedWorkLabel: "home-reveal [animation-delay:450ms]",
-  sapCard: "home-reveal [animation-delay:600ms]",
-  nokiaCard: "home-reveal [animation-delay:750ms]",
-  academicProjectsLabel: "home-reveal [animation-delay:900ms]",
-  simpliiCard: "home-reveal [animation-delay:1050ms]",
-  ssfbCard: "home-reveal [animation-delay:1200ms]",
-  contactsAvailability: "home-reveal [animation-delay:1350ms]",
+  introduction: "home-reveal [animation-delay:40ms]",
+  photo: "home-reveal [animation-delay:80ms]",
+  columnDividers: "home-rule-reveal [animation-delay:120ms]",
+  selectedWorkLabel: "home-reveal [animation-delay:160ms]",
+  sapCard: "home-reveal [animation-delay:200ms]",
+  nokiaCard: "home-reveal [animation-delay:240ms]",
+  sectionDivider: "home-rule-reveal [animation-delay:280ms]",
+  academicProjectsLabel: "home-reveal [animation-delay:320ms]",
+  simpliiCard: "home-reveal [animation-delay:360ms]",
+  ssfbCard: "home-reveal [animation-delay:400ms]",
+  contactsAvailability: "home-reveal [animation-delay:440ms]",
 } as const;
 
 export default function Home() {
   return (
-    <div className="px-6 sm:px-10">
+    <div className="page-gutter">
       <div className={HOME_GRID}>
         <div className={STICKY_COLUMN}>
           <div
@@ -150,22 +155,24 @@ export default function Home() {
                 <br />
                 I&apos;m Reina
               </h1>
-              <p className="mt-1 text-base text-muted">
+              <p className="copy-caption mt-1 text-muted">
                 UX Designer · Vancouver
               </p>
             </div>
 
-            <div className="flex flex-col gap-3">
+            <div className="flex w-full max-w-[20rem] flex-col gap-8">
               <p
-                className={`xl:max-w-[15rem] text-[15px] leading-[1.6] font-normal text-body ${REVEAL.introduction}`}
+                className={`copy-body w-full max-w-[20rem] xl:w-[calc(100%+0.5rem)] text-body ${REVEAL.introduction}`}
               >
                 Focused on design systems and
                 interaction patterns for SaaS products, with experience
                 building component libraries at Nokia and SAP.
               </p>
               <HoverExpandPhoto
-                src="/images/reina-profile.webp"
-                alt="Reina standing on a train station platform with arms raised"
+                src="/images/reina-illustration.png"
+                width={1086}
+                height={1448}
+                alt="Illustration of Reina standing on a train station platform with arms raised"
                 className={REVEAL.photo}
               />
             </div>
@@ -176,13 +183,13 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Middle column: the project grid, and (at `xl`+) the natural
-            document scroll content. `border-l`/`border-r` are the pair of
-            thin dividers framing this column — matching color
-            (`border-rule`), thickness (1px), and vertical coverage on
-            both sides since they're the same two classes on the same
-            box. */}
-        <div className="xl:border-l xl:border-r xl:border-rule">
+        {/* Transparent borders preserve the grid's exact geometry.
+            Decorative rules fade independently of the project content. */}
+        <div className="relative xl:border-l xl:border-r xl:border-transparent">
+          <span
+            aria-hidden="true"
+            className={`pointer-events-none absolute inset-y-0 -right-px -left-px hidden border-x border-rule xl:block ${REVEAL.columnDividers}`}
+          />
           <div className={PROJECT_SECTIONS_WRAPPER}>
             <section id="projects" className="scroll-mt-24">
               <h2 className={`${SECTION_HEADING} ${REVEAL.selectedWorkLabel}`}>
@@ -195,11 +202,10 @@ export default function Home() {
                     href="/sap"
                     company="SAP"
                     descriptor="Cross-product UX patterns"
-                    image="/images/sap-cover.webp"
-                    imageFit="cover"
+                    image="/images/SAP Logo.png"
+                    brand="sap"
                     imageHeightClassName={THUMBNAIL_HEIGHT}
                     priority
-                    whiteCursorRing
                   />
                 </div>
 
@@ -208,17 +214,20 @@ export default function Home() {
                     href="/nokia"
                     company="Nokia"
                     descriptor="Components & accessibility"
-                    image="/images/nokia-cover.webp"
-                    imageFit="cover"
+                    image="/images/Nokia Logo.png"
+                    brand="nokia"
                     imageHeightClassName={THUMBNAIL_HEIGHT}
-                    whiteCursorRing
                   />
                 </div>
               </div>
             </section>
 
             <section className="mt-8 xl:mt-6">
-              <div className="border-t border-rule pt-5">
+              <div className="relative border-t border-transparent pt-5">
+                <span
+                  aria-hidden="true"
+                  className={`pointer-events-none absolute inset-x-0 -top-px border-t border-rule ${REVEAL.sectionDivider}`}
+                />
                 <h2
                   className={`${SECTION_HEADING} ${REVEAL.academicProjectsLabel}`}
                 >
@@ -231,7 +240,7 @@ export default function Home() {
                   <ProjectHighlight
                     href="/simpliifinancial"
                     company="Simplii Financial"
-                    descriptor="Newcomer financial guidance"
+                    descriptor="UX intervention"
                     image="/images/simplii-hero.webp"
                     imageBg="bg-neutral-950"
                     imageOffsetClassName="translate-y-[6.5%]"
@@ -254,24 +263,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Right column: just the availability indicator, bottom-pinned
-            to match the left column's `ContactLinks`. A plain static dot
-            — no cursor interaction of any kind lives here. */}
-        <div className={`hidden xl:block ${STICKY_COLUMN}`}>
-          <div
-            className={`flex h-full flex-col justify-end ${BOTTOM_PADDING} xl:items-end xl:pl-8`}
-          >
-            <div
-              className={`flex items-center gap-2 ${REVEAL.contactsAvailability}`}
-            >
-              <span
-                className="size-2 shrink-0 rounded-full bg-accent"
-                aria-hidden="true"
-              />
-              <p className="text-sm text-muted">Available for work</p>
-            </div>
-          </div>
-        </div>
+        <div className="hidden xl:block" aria-hidden="true" />
       </div>
     </div>
   );

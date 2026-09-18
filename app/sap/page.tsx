@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import CaseStudySidebar from "@/components/CaseStudySidebar";
 import CaseStudySummary, { NDA_NOTE_TEXT } from "@/components/CaseStudySummary";
-import CaseStudyFigure from "@/components/CaseStudyFigure";
+import ExternalLinkIcon from "@/components/ExternalLinkIcon";
 import CaseStudyOpening from "@/components/CaseStudyOpening";
 import CaseStudySection from "@/components/CaseStudySection";
 import CaseStudyNextNav from "@/components/CaseStudyNextNav";
@@ -35,23 +35,17 @@ export default function Sap() {
             { label: "Tools", value: "Figma, FigJam, Jira, Claude" },
           ]}
           sections={SECTIONS}
-          nextCaseStudy={{ label: "Nokia", href: "/nokia" }}
         />
       }
       right={
         <CaseStudySummary
-          challenge={
+          nextCaseStudy={{ label: "Nokia", href: "/nokia" }}
+          summary={
             <>
-              Several SAP products relied on legacy UX patterns that no
-              longer matched design-system guidance but still met real
-              product needs.
-            </>
-          }
-          solution={
-            <>
-              I audited existing patterns, aligned on shared solutions with
-              product leads, and delivered the Figma components and specs
-              teams needed to implement them consistently.
+              Across three SAP data and analytics products, I helped align UX
+              patterns through reusable components and accessibility guidance,
+              supported product design and research, and helped deliver an
+              AI-assisted design workshop.
             </>
           }
           ndaNote={NDA_NOTE_TEXT}
@@ -59,22 +53,35 @@ export default function Sap() {
       }
       middle={
         <>
-          {/* Opening: the approved `sap-dashboard.webp` case-study hero —
-              a real screenshot of a data modeling workflow, with
-              sensitive labels/values blurred per the NDA note in the
-              sidebar — shown at its own natural size via `fullBleed`,
-              followed by the shared "Scroll to view more" cue. See
-              `CaseStudyOpening` for the fill-the-first-screen mechanism,
-              established on `/nokia` and reused here. */}
           <CaseStudyOpening>
-            <CaseStudyFigure
-              src="/images/sap-dashboard.webp"
-              alt="SAP data modeling workflow showing a table join and local table properties panel, with sensitive labels blurred"
-              width={1440}
-              height={803}
-              imageBg="bg-white"
-              fullBleed
-            />
+            <figure className="w-full">
+              <video
+                src="/images/SAP%20intro%20video.mp4"
+                aria-label="SAP Design overview"
+                className="pointer-events-none block aspect-video h-auto w-full object-contain"
+                autoPlay
+                muted
+                loop
+                playsInline
+                controls={false}
+                disablePictureInPicture
+                disableRemotePlayback
+                tabIndex={-1}
+                preload="auto"
+              />
+              <figcaption className="copy-caption mt-3 text-muted">
+                Video by SAP ·{" "}
+                <a
+                  href="https://www.youtube.com/watch?v=PsH6tVSBFpk"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted underline-offset-4 hover:text-accent hover:underline focus-visible:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                >
+                  View original on YouTube
+                  <ExternalLinkIcon />
+                </a>
+              </figcaption>
+            </figure>
           </CaseStudyOpening>
 
           {/* Introduction — same typography, reading width, and entrance
@@ -88,10 +95,10 @@ export default function Sap() {
           <section id="introduction" className="scroll-mt-24">
             <Reveal className="mt-14">
               <ProseColumn>
-                <p className="font-heading text-2xl leading-snug font-bold text-ink sm:text-3xl">
+                <p className="case-study-heading">
                   Aligning scalable UX patterns across complex data products
                 </p>
-                <div className="mt-6 space-y-4 text-body">
+                <div className="copy-body mt-6 space-y-4 text-body">
                   <p>
                     During my 13-month UX Design internship, I worked on
                     SAP’s Data & Analytics Design System team, supporting SAP
@@ -114,10 +121,8 @@ export default function Sap() {
             <Reveal>
               <section id="aligning-ux-patterns" className="scroll-mt-24">
                 <ProseColumn className="border-t border-rule pt-10">
-                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
-                    Aligning UX patterns
-                  </h2>
-                  <div className="mt-4 space-y-4 text-body">
+                  <h2 className="case-study-heading">Aligning UX patterns</h2>
+                  <div className="copy-body mt-4 space-y-4 text-body">
                     <p>
                       A large part of my work focused on improving consistency
                       across SAP Analytics Cloud, SAP Datasphere, and SAP
@@ -145,8 +150,8 @@ export default function Sap() {
                   </div>
 
                   <div className="mt-8">
-                    <h3 className="text-xl font-bold text-ink">Challenge</h3>
-                    <div className="mt-3 space-y-4 text-body">
+                    <h3 className="text-base font-semibold text-ink">Challenge</h3>
+                    <div className="copy-body mt-3 space-y-4 text-body">
                       <p>
                         Some products relied heavily on legacy or custom-built
                         patterns that no longer aligned with current design
@@ -175,8 +180,8 @@ export default function Sap() {
                   </div>
 
                   <div className="mt-8">
-                    <h3 className="text-xl font-bold text-ink">Impact</h3>
-                    <div className="mt-3 space-y-4 text-body">
+                    <h3 className="text-base font-semibold text-ink">Impact</h3>
+                    <div className="copy-body mt-3 space-y-4 text-body">
                       <p>
                         The resulting components, guidelines, developer specs,
                         and accessibility documentation gave product teams a
@@ -202,7 +207,7 @@ export default function Sap() {
                   />
                 </ProseColumn>
 
-                <ProseColumn className="space-y-4 text-body">
+                <ProseColumn className="copy-body space-y-4 text-body">
                   <p>
                     The Side Panel project was one of the areas where I
                     had the most ownership. I worked as the sole designer
@@ -378,7 +383,7 @@ export default function Sap() {
                     system. I contributed to deciding what we wanted to
                     learn, building the survey, and analyzing the results.
                   </>,
-                  "These projects gave me another way to evaluate design decisions—not only through consistency and technical requirements, but through feedback from the people actually using the products and design system.",
+                  "These projects reminded me that good design decisions aren't just about consistency and technical requirements. They also need to hold up when real people actually use the product and system.",
                 ]}
               />
             </Reveal>
@@ -419,25 +424,25 @@ export default function Sap() {
                       },
                       {
                         src: "/images/sap-impulse-2.jpg",
-                        alt: "Attendees gathered around a registration table at Impulse",
+                        alt: "Group photo of the UX/UA intern team holding signage at Impulse",
                         width: 1814,
                         height: 2500,
                       },
                       {
                         src: "/images/sap-impulse-3.jpg",
-                        alt: "Close-up of Impulse 25 event stickers and badge",
+                        alt: "Attendees gathered around the UX Sticker Rally table at Impulse",
                         width: 2500,
                         height: 1345,
                       },
                       {
                         src: "/images/sap-img-2.jpg",
-                        alt: "Group photo of the Impulse event team holding signage",
+                        alt: "Close-up of Impulse 25 event stickers and badges",
                         width: 2500,
                         height: 1786,
                       },
                       {
                         src: "/images/sap-impulse-4.jpg",
-                        alt: "Attendees working at a table during an Impulse activity station",
+                        alt: "Attendees at an Impulse activity station",
                         width: 2500,
                         height: 1667,
                       },

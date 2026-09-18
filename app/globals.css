@@ -1,9 +1,172 @@
 @import "tailwindcss";
 
 :root {
+  --page-gutter: 1.5rem;
+  --content-reveal-duration: 400ms;
+  --theme-paper-accent: var(--color-blue-600);
+  --theme-dark-accent: #96add6;
   --background: #ffffff;
-  --foreground: #171717;
+  --ink: var(--color-neutral-900);
+  --body: var(--color-neutral-700);
+  --muted: var(--color-neutral-600);
+  --accent: var(--theme-paper-accent);
+  --rule: var(--color-neutral-200);
+  --foreground: var(--ink);
   color-scheme: light;
+}
+
+/* Dark pairs a neutral background with light text and blue accents. */
+:root[data-theme="dark"] {
+  --background: #151515;
+  --ink: #f5f5f5;
+  --body: #dedede;
+  --muted: #b7b7b7;
+  --accent: var(--theme-dark-accent);
+  --rule: #343434;
+  color-scheme: dark;
+}
+
+/* White logos on brand blues, with deeper surfaces in the Dark theme. */
+:root {
+  --brand-sap-surface: #0070f2;
+  --brand-sap-logo: #ffffff;
+  --brand-nokia-surface: #005aff;
+  --brand-nokia-logo: #ffffff;
+}
+
+:root[data-theme="dark"] {
+  --brand-sap-surface: #1d2d3e;
+  --brand-nokia-surface: #17212e;
+}
+
+.brand-thumbnail--sap {
+  --brand-surface: var(--brand-sap-surface);
+  --brand-logo: var(--brand-sap-logo);
+  --brand-logo-ratio: 1030 / 506;
+  --brand-logo-width: 24%;
+}
+
+.brand-thumbnail--nokia {
+  --brand-surface: var(--brand-nokia-surface);
+  --brand-logo: var(--brand-nokia-logo);
+  --brand-logo-ratio: 1570 / 369;
+  --brand-logo-width: 30%;
+}
+
+.brand-thumbnail { background: var(--brand-surface); }
+.brand-thumbnail-logo {
+  display: block;
+  width: var(--brand-logo-width);
+  height: auto;
+  max-height: 50%;
+  aspect-ratio: var(--brand-logo-ratio);
+  object-fit: contain;
+  transform-origin: center;
+  transform: translate3d(0, 0, 0) scale(1.04);
+  /* Keep the same image layer before, during, and after the transition. */
+  will-change: transform;
+  backface-visibility: hidden;
+  transition: transform 500ms ease-out, opacity 500ms ease-out;
+}
+
+.brand-thumbnail:hover .brand-thumbnail-logo,
+.brand-thumbnail:focus-visible .brand-thumbnail-logo {
+  transform: translate3d(0, 0, 0) scale(1);
+  opacity: 0.94;
+}
+
+.page-gutter {
+  padding-inline: var(--page-gutter);
+}
+
+.reading-column {
+  width: 100%;
+  max-width: 41rem;
+  margin-inline: auto;
+}
+
+@media (min-width: 40rem) {
+  :root { --page-gutter: 2.5rem; }
+}
+
+.site-logo img { opacity: 0; }
+.site-logo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  mask: url("/images/logo.webp") center / contain no-repeat;
+  -webkit-mask: url("/images/logo.webp") center / contain no-repeat;
+  pointer-events: none;
+}
+
+.theme-selector {
+  /* Keep the theme toggle at the shared page gutter in the bottom-right. */
+  position: fixed;
+  z-index: 40;
+  bottom: max(2rem, env(safe-area-inset-bottom));
+  right: var(--page-gutter);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.theme-choice {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.theme-swatch {
+  width: 1.5rem;
+  height: 1.5rem;
+  overflow: visible;
+  transition: transform 350ms ease;
+}
+
+.theme-flower-petals {
+  stroke: rgb(0 0 0 / 25%);
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+
+.theme-choice[aria-pressed="true"] .theme-flower-petals {
+  stroke: var(--ink);
+  stroke-width: 3;
+}
+
+.theme-choice:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 0;
+}
+
+@media (hover: hover) {
+  .theme-choice:hover .theme-swatch { transform: scale(1.15) rotate(45deg); }
+}
+
+.theme-reveal::view-transition-old(root),
+.theme-reveal::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+.theme-reveal::view-transition-old(root) { z-index: 1; }
+.theme-reveal::view-transition-new(root) { z-index: 2; }
+.theme-reveal::view-transition-image-pair(root) { isolation: auto; }
+.theme-reveal::view-transition,
+.theme-reveal::view-transition-group(root),
+.theme-reveal::view-transition-image-pair(root),
+.theme-reveal::view-transition-old(root),
+.theme-reveal::view-transition-new(root) { pointer-events: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-swatch { transition: none; }
+  .theme-choice:hover .theme-swatch { transform: scale(1.15); }
 }
 
 /* Stable scrollbar gutter
@@ -25,9 +188,15 @@
    to render, so Home's genuine one-screen, no-scroll layout is
    unaffected; it only stops that reserved gutter from silently coming
    and going (and taking layout width with it) depending on whether a
-   given route happens to scroll. */
+   given route happens to scroll. `font-size: 100%` is explicit (rather
+   than just relying on the browser's own unset default, which already
+   behaves the same way) so a user's own browser/OS default font-size
+   preference is never silently overridden by this project — every
+   `rem`-based size sitewide, including `.copy-body`/`.copy-caption`
+   below, scales from this root. */
 html {
   scrollbar-gutter: stable;
+  font-size: 100%;
 }
 
 @theme inline {
@@ -37,13 +206,13 @@ html {
   --font-heading: var(--font-manrope);
 
   /* Semantic text colors */
-  --color-ink: var(--color-neutral-900);
-  --color-body: var(--color-neutral-700);
-  --color-muted: var(--color-neutral-600);
-  --color-accent: var(--color-blue-600);
+  --color-ink: var(--ink);
+  --color-body: var(--body);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
 
   /* Hairline rule (grid lines, dividers, image frames) */
-  --color-rule: var(--color-neutral-200);
+  --color-rule: var(--rule);
 
   /* Semantic radii */
   --radius-card: 1.5rem;
@@ -56,6 +225,77 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
+}
+
+/* Shared body-copy typography tokens
+   ------------------------------------------------------------------
+   `.copy-body`: the shared size for body paragraphs, introductions, and
+   Challenge/Solution/NDA text across Home, About, AI Lab, and every case
+   study — replaces a mix of hardcoded `text-[15px]`, Tailwind's
+   `text-base`/`text-lg`/`text-sm`, and — in several spots — no explicit
+   size at all (silently inheriting the browser's 16px default). Applied
+   *alongside* a color utility (`text-body`/`text-muted`), never
+   replacing it — this class only ever sets size/weight/line-height, and
+   only on inherited properties, so putting it on a wrapping `<div>`
+   correctly reaches every plain-text child (`<p>`, `<li>`, etc.) the
+   same way `text-body`'s own `color` already does.
+
+   Mobile-first: `0.9375rem` by default, stepping down to `0.875rem` at
+   `sm` (640px) — this project's own existing "narrow phone vs.
+   everything wider" breakpoint, already used for every intro heading's
+   own `text-2xl sm:text-3xl` step, reused here rather than inventing a
+   new one. Weight (400) and line-height (1.6) are constant at both
+   sizes — only the one font-size property actually changes.
+
+   `.copy-caption`: short captions, dates, and secondary metadata only
+   (project-card captions, sidebar meta dates/tools, the lightbox's
+   image-caption text, quiet status labels like "Coming soon") — a
+   single `0.8125rem` at every width, matching the value `EyebrowLabel`
+   already hard-coded (`text-[0.8125rem]`, now routed through this same
+   shared class instead of its own copy of the literal value). Never
+   applied to a genuine paragraph, no matter how short a particular
+   instance happens to render — those always use `.copy-body`. */
+.copy-body {
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+@media (min-width: 40rem) {
+  .copy-body {
+    font-size: 0.875rem;
+  }
+}
+
+.copy-caption {
+  font-size: 0.8125rem;
+}
+
+/* Case-study heading typography
+   ------------------------------------------------------------------
+   `.case-study-heading`: reuses About's own supporting-statement style
+   ("Hi, I'm Reina...", `font-heading text-[1.25rem] leading-snug
+   font-medium text-ink`) for every case study's middle-column
+   introductory title and primary (`<h2>`) section heading — replaces
+   the previous `text-2xl sm:text-3xl font-bold` intro line and
+   `text-3xl font-extrabold tracking-tight` section `<h2>`, both of
+   which read as a much heavier display size than About's own quieter
+   register. One shared class (not a repeated literal Tailwind string)
+   so every call site — `CaseStudySection`'s own `<h2>`, and every
+   hand-built `<h2>`/intro `<p>` on `/sap`, `/simpliifinancial`, and
+   `/ssfb` that couldn't go through that shared component — stays in
+   sync from one definition, the same pattern as `.copy-body`/
+   `.copy-caption` above. Flat at every width (no `sm:` step) since
+   About's own statement isn't responsive either. Left-sidebar `<h1>`s
+   (`CaseStudySidebar`, About, Home, AI Lab) and `CaseStudyNextNav`'s
+   bottom link are untouched by this — this class is scoped to the
+   middle column's own introductory/section titles only. */
+.case-study-heading {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.375; /* leading-snug */
+  color: var(--color-ink);
 }
 
 @layer base {
@@ -98,8 +338,8 @@ body {
   opacity: 0;
   transform: translateY(8px);
   transition:
-    opacity 400ms ease-out,
-    transform 400ms ease-out;
+    opacity var(--content-reveal-duration) ease-out,
+    transform var(--content-reveal-duration) ease-out;
 }
 
 .reveal-up.is-visible {
@@ -121,15 +361,11 @@ body {
 
 /* Home's initial entrance sequence
    ------------------------------------------------------------------
-   `.home-reveal`: applied only in `app/page.tsx`, to ten content groups
-   in reveal order (name/role, introduction, photo, "Selected work"
-   label, the SAP card, the Nokia card, "Academic projects" label, the
-   Simplii card, the SSFB card, then contacts/availability together) —
-   opacity 0→1 plus an upward `0.5rem`→`0` shift, 500ms ease-out, each
-   instance carrying its own `animation-delay` via Tailwind's arbitrary
-   `[animation-delay:_Nms]` (0ms, 150ms, ... 1350ms, one 150ms step per
-   group) so the whole sequence finishes at 1350ms + 500ms = 1850ms,
-   under the ~2s target. `animation-fill-mode: both` holds the *from*
+   `.home-reveal` animates Home content with opacity and a small upward
+   shift. `.home-rule-reveal` fades its column/section dividers in place.
+   The twelve steps start 40ms apart and share About's 400ms reveal duration,
+   completing at 840ms. Delays are literal classes in `app/page.tsx`.
+   `animation-fill-mode: both` holds the *from*
    state during an instance's own delay (so nothing flashes visible
    before its turn) and the *to* state afterward.
 
@@ -176,26 +412,76 @@ body {
    source order. Splitting the shorthand into its longhand parts here
    means this rule never declares `animation-delay` in any form, so each
    instance's own utility class is the only thing that ever sets it. */
-.home-reveal {
-  animation-name: home-reveal;
-  animation-duration: 500ms;
+.home-reveal,
+.home-rule-reveal {
+  animation-duration: var(--content-reveal-duration);
   animation-timing-function: ease-out;
   animation-fill-mode: both;
 }
+
+.home-reveal { animation-name: home-reveal; }
+.home-rule-reveal { animation-name: fade-in; }
 
 .home-reveal:focus-within {
   animation: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .home-reveal {
+  .home-reveal,
+  .home-rule-reveal {
     animation: none;
     opacity: 1;
     transform: none;
   }
 }
 
-/* Scroll cue (Nokia case-study opening only)
+/* Fast, staggered entrances shared by all case studies. Animate content
+   rather than sticky wrappers; divider geometry stays fixed. */
+@keyframes case-study-enter {
+  from { opacity: 0; transform: translateY(0.25rem); }
+  to { opacity: 1; transform: none; }
+}
+
+.case-study-left > *,
+.case-study-summary > *,
+.case-study-hero,
+.case-study-cue {
+  animation: case-study-enter 280ms ease-out both;
+}
+
+.case-study-left > :nth-child(2) { animation-delay: 40ms; }
+.case-study-left > :nth-child(3) { animation-delay: 80ms; }
+.case-study-hero { animation-delay: 120ms; }
+.case-study-summary > :nth-child(1) { animation-delay: 160ms; }
+.case-study-summary > :nth-child(2) { animation-delay: 200ms; }
+.case-study-summary > :nth-child(3) { animation-delay: 240ms; }
+.case-study-summary > :nth-child(4) { animation-delay: 280ms; }
+.case-study-cue { animation-delay: 320ms; }
+
+.case-study-opening[data-intro-complete="true"] .case-study-cue {
+  visibility: hidden;
+  pointer-events: none;
+}
+.case-study-rule { animation: fade-in 280ms ease-out 80ms both; }
+
+.case-study-left > :focus-within,
+.case-study-summary > :focus-within,
+.case-study-hero:focus-within,
+.case-study-cue:focus-within {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-study-left > *,
+  .case-study-summary > *,
+  .case-study-hero,
+  .case-study-cue,
+  .case-study-rule {
+    animation: none;
+  }
+}
+
+/* Scroll cue (shared case-study opening)
    ------------------------------------------------------------------
    `.scroll-cue-arrow`: a gentle, indefinitely-repeating vertical nudge on
    just the downward-arrow icon below "Scroll to read more" — the text
@@ -328,43 +614,66 @@ body {
   filter: brightness(0.94);
 }
 
+/* Keep the resting crop fixed for the Nokia wordmark: fractional scale
+   resampling made its thin strokes appear to jump sideways on hover. */
+.hover-zoom[data-hover-scale="false"] img {
+  transform: scale(1.04);
+  transition: filter 500ms ease-out;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .hover-zoom img {
+  .hover-zoom img,
+  .brand-thumbnail-logo,
+  .hover-zoom[data-hover-scale="false"] img {
     transition: none;
   }
 }
 
-/* Shared hover-to-expand sidebar photo (Home only)
-   ------------------------------------------------------------------
-   Used by `components/HoverExpandPhoto.tsx` — Reina's portrait: a small
-   inner frame (150×200, set inline on the component) grows to fill its
-   reserved outer box (see that component's own comment for why the
-   outer box is `aspect-[3/4]` rather than a fixed height) on hover,
-   shrinking back on pointer leave. `width`/`height` are the only
-   properties that ever change; the outer reserved box itself never does,
-   so hovering can't shift the intro paragraph above it or `ContactLinks`
-   below it.
-
-   Gated behind `(hover: hover) and (pointer: fine)` — real mouse/trackpad
-   hover only. On a touch device this rule doesn't exist at all, so the
-   frame simply always renders at its small default size; there's no
-   `:hover`-triggered state to ever get stuck after a tap. */
-@media (hover: hover) and (pointer: fine) {
-  .hover-expand-frame {
-    transition:
-      width 350ms ease-in-out,
-      height 350ms ease-in-out;
-  }
-
-  .hover-expand:hover .hover-expand-frame {
-    width: 100%;
-    height: 100%;
-  }
+/* One image canvas: align it first, then reveal it without moving pixels. */
+.hover-expand {
+  min-height: var(--portrait-idle-size);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .hover-expand-frame {
-    transition: none;
+.hover-expand[data-expanded="true"] {
+  aspect-ratio: var(--photo-aspect-ratio);
+}
+
+.hover-expand-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: calc(var(--portrait-idle-size) * 2.1);
+  aspect-ratio: var(--photo-aspect-ratio);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  transform: translate(-27.6%, -40.75%);
+  clip-path: inset(40.75% 24.78095238% var(--portrait-crop-bottom) 27.6% round 999px);
+}
+
+.hover-expand:has(.hover-expand-frame:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 5px;
+}
+
+.hover-expand-frame[data-expanded="true"] {
+  width: 100%;
+  transform: translate(0, 0);
+  clip-path: inset(0 0 0 0 round 0);
+}
+
+.hover-expand-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
+@media (min-width: 1280px) {
+  .hover-expand {
+    aspect-ratio: var(--photo-aspect-ratio);
   }
 }
 
@@ -440,5 +749,124 @@ body {
 @media (min-width: 640px) {
   .screenshot-frame {
     padding: 1rem; /* 16px */
+  }
+}
+
+/* About: edge-to-edge photo mosaics framing the reading column.
+   `--about-photo-gap` is defined on `body:has(.about-layout)` rather than on
+   `.about-layout` itself: `.theme-selector` is a DOM sibling of `<main>`, not
+   a descendant of `.about-layout`, so it needs the variable from a shared
+   ancestor to read it in its own alignment calc below. */
+body:has(.about-layout) { --about-photo-gap: 12px; }
+.about-photo-rail { display: none; }
+.about-center { padding: 2.5rem 0 6rem; }
+.about-contacts { margin-top: 2rem; }
+.about-collage--mobile {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--about-photo-gap);
+  margin-top: 3rem;
+}
+.about-photo {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  animation: about-photo-pop 420ms cubic-bezier(.2, 1.2, .4, 1) both;
+  animation-delay: var(--photo-delay);
+  animation-play-state: paused;
+}
+.about-photo-image { display: block; width: 100%; height: auto; }
+/* The two landscape source photos (the puzzle and the cafe shot) render much
+   shorter than their portrait neighbors at `height: auto`, leaving them
+   letterboxed inside a grid row sized to the taller photos beside them.
+   Cropping them to fill the cell instead reads better in a tiled grid than
+   the mismatched whitespace did. */
+.about-photo--fill .about-photo-image { height: 100%; object-fit: cover; }
+.about-photo:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+@keyframes about-photo-pop {
+  from { opacity: 0; transform: translateX(var(--photo-enter-x, 0px)) scale(.96); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+@media (min-width: 1280px) {
+  .about-layout {
+    min-height: calc(100dvh - 5rem);
+    /* Left edge matches the photo grid's own inter-photo gap. The right edge
+       gets no matching explicit padding: `html`'s sitewide `scrollbar-gutter:
+       stable` (kept so scrolling and non-scrolling routes' dividers still
+       line up — see that rule's own comment) already reserves ~15-17px there
+       on a route like this one that never actually scrolls, so adding this
+       same gap on top of it was stacking two margins and leaving the right
+       side visibly wider than the left. */
+    padding-inline-start: var(--about-photo-gap);
+    padding-inline-end: 0;
+  }
+  body:has(.about-layout) .theme-selector {
+    /* Align with the mid column's actual reading-column edge (`.reading-column`'s
+       own 41rem max-width, centered inside `.about-center`'s 2rem padding) rather
+       than just `.about-center`'s own padding edge: on wide viewports the middle
+       grid column is wider than the capped paragraph text, so the padding edge
+       alone sits well outside where the body copy actually ends. `max()` picks
+       whichever is further inward, and falls back to the padding edge itself
+       once the column is narrow enough that the reading column fills it exactly
+       (no leftover centering gap to add). */
+    --about-content-fr: calc(100% - var(--about-photo-gap));
+    --about-padding-edge: calc(var(--about-content-fr) * .2265625 + 2rem);
+    right: max(
+      var(--about-padding-edge),
+      calc(var(--about-padding-edge) + (var(--about-content-fr) * .546875 - 45rem) / 2)
+    );
+  }
+  .about-center { padding: 3rem 2rem 2rem; border-inline: 1px solid var(--color-rule); }
+  .about-photo-rail {
+    display: block;
+    position: sticky;
+    top: calc(5rem + var(--about-photo-gap));
+    height: calc(100dvh - 5rem - 2 * var(--about-photo-gap));
+    overflow: clip;
+  }
+  .about-photo-rail:first-child { padding-right: var(--about-photo-gap); }
+  .about-photo-rail:last-child { padding-left: var(--about-photo-gap); }
+  .about-collage--mobile { display: none; }
+  .about-collage--left,
+  .about-collage--right {
+    display: grid;
+    height: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(12, minmax(0, 1fr));
+    gap: var(--about-photo-gap);
+  }
+  .about-collage--left { --photo-enter-x: 24px; }
+  .about-collage--right { --photo-enter-x: -24px; }
+  .about-photo {
+    grid-column: var(--photo-column);
+    grid-row: var(--photo-row) / span var(--photo-span);
+  }
+  .about-photo-image { height: 100%; object-fit: cover; }
+  .about-copy { display: flex; flex-direction: column; height: 100%; }
+  .about-copy > section { margin-top: 2rem; }
+  .about-copy > section > .reveal-up { margin-top: 1rem; }
+  .about-copy > section > .border-t { padding-top: 1rem; }
+  .about-contacts { margin-top: auto; }
+}
+@media (min-width: 1280px) and (max-height: 800px) {
+  .about-center { padding-block: 1.25rem; }
+  .about-copy > section { margin-top: 1.25rem; }
+  .about-contacts { margin-top: 1.25rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-photo { animation: none; }
+}
+@media (max-width: 639px) {
+  .theme-selector { bottom: max(7rem, calc(env(safe-area-inset-bottom) + 6rem)); }
+}
+@media (max-width: 1279px) {
+  .case-study-page { padding-bottom: 7rem; }
+  /* Matches `.about-center`'s own 6rem bottom padding (its value below the
+     1280px desktop breakpoint, where the photo rails and this stacked,
+     single-column layout no longer apply) instead of the sitewide mobile
+     offset above, which is tuned to clear case studies' 7rem instead and
+     landed the button 1rem below where About's own contacts end. */
+  body:has(.about-layout) .theme-selector {
+    bottom: max(6rem, calc(env(safe-area-inset-bottom) + 5rem));
   }
 }

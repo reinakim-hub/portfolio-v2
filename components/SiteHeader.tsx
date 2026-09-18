@@ -5,13 +5,12 @@ import NavLink from "./NavLink";
 const NAV_LINKS = [
   { href: "/#projects", label: "Work" },
   { href: "/about", label: "About" },
-  { href: "/lab", label: "AI Lab" },
 ];
 
 export default function SiteHeader() {
   return (
     <header className="animate-fade-in fixed inset-x-0 top-0 z-40 flex h-20 items-center justify-between border-b border-rule bg-background px-6 sm:px-10">
-      <Link href="/" className="flex items-center" aria-label="Reina Kim, home">
+      <Link href="/" className="site-logo relative flex items-center" aria-label="Reina Kim, home">
         <Image
           src="/images/logo.webp"
           alt="Reina Kim"

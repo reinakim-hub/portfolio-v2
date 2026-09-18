@@ -36,53 +36,47 @@ export default function SimpliiFinancial() {
           name="Simplii Financial"
           role="UX Design Intervention"
           meta={[
-            { label: "Conceptual Client", value: "Simplii Financial" },
+            { label: "Reference brand", value: "Simplii Financial" },
             { label: "Team", value: "Chris, Muhan, Vito, Andy, Kristen" },
             { label: "Year", value: "Oct 2023 - Dec 2023" },
             { label: "Tools", value: "Figma, Adobe AE, Google Docs" },
           ]}
           sections={SECTIONS}
-          nextCaseStudy={{ label: "Strange Sounds From Beyond", href: "/ssfb" }}
         />
       }
       right={
         <CaseStudySummary
-          challenge={
+          previousCaseStudy={{ label: "Nokia", href: "/nokia" }}
+          nextCaseStudy={{ label: "Strange Sounds From Beyond", href: "/ssfb" }}
+          summary={
             <>
-              User testing with nine recent newcomers to Canada found the
-              initial prototype&rsquo;s content too shallow, its
-              interactions hard to navigate, and its disconnect from Simplii
-              Financial&rsquo;s brand raised concerns about trustworthiness.
-            </>
-          }
-          solution={
-            <>
-              We integrated the content directly into Simplii
-              Financial&rsquo;s existing website instead of a separate
-              microsite, deepened the guidance content, and added
-              multi-language and mobile prototypes to meet the user needs we
-              uncovered.
+              For a seven-week academic project, I led content strategy and
+              contributed to content layout and interaction design for a
+              Simplii Financial website concept aimed at simplifying onboarding
+              for newcomers to Canada through clear information and effective
+              calls to action.
             </>
           }
         />
       }
       middle={
         <>
-          {/* Opening: the existing, approved hero image, now shown first
-              — at its own width rather than the narrower `ProseColumn`
-              reading width — followed by the shared "Scroll to view
-              more" cue. See `CaseStudyOpening` (established on `/nokia`)
-              for the fill-the-first-screen mechanism this reuses. The
-              image itself, its offset correction, and `pngBackground`
-              are all unchanged. */}
           <CaseStudyOpening>
-            <CaseStudyFigure
-              src="/images/simplii-hero.webp"
-              alt="Simplii Financial onboarding microsite shown on laptop and phone"
-              width={2500}
-              height={1700}
-              imageOffsetClassName="translate-y-[4%]"
-              pngBackground
+            <video
+              src="/images/Simplii%20Learn.mp4"
+              aria-label="Simplii Learn prototype overview"
+              width={1920}
+              height={1080}
+              className="pointer-events-none block h-auto w-full"
+              autoPlay
+              muted
+              loop
+              playsInline
+              controls={false}
+              disablePictureInPicture
+              disableRemotePlayback
+              tabIndex={-1}
+              preload="auto"
             />
           </CaseStudyOpening>
 
@@ -94,10 +88,10 @@ export default function SimpliiFinancial() {
           <section id="introduction" className="scroll-mt-24">
             <Reveal className="mt-14">
               <ProseColumn>
-                <p className="whitespace-pre-line font-heading text-2xl leading-snug font-bold text-ink sm:text-3xl">
+                <p className="case-study-heading whitespace-pre-line">
                   Building trust and financial confidence for newcomers to Canada
                 </p>
-                <div className="mt-6 space-y-4 text-body">
+                <div className="copy-body mt-6 space-y-4 text-body">
                   <p>
                     This was a seven-week senior-level project where my team and
                     I were tasked with designing a new feature for Simplii
@@ -130,10 +124,10 @@ export default function SimpliiFinancial() {
             <Reveal>
               <section id="problem-space" className="scroll-mt-24">
                 <ProseColumn className="border-t border-rule pt-10">
-                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                  <h2 className="case-study-heading">
                     Identifying the problem space
                   </h2>
-                  <div className="mt-4 space-y-4 text-body">
+                  <div className="copy-body mt-4 space-y-4 text-body">
                     <p>
                       Through research, we discovered that{" "}
                         many new Canadian immigrants, particularly in their
@@ -165,7 +159,7 @@ export default function SimpliiFinancial() {
                     images={[
                       {
                         src: "/images/simplii-problem-walking.gif",
-                        alt: "Newcomers walking through an airport with luggage",
+                        alt: "Statistics of immigrants in Canada",
                         width: 854,
                         height: 480,
                       },
@@ -186,10 +180,10 @@ export default function SimpliiFinancial() {
             <Reveal>
               <section id="selecting-client" className="scroll-mt-24">
                 <ProseColumn className="border-t border-rule pt-10">
-                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                  <h2 className="case-study-heading">
                     Selecting the client
                   </h2>
-                  <div className="mt-4 space-y-4 text-body">
+                  <div className="copy-body mt-4 space-y-4 text-body">
                     <p>
                       Simplii Financial allows newcomers to open a bank
                       account even before arriving in Canada. We identified
@@ -221,7 +215,7 @@ export default function SimpliiFinancial() {
           <div className="mt-16">
             <Reveal>
               <ProseColumn>
-                <PullQuote>
+                <PullQuote weight="bold">
                   How might Simplii Financial create a compelling experience
                   for the working group of immigrants to help them to build
                   financial confidence and security in Canada?
@@ -234,13 +228,13 @@ export default function SimpliiFinancial() {
             <Reveal>
               <section id="value-to-stakeholders" className="scroll-mt-24">
                 <ProseColumn className="border-t border-rule pt-10">
-                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                  <h2 className="case-study-heading">
                     Value to stakeholders
                   </h2>
                   <div className="mt-6 space-y-6">
                     <div>
                       <SectionLabel size="sm">Business value</SectionLabel>
-                      <p className="mt-2 text-body">
+                      <p className="copy-body mt-2 text-body">
                         This intervention contributes to the business by
                         educating newcomers about the Canadian financial
                         system, showcasing expertise, and building trust
@@ -252,7 +246,7 @@ export default function SimpliiFinancial() {
                     </div>
                     <div>
                       <SectionLabel size="sm">Customer value</SectionLabel>
-                      <p className="mt-2 text-body">
+                      <p className="copy-body mt-2 text-body">
                         Newcomers gain valuable insights into the Canadian
                         financial system, enabling them to make more
                         informed financial decisions. The solution also
@@ -271,10 +265,10 @@ export default function SimpliiFinancial() {
             <Reveal>
               <section id="design-sprints" className="scroll-mt-24">
                 <ProseColumn className="border-t border-rule pt-10">
-                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                  <h2 className="case-study-heading">
                     Design sprints
                   </h2>
-                  <p className="mt-4 text-body">
+                  <p className="copy-body mt-4 text-body">
                     We utilized{" "}
                     <a
                       href="https://www.gv.com/sprint/"
@@ -333,7 +327,7 @@ export default function SimpliiFinancial() {
                       images={[
                         {
                           src: "/images/simplii-credit-system-demo-2.gif",
-                          alt: "Early Figma prototype walkthrough of the credit system education flow",
+                          alt: "Credit system prototype demonstrating language selection and Arabic content",
                           width: 1280,
                           height: 720,
                           frame: true,
@@ -357,10 +351,10 @@ export default function SimpliiFinancial() {
             <Reveal>
               <section id="user-testing" className="scroll-mt-24">
                 <ProseColumn className="border-t border-rule pt-10">
-                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                  <h2 className="case-study-heading">
                     Participants didn&rsquo;t like it!
                   </h2>
-                  <div className="mt-4 space-y-4 text-body">
+                  <div className="copy-body mt-4 space-y-4 text-body">
                     <p>
                       In our user testing with nine recent newcomers to
                       Canada, participants found the initial prototype
@@ -388,10 +382,10 @@ export default function SimpliiFinancial() {
             <Reveal>
               <section id="pivot" className="scroll-mt-24">
                 <ProseColumn className="border-t border-rule pt-10">
-                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                  <h2 className="case-study-heading">
                     So we went back and pivoted
                   </h2>
-                  <p className="mt-4 text-body">
+                  <p className="copy-body mt-4 text-body">
                     A major pivot we made was integrating the new content
                     directly into Simplii Financial&rsquo;s existing website,
                     rather than creating a separate microsite. This decision
@@ -412,7 +406,7 @@ export default function SimpliiFinancial() {
                 </ProseColumn>
 
                 <ProseColumn>
-                  <p className="text-body">
+                  <p className="copy-body text-body">
                     As the lead for content strategy, I was responsible for
                     addressing the issue of shallow information by diving
                     deeper and ensuring the clear delivery of the now more
@@ -446,7 +440,7 @@ export default function SimpliiFinancial() {
                 </ProseColumn>
 
                 <ProseColumn>
-                  <p className="text-body">
+                  <p className="copy-body text-body">
                     I researched interactive UI elements to help simplify
                     complex financial concepts, making it easier for users to
                     engage with and absorb the newly incorporated content.
@@ -478,10 +472,10 @@ export default function SimpliiFinancial() {
             <Reveal>
               <section id="user-needs" className="scroll-mt-24">
                 <ProseColumn className="border-t border-rule pt-10">
-                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                  <h2 className="case-study-heading">
                     Understanding the real user needs
                   </h2>
-                  <div className="mt-4 space-y-4 text-body">
+                  <div className="copy-body mt-4 space-y-4 text-body">
                     <p>
                       From the user testing, the team recognized the
                       importance of making this intervention multi-language
@@ -503,20 +497,20 @@ export default function SimpliiFinancial() {
                     images={[
                       {
                         src: "/images/simplii-language-demo.gif",
-                        alt: "Language switcher demo showing English, Chinese, French, Korean, Arabic, Tagalog, and Farsi",
+                        alt: "Credit score prototype demonstrating expandable explanations of the five score components",
                         width: 1280,
                         height: 720,
                       },
                       {
                         src: "/images/simplii-mobile-demo.gif",
-                        alt: "Mobile prototype of the New to Canada onboarding experience",
+                        alt: "Mobile walkthrough of Simplii Learn credit score education",
                         width: 1920,
                         height: 1080,
                       },
                     ]}
                   />
                 </ProseColumn>
-                <ProseColumn className="mt-8 space-y-4 text-body">
+                <ProseColumn className="copy-body mt-8 space-y-4 text-body">
                   <p>
                     The &ldquo;Simplii Stories&rdquo; section in our initial
                     prototype was well received by user testing
@@ -537,10 +531,10 @@ export default function SimpliiFinancial() {
             <Reveal>
               <section id="reiterating-value" className="scroll-mt-24">
                 <ProseColumn className="border-t border-rule pt-10">
-                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                  <h2 className="case-study-heading">
                     Reiterating value to both stakeholders
                   </h2>
-                  <p className="mt-4 text-body">
+                  <p className="copy-body mt-4 text-body">
                     As the content design lead, I aimed to implement
                     call-to-action UI elements throughout the page to enhance
                     the business value of this design intervention. This
@@ -568,10 +562,10 @@ export default function SimpliiFinancial() {
             <Reveal>
               <section id="final-presentation" className="scroll-mt-24">
                 <ProseColumn className="border-t border-rule pt-10">
-                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                  <h2 className="case-study-heading">
                     Final presentation and key takeaways
                   </h2>
-                  <p className="mt-4 text-body">
+                  <p className="copy-body mt-4 text-body">
                     Our final presentation was very well received by the
                     teaching team and industry UX designers who were invited
                     as critics. They were particularly impressed with how
@@ -598,7 +592,7 @@ export default function SimpliiFinancial() {
             <Reveal>
               <div id="the-team" className="scroll-mt-24">
                 <ProseColumn className="border-t border-rule pt-10">
-                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                  <h2 className="case-study-heading">
                     The team
                   </h2>
                 </ProseColumn>
@@ -644,6 +638,7 @@ export default function SimpliiFinancial() {
 
           <Reveal>
             <CaseStudyNextNav
+              previous={{ label: "Nokia", href: "/nokia" }}
               next={{
                 label: "Strange Sounds From Beyond",
                 href: "/ssfb",

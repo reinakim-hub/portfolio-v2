@@ -1,3 +1,4 @@
+import CaseStudyNavigation from "./CaseStudyNavigation";
 import EyebrowLabel from "./EyebrowLabel";
 
 /**
@@ -6,11 +7,11 @@ import EyebrowLabel from "./EyebrowLabel";
  * duplicated per page, where a copy-paste could drift out of sync.
  */
 export const NDA_NOTE_TEXT =
-  "Some details and visuals have been simplified or replaced with public examples due to NDA restrictions. I’m happy to discuss my process and contributions in more detail during an interview.";
+  "The specifics of this work are under NDA. Publicly available visuals are used to illustrate the context.";
 
 /**
- * The right column of a case-study page: short Challenge and Solution
- * summaries condensed from that page's own narrative — no new claims or
+ * The right column of a case-study page: a one-sentence Summary
+ * condensed from that page's own narrative — no new claims or
  * outcomes beyond what the case study already documents. Meant to sit in
  * `CaseStudyLayout`'s `right` slot, which provides the sticky-without-slide
  * positioning, entrance fade, and spacing rhythm shared with the left
@@ -20,35 +21,38 @@ export const NDA_NOTE_TEXT =
  * component — only SAP and Nokia pass it (both rely on public-example
  * substitutions under an NDA); the two academic case studies and everything
  * else that uses `CaseStudySummary` render with no NDA note at all. It's
- * separated from Solution by a hairline divider plus the same 32px vertical
- * rhythm this column's own `flex flex-col gap-8` already uses between
- * Challenge and Solution, and it sits in the column's normal content flow
+ * separated from Summary by a hairline divider plus the same 32px vertical
+ * rhythm this column's own `flex flex-col gap-8` uses, and it sits in normal content flow
  * (not pinned to the viewport) so it scrolls into reach on a short window
  * exactly like the rest of the sidebar.
  */
 export default function CaseStudySummary({
-  challenge,
-  solution,
+  summary,
   ndaNote,
+  nextCaseStudy,
+  previousCaseStudy,
 }: {
-  challenge: React.ReactNode;
-  solution: React.ReactNode;
+  summary: React.ReactNode;
   ndaNote?: React.ReactNode;
+  nextCaseStudy?: { label: string; href: string };
+  previousCaseStudy?: { label: string; href: string };
 }) {
   return (
     <>
       <div>
-        <EyebrowLabel>Challenge</EyebrowLabel>
-        <p className="mt-3 text-sm leading-relaxed text-body">{challenge}</p>
-      </div>
-      <div>
-        <EyebrowLabel>Solution</EyebrowLabel>
-        <p className="mt-3 text-sm leading-relaxed text-body">{solution}</p>
+        <EyebrowLabel>Summary</EyebrowLabel>
+        <p className="copy-body mt-3 text-body">{summary}</p>
       </div>
       {ndaNote && (
         <div className="border-t border-rule pt-8">
-          <EyebrowLabel>NDA Note</EyebrowLabel>
-          <p className="mt-3 text-sm leading-relaxed text-body">{ndaNote}</p>
+          <EyebrowLabel as="p" quiet className="not-italic">
+            {ndaNote}
+          </EyebrowLabel>
+        </div>
+      )}
+      {(previousCaseStudy || nextCaseStudy) && (
+        <div className="hidden xl:mt-auto xl:block xl:pt-6">
+          <CaseStudyNavigation previous={previousCaseStudy} next={nextCaseStudy} />
         </div>
       )}
     </>

@@ -1,3 +1,5 @@
+import ExternalLinkIcon from "./ExternalLinkIcon";
+
 /**
  * One row in the AI Lab's experiment list — plain list content, not a card:
  * no background, border, or rounded corners of its own (the hairline
@@ -39,15 +41,16 @@ export default function ExperimentCard({
             rel="noopener noreferrer"
             className="order-3 shrink-0 text-sm font-semibold text-accent underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent @min-[480px]:order-2"
           >
-            Live ↗
+            Live
+            <ExternalLinkIcon />
           </a>
         ) : (
-          <span className="order-3 shrink-0 text-sm text-muted @min-[480px]:order-2">
+          <span className="copy-caption order-3 shrink-0 text-muted @min-[480px]:order-2">
             Coming soon
           </span>
         )}
 
-        <p className="order-2 max-w-prose text-body @min-[480px]:order-3 @min-[480px]:w-full">
+        <p className="copy-body order-2 text-body @min-[480px]:order-3 @min-[480px]:w-full">
           {description}
         </p>
       </div>

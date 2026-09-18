@@ -21,10 +21,8 @@ export default function CaseStudySection({
   return (
     <section id={id} className={id ? "scroll-mt-24" : undefined}>
       <ProseColumn className={divider ? "border-t border-rule pt-10" : undefined}>
-        <h2 className="text-3xl font-extrabold tracking-tight text-ink">
-          {title}
-        </h2>
-        <div className="mt-4 space-y-4 text-body">
+        <h2 className="case-study-heading">{title}</h2>
+        <div className="copy-body mt-4 space-y-4 text-body">
           {paragraphs.map((paragraph, i) => (
             <p key={i}>{paragraph}</p>
           ))}
@@ -32,8 +30,8 @@ export default function CaseStudySection({
 
         {challenge && (
           <div className="mt-8">
-            <h3 className="text-xl font-bold text-ink">Challenge</h3>
-            <div className="mt-3 space-y-4 text-body">
+            <h3 className="text-base font-semibold text-ink">Challenge</h3>
+            <div className="copy-body mt-3 space-y-4 text-body">
               {challenge.map((paragraph, i) => (
                 <p key={i}>{paragraph}</p>
               ))}
@@ -43,8 +41,8 @@ export default function CaseStudySection({
 
         {impact && (
           <div className="mt-8">
-            <h3 className="text-xl font-bold text-ink">Impact</h3>
-            <div className="mt-3 space-y-4 text-body">
+            <h3 className="text-base font-semibold text-ink">Impact</h3>
+            <div className="copy-body mt-3 space-y-4 text-body">
               {impact.map((paragraph, i) => (
                 <p key={i}>{paragraph}</p>
               ))}

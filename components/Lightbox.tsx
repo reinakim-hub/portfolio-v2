@@ -136,7 +136,7 @@ export function LightboxProvider({ children }: { children: React.ReactNode }) {
 
           {image.alt && (
             <p
-              className="max-w-[92vw] text-center text-sm text-white/80"
+              className="copy-caption max-w-[92vw] text-center text-white/80"
               onClick={(event) => event.stopPropagation()}
             >
               {image.alt}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 
 const INTERACTIVE_SELECTOR =
   'a, button:not(:disabled), [role="button"]:not([aria-disabled="true"]), summary, input:not(:disabled):not([type="text"]):not([type="email"]):not([type="search"]):not([type="tel"]):not([type="url"]), select:not(:disabled)';
@@ -35,8 +36,18 @@ const CURSOR_WHITE_SELECTOR = "[data-cc-cursor-white]";
  * on re-entry.
  */
 export default function CustomCursor() {
+  const pathname = usePathname();
   const wrapRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // The root layout persists across navigation, including the last hovered
+    // link's ring/color. Reset those without disturbing the pointer position.
+    dotRef.current?.classList.remove(
+      "cc-cursor-dot--active",
+      "cc-cursor-dot--white",
+    );
+  }, [pathname]);
 
   useEffect(() => {
     const coarsePointer = window.matchMedia("(pointer: coarse)").matches;

@@ -3,7 +3,7 @@ import { SITE_GRID_COLUMNS } from "./siteGrid";
 /**
  * The three-column shell for a case-study page: project info + section nav
  * (left), the case-study narrative (middle — ordinary document flow, the
- * page's real scroll content), and a short Challenge/Solution summary
+ * page's real scroll content), and a one-sentence project summary
  * (right). This is the project's source-of-truth shape for `SITE_GRID_COLUMNS`
  * (see `siteGrid.ts`) — Home's own grid and `TwoColumnLayout` both use the
  * exact same proportions and `xl` breakpoint this shell does, rather than
@@ -39,22 +39,23 @@ export default function CaseStudyLayout({
   right: React.ReactNode;
 }) {
   return (
-    <div className="px-6 sm:px-10">
+    <div className="case-study-page page-gutter">
       <div className={`grid grid-cols-1 gap-y-16 ${SITE_GRID_COLUMNS} xl:gap-y-0`}>
         <div className={STICKY_COLUMN_XL}>
-          <div className="animate-fade-in flex flex-col gap-8 pt-10 xl:min-h-[calc(100dvh-5rem)] xl:pt-12 xl:pr-8 xl:pb-8">
+          <div className="case-study-left flex flex-col gap-8 pt-10 xl:min-h-[calc(100dvh-5rem)] xl:pt-12 xl:pr-8 xl:pb-8">
             {left}
           </div>
         </div>
 
-        <div className="xl:border-x xl:border-rule">
+        <div className="relative xl:border-x xl:border-transparent">
+          <span aria-hidden="true" className="case-study-rule pointer-events-none absolute inset-y-0 -right-px -left-px hidden border-x border-rule xl:block" />
           <div className="@container pt-10 pb-24 xl:pt-12 xl:px-8">
             {middle}
           </div>
         </div>
 
         <div className={STICKY_COLUMN_XL}>
-          <div className="animate-fade-in flex flex-col gap-8 pt-10 xl:pt-12 xl:pl-8">
+          <div className="case-study-summary flex flex-col gap-8 pt-10 xl:min-h-[calc(100dvh-5rem)] xl:pt-12 xl:pl-8 xl:pb-24">
             {right}
           </div>
         </div>

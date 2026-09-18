@@ -4,7 +4,8 @@
  * against this same wrapper, so a heading and the paragraphs beneath it
  * share one left/right edge instead of the heading spanning the full
  * (much wider) middle column while the text below it sits narrower.
- * `max-w-prose` (~65ch) keeps lines readable; `w-full` lets it shrink to
+ * A shared rem-based width keeps lines readable without changing when a
+ * caller applies a different font size; `w-full` lets it shrink to
  * fill a narrower column where there's no extra space to center into;
  * `mx-auto` (`margin-inline: auto`) centers it within the middle column
  * once there is. Text stays left-aligned — only the block itself centers.
@@ -18,5 +19,5 @@ export default function ProseColumn({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <div className={`w-full max-w-prose mx-auto ${className}`}>{children}</div>;
+  return <div className={`reading-column ${className}`}>{children}</div>;
 }

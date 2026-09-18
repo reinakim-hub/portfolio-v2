@@ -6,7 +6,10 @@ export default function SectionLabel({
   size?: "sm" | "md";
 }) {
   return (
-    <h3 className={`font-bold text-accent ${size === "sm" ? "text-lg" : "text-xl"}`}>
+    <h3
+      className="case-study-heading"
+      style={size === "sm" ? { fontSize: "1.125rem" } : undefined}
+    >
       {children}
     </h3>
   );

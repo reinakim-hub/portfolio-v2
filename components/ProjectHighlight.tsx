@@ -7,7 +7,10 @@ import Link from "next/link";
  * descriptor, separated by a middle dot), then a quiet "View case study"
  * link. No large heading, no separate descriptive headline, no
  * paragraph-length summary or meta row — those live on the corresponding
- * case-study page instead, not duplicated here. The image is contained
+ * case-study page instead, not duplicated here. SAP/Nokia use `brand`
+ * to render the supplied transparent logo over a themed brand-color CSS surface;
+ * original transparent logo images zoom inside a fixed layout box.
+ * Other artwork is contained
  * rather than cropped, so `imageBg` should match the artwork's own
  * background for a seamless frame.
  *
@@ -20,11 +23,8 @@ import Link from "next/link";
  * `imageFit` (default `"contain"`) picks the `<Image>`'s `object-fit`.
  * `"cover"` is for a source whose own canvas aspect is close enough to
  * the frame's that filling edge-to-edge crops only the artwork's own
- * background, never its subject — used by the SAP/Nokia cards, whose
- * source images are a solid brand-color field with a small, centered
- * logo mark, so cropping the field never touches the logo itself. Every
- * other card keeps the default `"contain"`, where `imageBg` matters (see
- * above).
+ * background, never its subject. Brand thumbnails bypass this image
+ * treatment and preserve the logo's original aspect ratio.
  *
  * Only two things are interactive, as separate sibling links to the same
  * `href`: the thumbnail image frame, and the "View case study" CTA below
@@ -86,6 +86,8 @@ export default function ProjectHighlight({
   priority = false,
   cta = "View case study",
   whiteCursorRing = false,
+  hoverScale = true,
+  brand,
 }: {
   href: string;
   company: string;
@@ -98,48 +100,70 @@ export default function ProjectHighlight({
   priority?: boolean;
   cta?: string;
   whiteCursorRing?: boolean;
+  /** Disable hover scaling for raster logos that visibly jitter when resampled. */
+  hoverScale?: boolean;
+  /** A white logo on a CSS-colored brand surface, consistent across themes. */
+  brand?: "sap" | "nokia";
 }) {
   return (
     <article>
       <Link
         href={href}
         aria-label={`${company} — ${descriptor}`}
-        {...(whiteCursorRing ? { "data-cc-cursor-white": "" } : {})}
-        className={`hover-zoom block aspect-[16/10] border border-rule focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent xl:@min-[620px]:aspect-auto ${imageHeightClassName ?? ""} ${imageBg ?? "bg-neutral-50"}`}
+        {...(whiteCursorRing || brand ? { "data-cc-cursor-white": "" } : {})}
+        data-hover-scale={hoverScale ? undefined : "false"}
+        className={`${brand ? `brand-thumbnail brand-thumbnail--${brand}` : "hover-zoom"} block aspect-[16/10] border border-rule focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent xl:@min-[620px]:aspect-auto ${imageHeightClassName ?? ""} ${brand ? "" : imageBg ?? "bg-neutral-50"}`}
       >
-        <div className={`h-full w-full ${imageOffsetClassName ?? ""}`}>
-          <Image
-            src={image}
-            alt=""
-            width={1200}
-            height={750}
-            priority={priority}
-            unoptimized={image.endsWith(".gif")}
-            sizes="(min-width: 1280px) 33vw, 100vw"
-            className={`h-full w-full ${imageFit === "cover" ? "object-cover" : "object-contain"}`}
-          />
-        </div>
+        {brand ? (
+          <div className="flex h-full w-full items-center justify-center">
+            <Image
+              src={image}
+              alt=""
+              width={brand === "sap" ? 1030 : 1570}
+              height={brand === "sap" ? 506 : 369}
+              unoptimized
+              priority={priority}
+              className="brand-thumbnail-logo"
+            />
+          </div>
+        ) : (
+          <div className={`h-full w-full ${imageOffsetClassName ?? ""}`}>
+            <Image
+              src={image}
+              alt=""
+              width={1200}
+              height={750}
+              priority={priority}
+              unoptimized={image.endsWith(".gif")}
+              sizes="(min-width: 1280px) 33vw, 100vw"
+              className={`h-full w-full ${imageFit === "cover" ? "object-cover" : "object-contain"}`}
+            />
+          </div>
+        )}
       </Link>
 
-      {/* `xl:@min-[620px]:min-h-[41.25px]` reserves exactly two lines of
-          caption text (15px / `leading-snug` = 1.375 → 20.625px × 2) —
-          gated on the same combined condition as the frame's own
-          `aspect-auto` above, since it only matters once cards are
-          actually two-up in the same CSS Grid row (e.g. "Strange Sounds
-          from Beyond · Branding & microsite" only wraps at narrower
-          desktop widths). Without this, a one-line caption next to a
-          two-line one in the same grid row let CSS Grid's default
-          `align-items: stretch` grow the whole row — and so Home's
-          shared `THUMBNAIL_HEIGHT` reserved-space budget — inconsistently
-          by breakpoint. Reserving the worst case unconditionally (once
-          two-up) keeps every row's real height, and so
-          `THUMBNAIL_HEIGHT`'s own math, constant regardless of how any
-          one caption happens to wrap. */}
-      <h3 className="mt-3 text-[15px] leading-snug text-ink xl:@min-[620px]:min-h-[41.25px]">
+      {/* `xl:@min-[620px]:min-h-[2.234375rem]` reserves exactly two lines
+          of caption text (`copy-caption`'s `0.8125rem` × `leading-snug`'s
+          1.375 = 1.1171875rem/line × 2 — recomputed from the previous
+          `15px`/`41.25px` figures when the caption moved onto the shared
+          `copy-caption` token, see PROJECT_STATUS.md) — gated on the same
+          combined condition as the frame's own `aspect-auto` above, since
+          it only matters once cards are actually two-up in the same CSS
+          Grid row (e.g. "Strange Sounds from Beyond · Branding &
+          microsite" only wraps at narrower desktop widths). Without
+          this, a one-line caption next to a two-line one in the same
+          grid row let CSS Grid's default `align-items: stretch` grow the
+          whole row — and so Home's shared `THUMBNAIL_HEIGHT`
+          reserved-space budget — inconsistently by breakpoint. Reserving
+          the worst case unconditionally (once two-up) keeps every row's
+          real height, and so `THUMBNAIL_HEIGHT`'s own math, constant
+          regardless of how any one caption happens to wrap. Both spans
+          share this same `copy-caption` size (inherited from the `h3`)
+          rather than the company/descriptor halves reading at two
+          different sizes, as they did before. */}
+      <h3 className="copy-caption mt-3 leading-snug text-ink xl:@min-[620px]:min-h-[2.234375rem]">
         <span className="font-medium">{company}</span>
-        <span className="ml-1.5 text-sm font-normal text-muted">
-          · {descriptor}
-        </span>
+        <span className="ml-1.5 font-normal text-muted">· {descriptor}</span>
       </h3>
 
       <Link

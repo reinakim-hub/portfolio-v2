@@ -32,7 +32,7 @@ export default function Ssfb() {
           name="Strange Sounds from Beyond"
           role="Brand and Microsite Design"
           meta={[
-            { label: "Reference Client", value: "Strange Sounds from Beyond" },
+            { label: "Reference brand", value: "Strange Sounds from Beyond" },
             { label: "Team", value: "Chris, Vito, Andy, Kristen" },
             { label: "Year", value: "Sep 2023 - Oct 2023" },
             { label: "Tools", value: "Figma, Adobe AE" },
@@ -42,63 +42,36 @@ export default function Ssfb() {
       }
       right={
         <CaseStudySummary
-          challenge={
+          previousCaseStudy={{ label: "Simplii Financial", href: "/simpliifinancial" }}
+          summary={
             <>
-              The challenge was to create a compelling microsite experience
-              that incorporated both visual and auditory concepts, appealing
-              to visitors unfamiliar with the festival&rsquo;s style or
-              artists.
-            </>
-          }
-          solution={
-            <>
-              As lead interaction designer, I guided users through sound
-              rather than artist names on the homepage, then balanced that
-              with functional navigation and direct ticket access so
-              returning visitors and non-audio users could still get around
-              easily.
+              For a five-week academic project, I led interaction design for a
+              Strange Sounds from Beyond festival microsite, combining visual
+              and sound-based interactions to introduce unfamiliar visitors to
+              its experimental music and identity while balancing exploration
+              with usability.
             </>
           }
         />
       }
       middle={
         <>
-          {/* Opening: the existing, approved hero gallery — the same
-              four gifs already used as this page's intro visual, now
-              shown first at their own gallery width rather than the
-              narrower `ProseColumn` reading width — followed by the
-              shared "Scroll to view more" cue. See `CaseStudyOpening`
-              (established on `/nokia`) for the fill-the-first-screen
-              mechanism this reuses. Every image, its alt text, and
-              order are unchanged. */}
           <CaseStudyOpening>
-            <ImageGallery
-              images={[
-                {
-                  src: "/images/ssfb-hero-landing.gif",
-                  alt: "Green landing screen reading this is an Amsterdam-based music festival",
-                  width: 1280,
-                  height: 720,
-                },
-                {
-                  src: "/images/ssfb-hero-nav.gif",
-                  alt: "Black landing screen with a glowing green square and listen to the strange sounds prompt",
-                  width: 1280,
-                  height: 720,
-                },
-                {
-                  src: "/images/ssfb-hero.gif",
-                  alt: "Dark screen with an ENTER button over African Acid Is The Future text",
-                  width: 1280,
-                  height: 720,
-                },
-                {
-                  src: "/images/ssfb-hero-active.gif",
-                  alt: "Bright green African Acid Is The Future screen with a track selected",
-                  width: 1280,
-                  height: 720,
-                },
-              ]}
+            <video
+              src="/images/SSFB.mp4"
+              aria-label="Strange Sounds from Beyond microsite overview"
+              width={1920}
+              height={1080}
+              className="pointer-events-none block h-auto w-full"
+              autoPlay
+              muted
+              loop
+              playsInline
+              controls={false}
+              disablePictureInPicture
+              disableRemotePlayback
+              tabIndex={-1}
+              preload="auto"
             />
           </CaseStudyOpening>
 
@@ -106,14 +79,14 @@ export default function Ssfb() {
               every other case study's opening heading/body: its own
               `#introduction` anchor target and a `Reveal className="mt-14"`
               entrance, since it now starts below the first screen instead
-              of being immediately visible alongside the hero gallery. */}
+              of being immediately visible alongside the opening video. */}
           <section id="introduction" className="scroll-mt-24">
             <Reveal className="mt-14">
               <ProseColumn>
-                <p className="font-heading text-2xl leading-snug font-bold text-ink sm:text-3xl">
+                <p className="case-study-heading">
                   Creating a unique digital experience for music lovers
                 </p>
-                <div className="mt-6 space-y-4 text-body">
+                <div className="copy-body mt-6 space-y-4 text-body">
                   <p>
                     This five-week school project was centered around developing
                     a visually engaging and interactive microsite for
@@ -147,16 +120,16 @@ export default function Ssfb() {
             <Reveal>
               <section id="brand-foundations" className="scroll-mt-24">
                 <ProseColumn className="border-t border-rule pt-10">
-                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                  <h2 className="case-study-heading">
                     Understanding brand foundations
                   </h2>
-                  <p className="mt-4 text-body">
+                  <p className="copy-body mt-4 text-body">
                     The biggest challenge of this project was developing a
                     festival brand that was adaptable and translatable across
                     various physical mediums. To guide our approach, our team
                     referred to several key professional resources:
                   </p>
-                  <ul className="mt-4 list-disc space-y-2 pl-5 text-body">
+                  <ul className="copy-body mt-4 list-disc space-y-2 pl-5 text-body">
                     <li>
                       Experience Design: A Framework for Integrating Brand,
                       Experience, and Value{" "}
@@ -185,10 +158,10 @@ export default function Ssfb() {
             <Reveal>
               <section id="visual-language" className="scroll-mt-24">
                 <ProseColumn className="border-t border-rule pt-10">
-                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                  <h2 className="case-study-heading">
                     Setting the visual language
                   </h2>
-                  <p className="mt-4 text-body">
+                  <p className="copy-body mt-4 text-body">
                     Our team went through several iterations to solidify the
                     visual language with the teaching team acting as the
                     client. We started with the festival poster as our primary
@@ -203,7 +176,7 @@ export default function Ssfb() {
                     images={[
                       {
                         src: "/images/ssfb-poster-1.webp",
-                        alt: "Blue festival poster with typographic layout",
+                        alt: "White festival poster with blue typography",
                         width: 612,
                         height: 792,
                       },
@@ -229,7 +202,7 @@ export default function Ssfb() {
                   />
                 </ProseColumn>
 
-                <ProseColumn className="mt-8 space-y-4 text-body">
+                <ProseColumn className="copy-body mt-8 space-y-4 text-body">
                   <p>
                     This is the final visual identity our team landed with.
                     We designed so that the{" "}
@@ -296,11 +269,13 @@ export default function Ssfb() {
 
           <div className="mt-16">
             <Reveal>
-              <PullQuote>
-                How might we provide compelling experience with sound
-                interaction in order to inspire site visitors unfamiliar
-                with the festival to attend the festival in person?
-              </PullQuote>
+              <ProseColumn>
+                <PullQuote weight="bold">
+                  How might we provide compelling experience with sound
+                  interaction in order to inspire site visitors unfamiliar
+                  with the festival to attend the festival in person?
+                </PullQuote>
+              </ProseColumn>
             </Reveal>
           </div>
 
@@ -308,10 +283,10 @@ export default function Ssfb() {
             <Reveal>
               <section id="microsite-experience" className="scroll-mt-24">
                 <ProseColumn className="border-t border-rule pt-10">
-                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                  <h2 className="case-study-heading">
                     Crafting the microsite experience
                   </h2>
-                  <div className="mt-4 space-y-4 text-body">
+                  <div className="copy-body mt-4 space-y-4 text-body">
                     <p>
                       After establishing the visual language and framing the
                       design problem for our microsite, we shifted our focus
@@ -349,19 +324,19 @@ export default function Ssfb() {
                       images={[
                         {
                           src: "/images/ssfb-ui-explore-bar.gif",
-                          alt: "Green noise-textured bar exploration screen",
+                          alt: "Festival prototype exploring artist photos, a record player, and an artist video",
                           width: 854,
                           height: 480,
                         },
                         {
                           src: "/images/ssfb-ui-explore-logo.gif",
-                          alt: "Outlined SSFB event music logo animation",
+                          alt: "Festival prototype with an animated logo, genre exploration, and artist pages",
                           width: 854,
                           height: 480,
                         },
                         {
                           src: "/images/ssfb-ui-explore-eq.gif",
-                          alt: "Explore strange sounds equalizer bar visualization",
+                          alt: "Festival prototype with sound bars, track selection, and an artist video",
                           width: 854,
                           height: 480,
                         },
@@ -377,10 +352,10 @@ export default function Ssfb() {
             <Reveal>
               <section id="pushing-forward" className="scroll-mt-24">
                 <ProseColumn className="border-t border-rule pt-10">
-                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                  <h2 className="case-study-heading">
                     Pushing the design forward
                   </h2>
-                  <div className="mt-4 space-y-4 text-body">
+                  <div className="copy-body mt-4 space-y-4 text-body">
                     <p>
                       My suggestion to intentionally hide the artist
                       information and guide users solely through sound
@@ -431,10 +406,10 @@ export default function Ssfb() {
             <Reveal>
               <section id="balancing-emotion" className="scroll-mt-24">
                 <ProseColumn className="border-t border-rule pt-10">
-                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                  <h2 className="case-study-heading">
                     Balancing emotion with functionality
                   </h2>
-                  <div className="mt-4 space-y-4 text-body">
+                  <div className="copy-body mt-4 space-y-4 text-body">
                     <p>
                       Our team recognized that the auditory-based navigation
                       could present challenges for users. Returning users
@@ -487,10 +462,10 @@ export default function Ssfb() {
             <Reveal>
               <section id="reflection" className="scroll-mt-24">
                 <ProseColumn className="border-t border-rule pt-10">
-                  <h2 className="text-3xl font-extrabold tracking-tight text-ink">
+                  <h2 className="case-study-heading">
                     Reflection
                   </h2>
-                  <p className="mt-4 text-body">
+                  <p className="copy-body mt-4 text-body">
                     This project provided me with a deeper understanding of
                     the challenges in creating a digital experience that
                     balances emotional engagement with functional usability.
@@ -509,7 +484,7 @@ export default function Ssfb() {
           </div>
 
           <Reveal>
-            <CaseStudyNextNav />
+            <CaseStudyNextNav previous={{ label: "Simplii Financial", href: "/simpliifinancial" }} />
           </Reveal>
         </>
       }

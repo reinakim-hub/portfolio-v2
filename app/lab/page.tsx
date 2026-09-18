@@ -3,6 +3,7 @@ import ContactLinks from "@/components/ContactLinks";
 import EyebrowLabel from "@/components/EyebrowLabel";
 import ExperimentCard from "@/components/ExperimentCard";
 import Reveal from "@/components/Reveal";
+import ProseColumn from "@/components/ProseColumn";
 import TwoColumnLayout from "@/components/TwoColumnLayout";
 
 export const metadata: Metadata = {
@@ -18,7 +19,7 @@ export default function Lab() {
             <h1 className="text-3xl font-extrabold tracking-tight text-ink">
               AI Lab
             </h1>
-            <p className="mt-3 text-base leading-relaxed text-body">
+            <p className="copy-body mt-3 text-body">
               Turning small ideas into working prototypes with AI.
             </p>
           </div>
@@ -29,12 +30,12 @@ export default function Lab() {
         </>
       }
       right={
-        <>
-          <Reveal className="max-w-3xl">
+        <ProseColumn>
+          <Reveal>
             <p className="font-heading text-2xl leading-snug font-bold text-ink sm:text-3xl">
               AI-assisted experiments and working prototypes
             </p>
-            <div className="mt-4 max-w-2xl space-y-4 text-lg leading-relaxed text-muted">
+            <div className="copy-body mt-4 space-y-4 text-muted">
               <p>
                 This isn&rsquo;t a game gallery — it&rsquo;s a space where I
                 use AI tools like Claude Code and MCP to explore design and
@@ -78,7 +79,7 @@ export default function Lab() {
               </Reveal>
             </div>
           </section>
-        </>
+        </ProseColumn>
       }
     />
   );

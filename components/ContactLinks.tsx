@@ -1,8 +1,10 @@
+import ExternalLinkIcon from "./ExternalLinkIcon";
+
 const CONTACT_LINKS = [
   { href: "mailto:reinakim1221@gmail.com", label: "reinakim1221@gmail.com" },
   {
     href: "https://www.linkedin.com/in/reina-kim-111587b3/",
-    label: "LinkedIn ↗",
+    label: "LinkedIn",
     external: true,
   },
 ];
@@ -29,6 +31,7 @@ export default function ContactLinks() {
             className={contactLinkStyle}
           >
             {link.label}
+            {link.external && <ExternalLinkIcon />}
           </a>
         </li>
       ))}

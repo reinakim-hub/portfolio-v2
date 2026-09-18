@@ -11,7 +11,7 @@ export default function NavLink({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const isActive = pathname === href;
+  const isActive = pathname === href.split("#")[0];
 
   const sharedStyle =
     "hover:text-accent focus-visible:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";

@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
+import AboutPhotoCollage from "@/components/AboutPhotoCollage";
 import ContactLinks from "@/components/ContactLinks";
 import EyebrowLabel from "@/components/EyebrowLabel";
 import Reveal from "@/components/Reveal";
-import TwoColumnLayout from "@/components/TwoColumnLayout";
+import ProseColumn from "@/components/ProseColumn";
+import { SITE_GRID_COLUMNS } from "@/components/siteGrid";
 
 export const metadata: Metadata = {
   title: "About — Reina Kim",
@@ -12,132 +12,69 @@ export const metadata: Metadata = {
 
 export default function About() {
   return (
-    <TwoColumnLayout
-      left={
-        <>
-          <div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-ink">
-              About
-            </h1>
-          </div>
-
-          {/* max-w caps the portrait's own size so the sidebar's total
-              height stays predictable — the sidebar column is a fraction
-              of viewport WIDTH, unrelated to viewport height, so an
-              uncapped w-full image could grow taller than any fixed
-              min-height sticky threshold on a wide-but-short window.
-              Plain, non-interactive image: no link, button, role, or
-              hover/focus treatment — clicking or hovering it does nothing,
-              so it shouldn't look like it does. (Previously shared
-              `.hover-zoom` with the homepage thumbnails; deliberately
-              removed since this photo has no click destination.) */}
-          <div className="max-w-[15rem] border border-rule overflow-hidden">
-            <Image
-              src="/images/about-photo.webp"
-              alt="Reina Kim standing in front of a floor-to-ceiling window overlooking a city skyline"
-              width={800}
-              height={1200}
-              className="h-auto w-full object-cover"
-              priority
-            />
-          </div>
-
-          <div className="xl:mt-auto">
-            <ContactLinks />
-          </div>
-        </>
-      }
-      right={
-        <>
-          <Reveal className="max-w-3xl">
-            <p className="font-heading text-2xl leading-snug font-bold text-ink sm:text-3xl">
+    <div className={`about-layout page-gutter grid grid-cols-1 ${SITE_GRID_COLUMNS}`}>
+      <aside className="about-photo-rail" aria-label="Personal photos">
+        <AboutPhotoCollage side="left" />
+      </aside>
+      <div className="about-center">
+        <ProseColumn className="about-copy">
+          <Reveal>
+            <h1 className="font-heading text-xl leading-snug font-medium text-ink">
               Hi, I&rsquo;m Reina, a UX designer based in Vancouver.
-            </p>
-            <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
-              Outside of work, I enjoy gaming, singing, and recording songs.
-              Lately, I&rsquo;ve also been building small games with AI,
-              turning ideas into something I can actually play.
+            </h1>
+            <p className="copy-body mt-4 text-body">
+              I enjoy designing interfaces that feel intuitive and look
+              engaging. I recently completed my UX Design internship at SAP
+              and am open to new opportunities.
             </p>
           </Reveal>
 
-          <section className="mt-16">
+          <section className="mt-16" aria-labelledby="about-background">
             <div className="border-t border-rule pt-5">
-              <EyebrowLabel>Outside of work</EyebrowLabel>
+              <EyebrowLabel quiet>
+                <span id="about-background">Background</span>
+              </EyebrowLabel>
             </div>
-
-            <Reveal>
-              <div className="mt-10 grid grid-cols-1 gap-8 @min-[560px]:grid-cols-2">
-                <div>
-                  <h3 className="text-base font-bold text-ink">
-                    Gaming
-                  </h3>
-                  <p className="mt-2 text-body">
-                    I&rsquo;m an avid gamer, and I like paying attention to
-                    how different games design their interfaces.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-base font-bold text-ink">
-                    Music
-                  </h3>
-                  <p className="mt-2 text-body">
-                    I enjoy singing and recording songs in my spare time.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-base font-bold text-ink">
-                    My dog
-                  </h3>
-                  <p className="mt-2 text-body">
-                    I have a dog, a Norfolk terrier.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-base font-bold text-ink">
-                    AI experiments
-                  </h3>
-                  <p className="mt-2 text-body">
-                    I&rsquo;ve been building small games with AI — you can
-                    see some of them in my{" "}
-                    <Link
-                      href="/lab"
-                      className="text-accent underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                    >
-                      AI Lab
-                    </Link>
-                    .
-                  </p>
-                </div>
-              </div>
-            </Reveal>
-          </section>
-
-          <section className="mt-20">
-            <div className="border-t border-rule pt-5">
-              <EyebrowLabel>Background</EyebrowLabel>
-            </div>
-
-            <Reveal>
-              <p className="mt-10 max-w-2xl text-lg leading-relaxed text-body">
-                I completed a UX Design internship at SAP in May 2026, and a
-                UX Design co-op at Nokia in December 2024. Before that, I
-                worked in customer service at a local credit union.
+            <Reveal className="mt-6">
+              <p className="copy-body text-body">
+                I graduated from Simon Fraser University in June 2025 with a
+                B.Sc. in Interactive Arts and Technology, concentrating in
+                Design. Through academic projects, I explored interaction
+                design, user research, and prototyping.
               </p>
-              <a
-                href="/ReinaKim_Resume_2026_Sep.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-5 inline-block text-base font-semibold text-accent underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-              >
-                View Resume ↗
-              </a>
+              <p className="copy-body mt-4 text-body">
+                While studying, I also worked in customer service at a local
+                credit union, helping customers with their everyday banking
+                transactions and financial services.
+              </p>
             </Reveal>
           </section>
-        </>
-      }
-    />
+
+          <section className="mt-16" aria-labelledby="about-beyond-design">
+            <div className="border-t border-rule pt-5">
+              <EyebrowLabel quiet>
+                <span id="about-beyond-design">Beyond design</span>
+              </EyebrowLabel>
+            </div>
+            <Reveal className="mt-6">
+              <p className="copy-body text-body">
+                Outside of design, I love spending time with my dog and
+                singing, and I&rsquo;m currently learning to play pickleball.
+              </p>
+              <p className="copy-body mt-4 text-body">
+                I&rsquo;m also an avid gamer with an interest in game design
+                and development. Lately, I&rsquo;ve been experimenting with
+                building small games using AI.
+              </p>
+            </Reveal>
+          </section>
+          <AboutPhotoCollage side="mobile" />
+          <div className="about-contacts"><ContactLinks /></div>
+        </ProseColumn>
+      </div>
+      <aside className="about-photo-rail" aria-label="More personal photos">
+        <AboutPhotoCollage side="right" />
+      </aside>
+    </div>
   );
 }

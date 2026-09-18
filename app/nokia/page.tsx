@@ -8,6 +8,7 @@ import CaseStudySummary, { NDA_NOTE_TEXT } from "@/components/CaseStudySummary";
 import ProseColumn from "@/components/ProseColumn";
 import Reveal from "@/components/Reveal";
 import CaseStudyLayout from "@/components/CaseStudyLayout";
+import ExternalLinkIcon from "@/components/ExternalLinkIcon";
 
 export const metadata: Metadata = {
   title: "Nokia Design System — Reina Kim",
@@ -31,30 +32,28 @@ export default function Nokia() {
             { label: "Year", value: "Jan 2024 - Dec 2024" },
             {
               label: "Tools",
-              value: "Figma, Storybook, Miro, Jira, Supernova, JAWS, MS Excel",
+              value: (
+                <>
+                  Figma, Storybook, Miro, Jira,
+                  <br />
+                  Supernova, JAWS, MS Excel
+                </>
+              ),
             },
           ]}
           sections={SECTIONS}
-          nextCaseStudy={{ label: "Simplii Financial", href: "/simpliifinancial" }}
         />
       }
       right={
         <CaseStudySummary
-          challenge={
+          previousCaseStudy={{ label: "SAP", href: "/sap" }}
+          nextCaseStudy={{ label: "Simplii Financial", href: "/simpliifinancial" }}
+          summary={
             <>
-              Nokia&rsquo;s design system needed to meet WCAG AA/AAA
-              accessibility standards across light and dark themes, keep a
-              growing icon library organized, and support new AI-driven
-              product patterns for NokiaGPT&rsquo;s 10,000+ existing users
-              without disrupting them.
-            </>
-          }
-          solution={
-            <>
-              I ran accessibility reviews and JAWS screen-reader testing,
-              took ownership of the icon library end to end, and
-              collaborated with a senior designer on new AI components and
-              documentation that fit the existing system.
+              I contributed to Nokia&rsquo;s shared design system through
+              accessibility testing, icon library management, AI component
+              design and documentation, and audits of how product teams used
+              existing components.
             </>
           }
           ndaNote={NDA_NOTE_TEXT}
@@ -62,23 +61,35 @@ export default function Nokia() {
       }
       middle={
         <>
-          {/* Opening: the restored `nokia-hero.webp` collage (unchanged —
-              the complete original asset, full "NOKIA Design System"
-              heading, both dashboard screenshots, white canvas, square
-              corners, shown at its full natural aspect ratio via
-              `fullBleed`) followed by the shared "Scroll to view more"
-              cue — see `CaseStudyOpening` for the fill-the-first-screen
-              mechanism this page established and every other case study
-              now reuses. */}
+          {/* Vimeo reports a native 1920 × 1080 presentation. Keep the
+              shared opening wrapper and its scroll cue unchanged. */}
           <CaseStudyOpening>
-            <CaseStudyFigure
-              src="/images/nokia-hero.webp"
-              alt="Nokia Design System heading above two product dashboard screenshots"
-              width={1139}
-              height={667}
-              imageBg="bg-white"
-              fullBleed
-            />
+            <figure className="w-full">
+              <iframe
+                src="https://player.vimeo.com/video/997847814?h=acca60c00d&background=1&autoplay=1&loop=1&muted=1&controls=0"
+                title="Nokia Design System overview"
+                width={1920}
+                height={1080}
+                // This background player has no controls. Keep pointer
+                // movement on the page so the trailing cursor can follow.
+                className="pointer-events-none aspect-video h-auto w-full border-0"
+                tabIndex={-1}
+                allow="autoplay; fullscreen; picture-in-picture"
+                allowFullScreen
+              />
+              <figcaption className="copy-caption mt-3 text-muted">
+                Video by Nokia ·{" "}
+                <a
+                  href="https://vimeo.com/997847814/acca60c00d"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted underline-offset-4 hover:text-accent hover:underline focus-visible:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                >
+                  View original on Vimeo
+                  <ExternalLinkIcon />
+                </a>
+              </figcaption>
+            </figure>
           </CaseStudyOpening>
 
           {/* Introduction — unchanged copy, just now below the opening
@@ -95,11 +106,11 @@ export default function Nokia() {
           <section id="introduction" className="scroll-mt-24">
             <Reveal className="mt-14">
               <ProseColumn>
-                <p className="whitespace-pre-line font-heading text-2xl leading-snug font-bold text-ink sm:text-3xl">
+                <p className="case-study-heading whitespace-pre-line">
                   Building accessible, scalable, and innovative design system for
                   designers
                 </p>
-                <div className="mt-6 space-y-4 text-body">
+                <div className="copy-body mt-6 space-y-4 text-body">
                   <p>
                     Nokia is a global leader in telecommunications and networking
                     technology, driving innovation in 5G, cloud infrastructure,
@@ -158,7 +169,7 @@ export default function Nokia() {
                 <ProseColumn className="mt-8">
                   <CaseStudyFigure
                     src="/images/nokia-accessibility.webp"
-                    alt="Nokia design system components shown with accessibility annotations"
+                    alt="Nokia design system overview showing form controls, charts, navigation, and light and dark components"
                     width={1139}
                     height={655}
                   />
@@ -181,7 +192,7 @@ export default function Nokia() {
                 <ProseColumn className="mt-8">
                   <CaseStudyFigure
                     src="/images/nokia-icon-library.webp"
-                    alt="Nokia icon library grid alongside an animated microphone icon concept"
+                    alt="Nokia icon library grid alongside a microphone icon construction grid"
                     width={2500}
                     height={1406}
                   />
@@ -230,6 +241,7 @@ export default function Nokia() {
 
           <Reveal>
             <CaseStudyNextNav
+              previous={{ label: "SAP", href: "/sap" }}
               next={{ label: "Simplii Financial", href: "/simpliifinancial" }}
             />
           </Reveal>

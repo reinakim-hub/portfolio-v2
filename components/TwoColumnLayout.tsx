@@ -3,13 +3,12 @@ import { SITE_GRID_COLUMNS } from "./siteGrid";
 /**
  * The two-content-column page shell shared by About and AI Lab: a real
  * three-column grid — left sidebar, middle content, and an empty reserved
- * right column — using the exact same `SITE_GRID_COLUMNS` proportions and
+ * right column (or an optional photo aside) — using the exact same `SITE_GRID_COLUMNS` proportions and
  * `xl` breakpoint as Home's own grid and `CaseStudyLayout`, so the hairline
  * divider after the left sidebar lands at the same x position on every
  * route. The right column exists only to keep that rhythm consistent
- * sitewide — neither About nor AI Lab has content for it, so it renders
- * empty and `aria-hidden`, absent below `xl` along with the rest of the
- * desktop grid.
+ * sitewide. An optional `aside` can fill the rail; AI Lab keeps it empty
+ * and aria-hidden. The rail is absent below `xl`.
  *
  * Native document scrolling: the middle (content) column is ordinary block
  * content with no scroll container of its own — the page itself scrolls,
@@ -20,16 +19,12 @@ import { SITE_GRID_COLUMNS } from "./siteGrid";
  * or custom key handling needed — wheel, trackpad, keyboard, and touch
  * scrolling all just work, over any column.
  *
- * `STICKY_COLUMN`'s own `max-h-[calc(100dvh-5rem)]` + `overflow-y-auto`
- * mean a sidebar taller than the space available below the header scrolls
- * *within itself* rather than clipping past the sticky box or being
- * pushed off-screen. The inner content div's `xl:h-full` lets it stretch
- * to match the row's natural height (ordinary CSS Grid `align-items:
- * stretch`, driven by whichever column is tallest) up to that same cap —
- * giving a bottom-pinned item (e.g. `ContactLinks`' `xl:mt-auto`) real
- * room to push into on a page whose content is shorter than one viewport,
- * without ever forcing a short page's column taller than its content
- * needs.
+ * On desktop the grid fills at least the viewport below the header, so
+ * both dividers reach the bottom even when the content is short. The
+ * sidebar's inner flex column has the same minimum height, placing contact
+ * links 32px above the viewport bottom. A taller sidebar scrolls within
+ * its capped sticky wrapper, keeping all content reachable on short
+ * windows. Mobile retains its natural stacked height.
  */
 export const STICKY_COLUMN =
   "xl:sticky xl:top-20 xl:max-h-[calc(100dvh-5rem)] xl:overflow-y-auto";
@@ -40,17 +35,21 @@ export default function TwoColumnLayout({
   left,
   right,
   topPadding = DEFAULT_TOP_PADDING,
+  aside,
+  className = "",
 }: {
   left: React.ReactNode;
   right: React.ReactNode;
   topPadding?: string;
+  aside?: React.ReactNode;
+  className?: string;
 }) {
   return (
-    <div className="px-6 sm:px-10">
-      <div className={`grid grid-cols-1 gap-y-20 ${SITE_GRID_COLUMNS} xl:gap-y-0`}>
-        <div className={STICKY_COLUMN}>
+    <div className={`page-gutter ${className}`}>
+      <div className={`grid grid-cols-1 gap-y-20 ${SITE_GRID_COLUMNS} xl:min-h-[calc(100dvh-5rem)] xl:gap-y-0`}>
+        <div className={`${STICKY_COLUMN} xl:self-start`}>
           <div
-            className={`animate-fade-in flex flex-col gap-8 ${topPadding} xl:h-full xl:pr-8 xl:pb-8`}
+            className={`animate-fade-in flex flex-col gap-8 ${topPadding} xl:min-h-[calc(100dvh-5rem)] xl:pr-8 xl:pb-8`}
           >
             {left}
           </div>
@@ -62,7 +61,13 @@ export default function TwoColumnLayout({
           </div>
         </div>
 
-        <div className="hidden xl:block" aria-hidden="true" />
+        {aside ? (
+          <div className="hidden xl:sticky xl:top-20 xl:block xl:self-start xl:pt-12 xl:pb-24">
+            {aside}
+          </div>
+        ) : (
+          <div className="hidden xl:block" aria-hidden="true" />
+        )}
       </div>
     </div>
   );
