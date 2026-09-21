@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Manrope, Inter } from "next/font/google";
 import SiteHeader from "@/components/SiteHeader";
-import ThemeSelector from "@/components/ThemeSelector";
 import CustomCursor from "@/components/CustomCursor";
 import { LightboxProvider } from "@/components/Lightbox";
+import { PageCrossfadeProvider } from "@/components/portfolio-motion/PageCrossfade";
 import "./globals.css";
 import { THEME_INIT_SCRIPT } from "@/components/themes";
 
@@ -44,10 +44,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </noscript>
         <CustomCursor />
         <SiteHeader />
-        <ThemeSelector />
         {/* pt-20 reserves space for the fixed-height header above. */}
         <main className="pt-20">
-          <LightboxProvider>{children}</LightboxProvider>
+          <PageCrossfadeProvider>
+            <LightboxProvider>{children}</LightboxProvider>
+          </PageCrossfadeProvider>
         </main>
       </body>
     </html>

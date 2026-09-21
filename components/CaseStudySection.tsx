@@ -1,4 +1,5 @@
 import ProseColumn from "./ProseColumn";
+import SectionLabel from "./SectionLabel";
 
 export default function CaseStudySection({
   id,
@@ -30,7 +31,7 @@ export default function CaseStudySection({
 
         {challenge && (
           <div className="mt-8">
-            <h3 className="text-base font-semibold text-ink">Challenge</h3>
+            <SectionLabel>Challenge</SectionLabel>
             <div className="copy-body mt-3 space-y-4 text-body">
               {challenge.map((paragraph, i) => (
                 <p key={i}>{paragraph}</p>
@@ -41,7 +42,7 @@ export default function CaseStudySection({
 
         {impact && (
           <div className="mt-8">
-            <h3 className="text-base font-semibold text-ink">Impact</h3>
+            <SectionLabel>Impact</SectionLabel>
             <div className="copy-body mt-3 space-y-4 text-body">
               {impact.map((paragraph, i) => (
                 <p key={i}>{paragraph}</p>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import EyebrowLabel from "@/components/EyebrowLabel";
 import CaseStudySidebar from "@/components/CaseStudySidebar";
 import CaseStudyFigure from "@/components/CaseStudyFigure";
 import CaseStudyOpening from "@/components/CaseStudyOpening";
@@ -89,6 +90,9 @@ export default function Nokia() {
                   <ExternalLinkIcon />
                 </a>
               </figcaption>
+              <EyebrowLabel as="p" quiet className="mt-4 not-italic md:hidden">
+                {NDA_NOTE_TEXT}
+              </EyebrowLabel>
             </figure>
           </CaseStudyOpening>
 

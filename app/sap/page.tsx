@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import SectionLabel from "@/components/SectionLabel";
+import EyebrowLabel from "@/components/EyebrowLabel";
 import CaseStudySidebar from "@/components/CaseStudySidebar";
 import CaseStudySummary, { NDA_NOTE_TEXT } from "@/components/CaseStudySummary";
 import ExternalLinkIcon from "@/components/ExternalLinkIcon";
@@ -81,6 +83,9 @@ export default function Sap() {
                   <ExternalLinkIcon />
                 </a>
               </figcaption>
+              <EyebrowLabel as="p" quiet className="mt-4 not-italic md:hidden">
+                {NDA_NOTE_TEXT}
+              </EyebrowLabel>
             </figure>
           </CaseStudyOpening>
 
@@ -150,7 +155,7 @@ export default function Sap() {
                   </div>
 
                   <div className="mt-8">
-                    <h3 className="text-base font-semibold text-ink">Challenge</h3>
+                    <SectionLabel>Challenge</SectionLabel>
                     <div className="copy-body mt-3 space-y-4 text-body">
                       <p>
                         Some products relied heavily on legacy or custom-built
@@ -180,7 +185,7 @@ export default function Sap() {
                   </div>
 
                   <div className="mt-8">
-                    <h3 className="text-base font-semibold text-ink">Impact</h3>
+                    <SectionLabel>Impact</SectionLabel>
                     <div className="copy-body mt-3 space-y-4 text-body">
                       <p>
                         The resulting components, guidelines, developer specs,

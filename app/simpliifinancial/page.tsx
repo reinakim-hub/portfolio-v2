@@ -233,7 +233,7 @@ export default function SimpliiFinancial() {
                   </h2>
                   <div className="mt-6 space-y-6">
                     <div>
-                      <SectionLabel size="sm">Business value</SectionLabel>
+                      <SectionLabel>Business value</SectionLabel>
                       <p className="copy-body mt-2 text-body">
                         This intervention contributes to the business by
                         educating newcomers about the Canadian financial
@@ -245,7 +245,7 @@ export default function SimpliiFinancial() {
                       </p>
                     </div>
                     <div>
-                      <SectionLabel size="sm">Customer value</SectionLabel>
+                      <SectionLabel>Customer value</SectionLabel>
                       <p className="copy-body mt-2 text-body">
                         Newcomers gain valuable insights into the Canadian
                         financial system, enabling them to make more

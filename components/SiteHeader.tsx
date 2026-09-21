@@ -1,9 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import NavLink from "./NavLink";
+import ExternalLinkIcon from "./ExternalLinkIcon";
+import ThemeSelector from "./ThemeSelector";
 
 const NAV_LINKS = [
-  { href: "/#projects", label: "Work" },
+  { href: "/", label: "Work" },
   { href: "/about", label: "About" },
 ];
 
@@ -20,7 +22,7 @@ export default function SiteHeader() {
           priority
         />
       </Link>
-      <nav className="flex items-center gap-6 text-sm">
+      <nav className="flex items-center gap-4 text-sm md:gap-6">
         {NAV_LINKS.map((link) => (
           <NavLink key={link.href} href={link.href}>
             {link.label}
@@ -32,8 +34,9 @@ export default function SiteHeader() {
           rel="noopener noreferrer"
           className="text-ink underline-offset-4 hover:text-accent hover:underline focus-visible:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         >
-          Resume ↗
+          Resume<ExternalLinkIcon />
         </a>
+        <ThemeSelector />
       </nav>
     </header>
   );

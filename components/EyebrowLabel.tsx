@@ -1,15 +1,14 @@
 /**
  * Small uppercase label used to head a section or tag a project.
- * Deliberately quieter than `SectionLabel` (heading-sized), which the
- * case-study pages use — this one is for the homepage's grid-line layout.
+ * Case-study subsection labels reuse the `quiet` treatment via `SectionLabel`.
  *
  * `quiet` (opt-in, defaults off) swaps the uppercase/tracked/`copy-caption`
  * treatment for Home's own plain section-label style — normal
  * capitalization and letter-spacing, `text-sm font-normal text-muted`,
  * byte-for-byte the same as `SECTION_HEADING` in `app/page.tsx` — so a
- * page can reuse this exact treatment instead of re-deriving it. Only
- * About's "Outside of work"/"Background" labels pass it; every other
- * caller keeps the default uppercase style unchanged.
+ * page can reuse this exact treatment instead of re-deriving it. About's
+ * "Background"/"Beyond design" and case-study subsection labels use it;
+ * other callers keep the default uppercase style.
  */
 export default function EyebrowLabel({
   children,

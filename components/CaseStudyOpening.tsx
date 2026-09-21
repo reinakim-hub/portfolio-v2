@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { playIntroScrollBounce } from "./portfolio-motion/intro-scroll-bounce";
 
 /** Shared opening visual with a one-time downward-scroll assist. */
 export default function CaseStudyOpening({
@@ -19,6 +20,7 @@ export default function CaseStudyOpening({
     if (used) opening.dataset.introComplete = "true";
     let touchY: number | null = null;
     let touchCaptured = false;
+    let cancelBounce: (() => void) | undefined;
 
     const eligible = () => {
       const hero = opening.getBoundingClientRect();
@@ -26,6 +28,7 @@ export default function CaseStudyOpening({
         introduction.getBoundingClientRect().top > 160;
     };
     const advance = () => {
+      if (!used) cancelBounce = playIntroScrollBounce(opening);
       used = true;
       // The navigation is a bottom dock; use the layout's top inset for arrival.
       const headerBottom = parseFloat(getComputedStyle(document.querySelector("main")!).paddingTop) || 80;
@@ -84,6 +87,7 @@ export default function CaseStudyOpening({
     opening.addEventListener("touchend", onTouchEnd, { passive: true });
     opening.addEventListener("touchcancel", onTouchEnd, { passive: true });
     return () => {
+      cancelBounce?.();
       advanceRef.current = null;
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("scroll", onScroll);
@@ -97,7 +101,7 @@ export default function CaseStudyOpening({
   return (
     <div ref={openingRef} className="case-study-opening xl:flex xl:min-h-[calc(100dvh-8rem)] xl:flex-col">
       <div className="case-study-hero">{children}</div>
-      <div className="case-study-cue mt-8 flex flex-col items-center gap-2 pb-10 text-center xl:mt-auto xl:pb-12">
+      <div className="case-study-cue mt-8 hidden flex-col items-center gap-2 pb-10 text-center md:flex xl:mt-auto xl:pb-12">
         <a
           href="#introduction"
           onClick={(event) => {

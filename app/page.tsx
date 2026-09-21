@@ -185,7 +185,7 @@ export default function Home() {
 
         {/* Transparent borders preserve the grid's exact geometry.
             Decorative rules fade independently of the project content. */}
-        <div className="relative xl:border-l xl:border-r xl:border-transparent">
+        <div data-motion-stage className="relative xl:min-h-[calc(100dvh-5rem)] xl:border-l xl:border-r xl:border-transparent">
           <span
             aria-hidden="true"
             className={`pointer-events-none absolute inset-y-0 -right-px -left-px hidden border-x border-rule xl:block ${REVEAL.columnDividers}`}
@@ -203,7 +203,7 @@ export default function Home() {
                     company="SAP"
                     descriptor="Cross-product UX patterns"
                     image="/images/SAP Logo.png"
-                    brand="sap"
+                    project="sap"
                     imageHeightClassName={THUMBNAIL_HEIGHT}
                     priority
                   />
@@ -215,7 +215,7 @@ export default function Home() {
                     company="Nokia"
                     descriptor="Components & accessibility"
                     image="/images/Nokia Logo.png"
-                    brand="nokia"
+                    project="nokia"
                     imageHeightClassName={THUMBNAIL_HEIGHT}
                   />
                 </div>
@@ -241,9 +241,8 @@ export default function Home() {
                     href="/simpliifinancial"
                     company="Simplii Financial"
                     descriptor="UX intervention"
-                    image="/images/simplii-hero.webp"
-                    imageBg="bg-neutral-950"
-                    imageOffsetClassName="translate-y-[6.5%]"
+                    image="/images/SimpliiLearnMac16.png"
+                    project="simplii"
                     imageHeightClassName={THUMBNAIL_HEIGHT}
                   />
                 </div>
@@ -254,7 +253,7 @@ export default function Home() {
                     company="Strange Sounds from Beyond"
                     descriptor="Branding & microsite"
                     image="/images/ssfb-hero.gif"
-                    imageBg="bg-black"
+                    project="ssfb"
                     imageHeightClassName={THUMBNAIL_HEIGHT}
                   />
                 </div>

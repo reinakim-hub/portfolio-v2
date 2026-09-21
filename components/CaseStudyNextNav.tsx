@@ -7,7 +7,7 @@ export default function CaseStudyNextNav({ previous, next }: {
   next?: CaseStudyDestination;
 }) {
   return (
-    <ProseColumn className="mt-12 border-t border-rule pt-8 xl:hidden">
+    <ProseColumn className="mt-8 border-t border-rule pt-6 md:mt-12 md:pt-8 xl:hidden">
       <CaseStudyNavigation previous={previous} next={next} />
     </ProseColumn>
   );

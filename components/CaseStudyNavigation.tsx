@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { ProjectNavigationLink as Link } from "./portfolio-motion/PageCrossfade";
 import EyebrowLabel from "./EyebrowLabel";
 
 export type CaseStudyDestination = { label: string; href: string };

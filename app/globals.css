@@ -26,34 +26,17 @@
   color-scheme: dark;
 }
 
-/* White logos on brand blues, with deeper surfaces in the Dark theme. */
-:root {
-  --brand-sap-surface: #0070f2;
-  --brand-sap-logo: #ffffff;
-  --brand-nokia-surface: #005aff;
-  --brand-nokia-logo: #ffffff;
-}
-
-:root[data-theme="dark"] {
-  --brand-sap-surface: #1d2d3e;
-  --brand-nokia-surface: #17212e;
-}
-
+/* Keep the existing logo sizes; radial backgrounds own hover feedback. */
 .brand-thumbnail--sap {
-  --brand-surface: var(--brand-sap-surface);
-  --brand-logo: var(--brand-sap-logo);
   --brand-logo-ratio: 1030 / 506;
   --brand-logo-width: 24%;
 }
 
 .brand-thumbnail--nokia {
-  --brand-surface: var(--brand-nokia-surface);
-  --brand-logo: var(--brand-nokia-logo);
   --brand-logo-ratio: 1570 / 369;
   --brand-logo-width: 30%;
 }
 
-.brand-thumbnail { background: var(--brand-surface); }
 .brand-thumbnail-logo {
   display: block;
   width: var(--brand-logo-width);
@@ -61,18 +44,8 @@
   max-height: 50%;
   aspect-ratio: var(--brand-logo-ratio);
   object-fit: contain;
-  transform-origin: center;
-  transform: translate3d(0, 0, 0) scale(1.04);
-  /* Keep the same image layer before, during, and after the transition. */
-  will-change: transform;
-  backface-visibility: hidden;
-  transition: transform 500ms ease-out, opacity 500ms ease-out;
-}
-
-.brand-thumbnail:hover .brand-thumbnail-logo,
-.brand-thumbnail:focus-visible .brand-thumbnail-logo {
-  transform: translate3d(0, 0, 0) scale(1);
-  opacity: 0.94;
+  /* Preserve the previous resting size without animating the artwork. */
+  transform: scale(1.04);
 }
 
 .page-gutter {
@@ -435,50 +408,41 @@ body {
   }
 }
 
-/* Fast, staggered entrances shared by all case studies. Animate content
-   rather than sticky wrappers; divider geometry stays fixed. */
-@keyframes case-study-enter {
-  from { opacity: 0; transform: translateY(0.25rem); }
-  to { opacity: 1; transform: none; }
+/* Keep the outgoing whole-page capture opaque beneath the incoming page.
+   Both captures include the normal background, header and all columns. */
+@keyframes page-crossfade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-.case-study-left > *,
-.case-study-summary > *,
-.case-study-hero,
-.case-study-cue {
-  animation: case-study-enter 280ms ease-out both;
+.page-crossfade::view-transition-group(root) {
+  animation: none;
 }
-
-.case-study-left > :nth-child(2) { animation-delay: 40ms; }
-.case-study-left > :nth-child(3) { animation-delay: 80ms; }
-.case-study-hero { animation-delay: 120ms; }
-.case-study-summary > :nth-child(1) { animation-delay: 160ms; }
-.case-study-summary > :nth-child(2) { animation-delay: 200ms; }
-.case-study-summary > :nth-child(3) { animation-delay: 240ms; }
-.case-study-summary > :nth-child(4) { animation-delay: 280ms; }
-.case-study-cue { animation-delay: 320ms; }
+.page-crossfade::view-transition-image-pair(root) {
+  isolation: isolate;
+}
+.page-crossfade::view-transition-old(root) {
+  animation: none;
+  opacity: 1;
+  mix-blend-mode: normal;
+  z-index: 1;
+}
+.page-crossfade::view-transition-new(root) {
+  animation: page-crossfade-in 250ms ease-out both;
+  mix-blend-mode: normal;
+  z-index: 2;
+}
+.page-crossfade::view-transition {
+  pointer-events: none;
+}
 
 .case-study-opening[data-intro-complete="true"] .case-study-cue {
   visibility: hidden;
   pointer-events: none;
 }
-.case-study-rule { animation: fade-in 280ms ease-out 80ms both; }
-
-.case-study-left > :focus-within,
-.case-study-summary > :focus-within,
-.case-study-hero:focus-within,
-.case-study-cue:focus-within {
-  animation: none;
-}
 
 @media (prefers-reduced-motion: reduce) {
-  .case-study-left > *,
-  .case-study-summary > *,
-  .case-study-hero,
-  .case-study-cue,
-  .case-study-rule {
-    animation: none;
-  }
+  .page-crossfade::view-transition-new(root) { animation: none; }
 }
 
 /* Scroll cue (shared case-study opening)
@@ -754,7 +718,7 @@ body {
 
 /* About: edge-to-edge photo mosaics framing the reading column.
    `--about-photo-gap` is defined on `body:has(.about-layout)` rather than on
-   `.about-layout` itself: `.theme-selector` is a DOM sibling of `<main>`, not
+   `.about-layout` itself: `.theme-selector` is inside the header, not
    a descendant of `.about-layout`, so it needs the variable from a shared
    ancestor to read it in its own alignment calc below. */
 body:has(.about-layout) { --about-photo-gap: 12px; }
@@ -856,17 +820,19 @@ body:has(.about-layout) { --about-photo-gap: 12px; }
 @media (prefers-reduced-motion: reduce) {
   .about-photo { animation: none; }
 }
-@media (max-width: 639px) {
-  .theme-selector { bottom: max(7rem, calc(env(safe-area-inset-bottom) + 6rem)); }
-}
 @media (max-width: 1279px) {
   .case-study-page { padding-bottom: 7rem; }
-  /* Matches `.about-center`'s own 6rem bottom padding (its value below the
-     1280px desktop breakpoint, where the photo rails and this stacked,
-     single-column layout no longer apply) instead of the sitewide mobile
-     offset above, which is tuned to clear case studies' 7rem instead and
-     landed the button 1rem below where About's own contacts end. */
+  /* Align the floating tablet control with About's bottom padding.
+     Mobile uses the static header control below. */
   body:has(.about-layout) .theme-selector {
     bottom: max(6rem, calc(env(safe-area-inset-bottom) + 5rem));
   }
+}
+
+@media (max-width: 767px) {
+  /* The narrative supplies the mobile footer spacing; don't add a second gap. */
+  .case-study-page { padding-bottom: 0; }
+  .theme-selector { position: static; }
+  .theme-choice { width: 2.25rem; height: 2.75rem; }
+  .theme-swatch { width: 1.25rem; height: 1.25rem; }
 }
