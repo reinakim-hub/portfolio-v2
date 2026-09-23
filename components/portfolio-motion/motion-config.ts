@@ -1,8 +1,8 @@
 export const PROJECT_MOTION = {
-  sap: { base: '#0070F2', hover: '#004DC1' },
+  sap: { base: '#0065DB', hover: '#004595' },
   nokia: { base: '#005AFF', hover: '#0039B9' },
-  simplii: { base: '#F078B6', hover: '#E45EA3' },
-  ssfb: { base: '#080808', hover: 'rgba(0,217,61,.18)' },
+  simplii: { base: '#DD55A6', hover: '#B14485' },
+  ssfb: { base: '#009F3A', hover: '#007F2E' },
 } as const;
 
 export type ProjectKey = keyof typeof PROJECT_MOTION;

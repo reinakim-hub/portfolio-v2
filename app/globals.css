@@ -26,7 +26,7 @@
   color-scheme: dark;
 }
 
-/* Keep the existing logo sizes; radial backgrounds own hover feedback. */
+/* Brand logo sizes; thumbnail motion is defined in PortfolioMotion.module.css. */
 .brand-thumbnail--sap {
   --brand-logo-ratio: 1030 / 506;
   --brand-logo-width: 24%;
@@ -44,8 +44,6 @@
   max-height: 50%;
   aspect-ratio: var(--brand-logo-ratio);
   object-fit: contain;
-  /* Preserve the previous resting size without animating the artwork. */
-  transform: scale(1.04);
 }
 
 .page-gutter {
@@ -615,6 +613,12 @@ body {
   cursor: pointer;
   transform: translate(-27.6%, -40.75%);
   clip-path: inset(40.75% 24.78095238% var(--portrait-crop-bottom) 27.6% round 999px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hover-expand-frame {
+    cursor: default;
+  }
 }
 
 .hover-expand:has(.hover-expand-frame:focus-visible) {

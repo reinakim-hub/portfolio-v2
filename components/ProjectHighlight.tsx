@@ -3,8 +3,8 @@ import { RadialProjectLink } from "./portfolio-motion/RadialProjectLink";
 import type { ProjectKey } from "./portfolio-motion/motion-config";
 
 /** Separate thumbnail and CTA links; captions and card whitespace stay inert.
- * Frame sizing still uses Home's viewport/container gates. Radial layers own
- * interaction feedback, leaving the original foreground artwork stationary.
+ * Frame sizing still uses Home's viewport/container gates. Radial backgrounds
+ * accompany a subtle foreground zoom-out on hover and keyboard focus.
  */
 export default function ProjectHighlight({
   href, company, descriptor, image, project, imageHeightClassName,
@@ -31,16 +31,35 @@ export default function ProjectHighlight({
         {...(brand ? { "data-cc-cursor-white": "" } : {})}
         className={`${brand ? `brand-thumbnail--${brand}` : ""} block aspect-[16/10] border border-rule focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent xl:@min-[620px]:aspect-auto ${imageHeightClassName ?? ""}`}
       >
-        {project === "simplii" ? (
+        {project === "simplii" || project === "ssfb" ? (
           <svg
             data-project-artwork
-            viewBox="56 242 3984 2433"
-            preserveAspectRatio="xMidYMid meet"
+            viewBox="28 24 3984 2433"
+            preserveAspectRatio="xMidYMax meet"
             aria-hidden="true"
             focusable="false"
           >
-            {/* Fit the visible laptop bounds; retain the original PNG pixels. */}
-            <image href={image} width="4096" height="2699" />
+                <defs>
+                  <clipPath id={`${thumbnailId}-screen`}>
+                    <rect x="388" y="76" width="3264" height="2110" rx="40" />
+                  </clipPath>
+                </defs>
+                <g clipPath={`url(#${thumbnailId}-screen)`}>
+                  <rect x="388" y="76" width="3264" height="2110" fill="black" />
+                  <image
+                    href={`/images/${project}-thumbnail-still.webp`}
+                    x="388" y="76" width="3264" height="2110"
+                    preserveAspectRatio="xMidYMid meet"
+                  />
+                  <image
+                    data-thumbnail-animation
+                    href={image}
+                    x="388" y="76" width="3264" height="2110"
+                    preserveAspectRatio="xMidYMid meet"
+                  />
+                </g>
+                {/* Transparent screen reveals the animated GIF below the bezel. */}
+                <image href="/images/MAC%20mock.png" width="4040" height="2481" />
           </svg>
         ) : (
         <Image

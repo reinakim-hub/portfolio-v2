@@ -82,7 +82,14 @@ export default function HoverExpandPhoto({
         onPointerEnter={(event) => {
           if (event.pointerType === "mouse") reveal(true);
         }}
-        onClick={() => reveal(!expanded)}
+        onClick={(event) => {
+          // Mouse users reveal on hover; keep tap and keyboard activation.
+          if (event.detail !== 0) {
+            const pointerType = (event.nativeEvent as PointerEvent).pointerType;
+            if (pointerType === "mouse" || (!pointerType && window.matchMedia("(hover: hover) and (pointer: fine)").matches)) return;
+          }
+          reveal(!expanded);
+        }}
         onBlur={() => reveal(false)}
         onKeyDown={(event) => {
           if (event.key === "Escape") reveal(false);

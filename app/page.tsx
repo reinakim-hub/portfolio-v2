@@ -110,7 +110,7 @@ const THUMBNAIL_HEIGHT = "xl:@min-[620px]:h-[calc((100dvh-433px)/2)]";
 const PROJECT_GRID =
   "mt-6 grid grid-cols-1 gap-y-12 @min-[620px]:grid-cols-2 @min-[620px]:gap-x-8 @min-[620px]:gap-y-0 xl:mt-4";
 
-// Section labels ("Selected work", "Academic projects"): small, quiet
+// Section labels ("Professional work", "Academic projects"): small, quiet
 // captions rather than headings that compete with the project captions
 // below them — normal capitalization and letter-spacing, distinguished
 // from surrounding content by placement/spacing/dividers alone.
@@ -193,7 +193,7 @@ export default function Home() {
           <div className={PROJECT_SECTIONS_WRAPPER}>
             <section id="projects" className="scroll-mt-24">
               <h2 className={`${SECTION_HEADING} ${REVEAL.selectedWorkLabel}`}>
-                Selected work
+                Professional work
               </h2>
 
               <div className={PROJECT_GRID}>
@@ -241,7 +241,7 @@ export default function Home() {
                     href="/simpliifinancial"
                     company="Simplii Financial"
                     descriptor="UX intervention"
-                    image="/images/SimpliiLearnMac16.png"
+                    image="/images/simplii-language-demo.gif"
                     project="simplii"
                     imageHeightClassName={THUMBNAIL_HEIGHT}
                   />

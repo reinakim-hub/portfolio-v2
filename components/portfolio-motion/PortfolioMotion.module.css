@@ -26,20 +26,68 @@
 }
 
 .foreground > img { max-width: 100%; max-height: 100%; }
-.simplii .foreground { inset: 6%; }
-.simplii .foreground > svg {
+.foreground > [data-project-artwork] {
+  transform: scale(1.04);
+  transform-origin: center;
+  transition: transform 500ms ease-out;
+}
+
+@media (hover: hover) {
+  .thumbnail:hover .foreground > [data-project-artwork] {
+    transform: scale(1);
+  }
+}
+
+.thumbnail:focus-visible .foreground > [data-project-artwork] {
+  transform: scale(1);
+}
+
+/* Keep the logos composited at scale(1) so their edges do not
+   snap to a different pixel alignment when the transition finishes. */
+.sap .foreground > [data-project-artwork],
+.nokia .foreground > [data-project-artwork] {
+  will-change: transform;
+}
+
+.simplii .foreground,
+.ssfb .foreground {
+  /* Let the thumbnail edge crop the lower portion of the laptop. */
+  inset: 6% 6% -10%;
+  translate: 0 2px;
+}
+.simplii .foreground > svg,
+.ssfb .foreground > svg {
   display: block;
   width: 100%;
   height: 100%;
 }
-.ssfb .foreground { z-index: 0; }
-.ssfb .foreground > img { width: 100%; height: 100%; object-fit: contain; }
 
 .thumbnail:focus-visible, .cta:focus-visible {
   outline: .125rem solid currentColor;
   outline-offset: .25rem;
 }
 
+.thumbnail [data-thumbnail-animation] {
+  display: none;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .thumbnail:hover [data-thumbnail-animation] {
+    display: inline;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .thumbnail:focus-visible [data-thumbnail-animation] {
+    display: inline;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .fill { transition: none !important; }
+  .thumbnail .foreground > [data-project-artwork] {
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
 }
